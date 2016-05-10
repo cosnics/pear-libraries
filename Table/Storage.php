@@ -294,10 +294,7 @@ class HTML_Table_Storage extends HTML_Common {
              return;
         }
         $attributes = $this->_parseAttributes($attributes);
-        $err = $this->_adjustEnds($row, $col, 'setCellAttributes', $attributes);
-        if (PEAR::isError($err)) {
-            return $err;
-        }
+        $this->_adjustEnds($row, $col, 'setCellAttributes', $attributes);
         $this->_structure[$row][$col]['attr'] = $attributes;
         $this->_updateSpanGrid($row, $col);
     }
@@ -319,10 +316,7 @@ class HTML_Table_Storage extends HTML_Common {
             return;
         }
         $attributes = $this->_parseAttributes($attributes);
-        $err = $this->_adjustEnds($row, $col, 'updateCellAttributes', $attributes);
-        if (PEAR::isError($err)) {
-            return $err;
-        }
+        $this->_adjustEnds($row, $col, 'updateCellAttributes', $attributes);
         $this->_updateAttrArray($this->_structure[$row][$col]['attr'], $attributes);
         $this->_updateSpanGrid($row, $col);
     }
@@ -341,7 +335,7 @@ class HTML_Table_Storage extends HTML_Common {
            ) {
             return $this->_structure[$row][$col]['attr'];
         } elseif (!isset($this->_structure[$row][$col])) {
-            return PEAR::raiseError('Invalid table cell reference[' .
+            throw new \Exception('Invalid table cell reference[' .
                 $row . '][' . $col . '] in HTML_Table::getCellAttributes');
         }
         return;
@@ -369,18 +363,12 @@ class HTML_Table_Storage extends HTML_Common {
     {
         if (is_array($contents)) {
             foreach ($contents as $singleContent) {
-                $ret = $this->_setSingleCellContents($row, $col, $singleContent,
+                $this->_setSingleCellContents($row, $col, $singleContent,
                                                      $type);
-                if (PEAR::isError($ret)) {
-                    return $ret;
-                }
                 $col++;
             }
         } else {
-            $ret = $this->_setSingleCellContents($row, $col, $contents, $type);
-            if (PEAR::isError($ret)) {
-                return $ret;
-            }
+            $this->_setSingleCellContents($row, $col, $contents, $type);
         }
     }
 
@@ -409,10 +397,7 @@ class HTML_Table_Storage extends HTML_Common {
            ) {
             return;
         }
-        $err = $this->_adjustEnds($row, $col, 'setCellContents');
-        if (PEAR::isError($err)) {
-            return $err;
-        }
+        $this->_adjustEnds($row, $col, 'setCellContents');
         $this->_structure[$row][$col]['contents'] = $contents;
         $this->_structure[$row][$col]['type'] = $type;
     }
@@ -432,7 +417,7 @@ class HTML_Table_Storage extends HTML_Common {
             return;
         }
         if (!isset($this->_structure[$row][$col])) {
-            return PEAR::raiseError('Invalid table cell reference[' .
+            throw new \Exception('Invalid table cell reference[' .
                 $row . '][' . $col . '] in HTML_Table::getCellContents');
         }
         return $this->_structure[$row][$col]['contents'];
@@ -476,7 +461,7 @@ class HTML_Table_Storage extends HTML_Common {
         $inTR = false)
     {
         if (isset($contents) && !is_array($contents)) {
-            return PEAR::raiseError('First parameter to HTML_Table::addRow ' .
+            throw new \Exception('First parameter to HTML_Table::addRow ' .
                                     'must be an array');
         }
         if (is_null($contents)) {
@@ -523,10 +508,7 @@ class HTML_Table_Storage extends HTML_Common {
             }
         } else {
             $attributes = $this->_parseAttributes($attributes);
-            $err = $this->_adjustEnds($row, 0, 'setRowAttributes', $attributes);
-            if (PEAR::isError($err)) {
-                return $err;
-            }
+            $this->_adjustEnds($row, 0, 'setRowAttributes', $attributes);
             $this->_structure[$row]['attr'] = $attributes;
         }
     }
@@ -556,10 +538,7 @@ class HTML_Table_Storage extends HTML_Common {
             }
         } else {
             $attributes = $this->_parseAttributes($attributes);
-            $err = $this->_adjustEnds($row, 0, 'updateRowAttributes', $attributes);
-            if (PEAR::isError($err)) {
-                return $err;
-            }
+            $this->_adjustEnds($row, 0, 'updateRowAttributes', $attributes);
             $this->_updateAttrArray($this->_structure[$row]['attr'], $attributes);
         }
     }
@@ -619,7 +598,7 @@ class HTML_Table_Storage extends HTML_Common {
     function addCol($contents = null, $attributes = null, $type = 'td')
     {
         if (isset($contents) && !is_array($contents)) {
-            return PEAR::raiseError('First parameter to HTML_Table::addCol ' .
+            throw new \Exception('First parameter to HTML_Table::addCol ' .
                                     'must be an array');
         }
         if (is_null($contents)) {
@@ -834,7 +813,7 @@ class HTML_Table_Storage extends HTML_Common {
             if ($this->_autoGrow) {
                 $this->_rows = $row + $rowspan;
             } else {
-                return PEAR::raiseError('Invalid table row reference[' .
+                throw new \Exception('Invalid table row reference[' .
                     $row . '] in HTML_Table::' . $method);
             }
         }
@@ -843,7 +822,7 @@ class HTML_Table_Storage extends HTML_Common {
             if ($this->_autoGrow) {
                 $this->_cols = $col + $colspan;
             } else {
-                return PEAR::raiseError('Invalid table column reference[' .
+                throw new \Exception('Invalid table column reference[' .
                     $col . '] in HTML_Table::' . $method);
             }
         }
@@ -866,4 +845,3 @@ class HTML_Table_Storage extends HTML_Common {
     }
 
 }
-?>
