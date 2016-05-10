@@ -20,9 +20,6 @@
 //
 // $Id$
 
-require_once('HTML/QuickForm/group.php');
-require_once('HTML/QuickForm/select.php');
-
 /**
  * Class to dynamically create two or more HTML Select elements
  * The first select changes the content of the second select and so on.

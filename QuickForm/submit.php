@@ -19,8 +19,6 @@
 //
 // $Id$
 
-require_once("HTML/QuickForm/input.php");
-
 /**
  * HTML class for a submit type element
  * 

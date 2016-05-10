@@ -20,9 +20,6 @@
 //
 // $Id$
 
-require_once 'HTML/QuickForm/group.php';
-require_once 'HTML/QuickForm/select.php';
-
 /**
  * Class for a group of elements used to input dates (and times).
  *

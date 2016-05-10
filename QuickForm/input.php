@@ -19,8 +19,6 @@
 //
 // $Id$
 
-require_once("HTML/QuickForm/element.php");
-
 /**
  * Base class for input form elements
  * 

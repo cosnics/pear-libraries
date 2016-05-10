@@ -23,8 +23,6 @@
  * @link       http://pear.php.net/package/HTML_QuickForm_Renderer_Tableless
  */
 
-require_once 'HTML/QuickForm/Renderer/Default.php';
-
 /**
  * A renderer for HTML_QuickForm that only uses XHTML and CSS but no
  * table tags

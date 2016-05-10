@@ -18,8 +18,6 @@
 //
 // $Id$
 
-require_once('HTML/QuickForm/Rule.php');
-
 /**
 * Required elements validation
 * @version     1.0

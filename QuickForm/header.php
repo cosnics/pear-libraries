@@ -18,8 +18,6 @@
 //
 // $Id$
 
-require_once 'HTML/QuickForm/static.php';
-
 /**
  * A pseudo-element used for adding headers to form
  *

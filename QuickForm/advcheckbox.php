@@ -19,8 +19,6 @@
 //
 // $Id$
 
-require_once('HTML/QuickForm/checkbox.php');
-
 /**
  * HTML class for an advanced checkbox type field
  *

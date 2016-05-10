@@ -18,8 +18,6 @@
 //
 // $Id$
 
-require_once('HTML/QuickForm/Rule.php');
-
 /**
 * Validates values using range comparison
 * @version     1.0

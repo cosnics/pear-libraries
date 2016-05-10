@@ -19,9 +19,6 @@
 //
 // $Id$
 
-require_once('PEAR.php');
-require_once('HTML/Common.php');
-
 $GLOBALS['HTML_QUICKFORM_ELEMENT_TYPES'] =
         array(
             'group'         =>array('HTML/QuickForm/group.php','HTML_QuickForm_group'),
@@ -300,16 +297,6 @@ class HTML_QuickForm extends HTML_Common {
             }
         }
     } // end constructor
-
-    /**
-     * Old syntax of class constructor. Deprecated in PHP7.
-     *
-     * @deprecated since Moodle 3.1
-     */
-    public function HTML_QuickForm($formName='', $method='post', $action='', $target='', $attributes=null, $trackSubmit = false) {
-        debugging('Use of class name as constructor is deprecated', DEBUG_DEVELOPER);
-        self::__construct($formName, $method, $action, $target, $attributes, $trackSubmit);
-    }
 
     // }}}
     // {{{ apiVersion()
@@ -1994,17 +1981,5 @@ class HTML_QuickForm_Error extends PEAR_Error {
         }
     }
 
-    /**
-     * Old syntax of class constructor. Deprecated in PHP7.
-     *
-     * @deprecated since Moodle 3.1
-     */
-    public function HTML_QuickForm_Error($code = QUICKFORM_ERROR, $mode = PEAR_ERROR_RETURN,
-                         $level = E_USER_NOTICE, $debuginfo = null) {
-        debugging('Use of class name as constructor is deprecated', DEBUG_DEVELOPER);
-        self::__construct($code, $mode, $level, $debuginfo);
-    }
-
     // }}}
 } // end class HTML_QuickForm_Error
-?>

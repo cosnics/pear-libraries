@@ -19,8 +19,6 @@
 //
 // $Id$
 
-require_once("HTML/QuickForm/element.php");
-
 /**
  * HTML class for a textarea type field
  * 

@@ -18,8 +18,6 @@
 //
 // $Id$
 
-require_once('HTML/QuickForm/Rule.php');
-
 /**
 * Email validation rule
 * @version     1.0

@@ -24,8 +24,6 @@
  * @link       http://pear.php.net/package/HTML_QuickForm_DHTMLRulesTableless
  */
 
-require_once 'HTML/QuickForm.php';
-
 /**
  * This is a DHTML replacement for the standard JavaScript alert window for
  * client-side validation of forms built with HTML_QuickForm

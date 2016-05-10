@@ -26,9 +26,6 @@
 // $Id$
 
 
-require_once("HTML/QuickForm/text.php");
-
-
 /**
  * Class to dynamically create an HTML input text element that
  * at every keypressed javascript event, check in an array of options

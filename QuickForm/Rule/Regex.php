@@ -18,8 +18,6 @@
 //
 // $Id$
 
-require_once('HTML/QuickForm/Rule.php');
-
 /**
 * Validates values using regular expressions
 * @version     1.0

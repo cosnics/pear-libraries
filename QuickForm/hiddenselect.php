@@ -19,8 +19,6 @@
 //
 // $Id$
 
-require_once('HTML/QuickForm/select.php');
-
 /**
  * This class takes the same arguments as a select element, but instead
  * of creating a select ring it creates hidden elements for all values

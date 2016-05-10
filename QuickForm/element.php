@@ -19,8 +19,6 @@
 //
 // $Id$
 
-require_once('HTML/Common.php');
-
 /**
  * Base class for form elements
  * 
