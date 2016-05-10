@@ -1,0 +1,38 @@
+{
+    "authors": [
+        {
+            "email": "thesaur@php.net",
+            "name": "Klaus Guenther",
+            "role": "Lead"
+        },
+        {
+            "email": "avb@php.net",
+            "name": "Alexey Borzov",
+            "role": "Lead"
+        },
+        {
+            "email": "bmansion@mamasam.com",
+            "name": "Bertrand Mansion",
+            "role": "Lead"
+        },
+        {
+            "email": "adaniel1@eesus.jnj.com",
+            "name": "Adam Daniel",
+            "role": "Lead"
+        },
+        {
+            "email": "hans.de.bisschop@ehb.be",
+            "name": "Hans De Bisschop",
+            "role": "Adaptor"
+        }
+    ],
+    "autoload": {
+        "classmap": [
+            "./"
+        ]
+    },
+    "description": "More info available on: http://pear.php.net/",
+    "license": "PHP License",
+    "name": "chamilo/pear-libraries",
+    "type": "library"
+}
