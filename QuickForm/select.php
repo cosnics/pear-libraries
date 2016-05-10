@@ -72,16 +72,6 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
             $this->load($options);
         }
     } //end constructor
-
-    /**
-     * Old syntax of class constructor. Deprecated in PHP7.
-     *
-     * @deprecated since Moodle 3.1
-     */
-    public function HTML_QuickForm_select($elementName=null, $elementLabel=null, $options=null, $attributes=null) {
-        debugging('Use of class name as constructor is deprecated', DEBUG_DEVELOPER);
-        self::__construct($elementName, $elementLabel, $attributes);
-    }
     
     // }}}
     // {{{ apiVersion()
@@ -333,7 +323,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
     function loadArray($arr, $values=null)
     {
         if (!is_array($arr)) {
-            return self::raiseError('Argument 1 of HTML_Select::loadArray is not a valid array');
+            throw new \Exception('Argument 1 of HTML_Select::loadArray is not a valid array');
         }
         if (isset($values)) {
             $this->setSelected($values);
@@ -344,82 +334,6 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
         }
         return true;
     } // end func loadArray
-
-    // }}}
-    // {{{ loadDbResult()
-
-    /**
-     * Loads the options from DB_result object
-     * 
-     * If no column names are specified the first two columns of the result are
-     * used as the text and value columns respectively
-     * @param     object    $result     DB_result object 
-     * @param     string    $textCol    (optional) Name of column to display as the OPTION text 
-     * @param     string    $valueCol   (optional) Name of column to use as the OPTION value 
-     * @param     mixed     $values     (optional) Array or comma delimited string of selected values
-     * @since     1.0
-     * @access    public
-     * @return    PEAR_Error on error or true
-     * @throws    PEAR_Error
-     */
-    function loadDbResult(&$result, $textCol=null, $valueCol=null, $values=null)
-    {
-        if (!is_object($result) || !is_a($result, 'db_result')) {
-            return self::raiseError('Argument 1 of HTML_Select::loadDbResult is not a valid DB_result');
-        }
-        if (isset($values)) {
-            $this->setValue($values);
-        }
-        $fetchMode = ($textCol && $valueCol) ? DB_FETCHMODE_ASSOC : DB_FETCHMODE_ORDERED;
-        while (is_array($row = $result->fetchRow($fetchMode)) ) {
-            if ($fetchMode == DB_FETCHMODE_ASSOC) {
-                $this->addOption($row[$textCol], $row[$valueCol]);
-            } else {
-                $this->addOption($row[0], $row[1]);
-            }
-        }
-        return true;
-    } // end func loadDbResult
-    
-    // }}}
-    // {{{ loadQuery()
-
-    /**
-     * Queries a database and loads the options from the results
-     *
-     * @param     mixed     $conn       Either an existing DB connection or a valid dsn 
-     * @param     string    $sql        SQL query string
-     * @param     string    $textCol    (optional) Name of column to display as the OPTION text 
-     * @param     string    $valueCol   (optional) Name of column to use as the OPTION value 
-     * @param     mixed     $values     (optional) Array or comma delimited string of selected values
-     * @since     1.1
-     * @access    public
-     * @return    void
-     * @throws    PEAR_Error
-     */
-    function loadQuery(&$conn, $sql, $textCol=null, $valueCol=null, $values=null)
-    {
-        if (is_string($conn)) {
-            $dbConn = &DB::connect($conn, true);
-            if (DB::isError($dbConn)) {
-                return $dbConn;
-            }
-        } elseif (is_subclass_of($conn, "db_common")) {
-            $dbConn = &$conn;
-        } else {
-            return self::raiseError('Argument 1 of HTML_Select::loadQuery is not a valid type');
-        }
-        $result = $dbConn->query($sql);
-        if (DB::isError($result)) {
-            return $result;
-        }
-        $this->loadDbResult($result, $textCol, $valueCol, $values);
-        $result->free();
-        if (is_string($conn)) {
-            $dbConn->disconnect();
-        }
-        return true;
-    } // end func loadQuery
 
     // }}}
     // {{{ load()
@@ -448,12 +362,6 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
         switch (true) {
             case is_array($options):
                 return $this->loadArray($options, $param1);
-                break;
-            case (is_a($options, 'db_result')):
-                return $this->loadDbResult($options, $param1, $param2, $param3);
-                break;
-            case (is_string($options) && !empty($options) || is_subclass_of($options, "db_common")):
-                return $this->loadQuery($options, $param1, $param2, $param3, $param4);
                 break;
         }
     } // end func load

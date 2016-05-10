@@ -64,16 +64,6 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
         $this->setType('file');
     } //end constructor
 
-    /**
-     * Old syntax of class constructor. Deprecated in PHP7.
-     *
-     * @deprecated since Moodle 3.1
-     */
-    public function HTML_QuickForm_file($elementName=null, $elementLabel=null, $attributes=null) {
-        debugging('Use of class name as constructor is deprecated', DEBUG_DEVELOPER);
-        self::__construct($elementName, $elementLabel, $attributes);
-    }
-
     // }}}
     // {{{ setSize()
 
@@ -172,7 +162,7 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
         switch ($event) {
             case 'updateValue':
                 if ($caller->getAttribute('method') == 'get') {
-                    return self::raiseError('Cannot add a file upload field to a GET method form');
+                    throw new \Exception('Cannot add a file upload field to a GET method form');
                 }
                 $this->_value = $this->_findValue();
                 $caller->updateAttributes(array('enctype' => 'multipart/form-data'));

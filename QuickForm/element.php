@@ -87,16 +87,6 @@ class HTML_QuickForm_element extends HTML_Common
             $this->setLabel($elementLabel);
         }
     } //end constructor
-
-    /**
-     * Old syntax of class constructor. Deprecated in PHP7.
-     *
-     * @deprecated since Moodle 3.1
-     */
-    public function HTML_QuickForm_element($elementName=null, $elementLabel=null, $attributes=null) {
-        debugging('Use of class name as constructor is deprecated', DEBUG_DEVELOPER);
-        self::__construct($elementName, $elementLabel, $attributes);
-    }
     
     // }}}
     // {{{ apiVersion()
@@ -429,14 +419,11 @@ class HTML_QuickForm_element extends HTML_Common
     * @return void 
     */
     function _generateId() {
-        if ($this->getAttribute('id')) {
-            return;
+        static $idx = 1;
+        
+        if (!$this->getAttribute('id')) {
+            $this->updateAttributes(array('id' => 'qf_' . substr(md5(microtime() . $idx++), 0, 6)));
         }
-
-        $id = $this->getName();
-        $id = 'id_' . str_replace(array('qf_', '[', ']'), array('', '_', ''), $id);
-        $id = clean_param($id, PARAM_ALPHANUMEXT);
-        $this->updateAttributes(array('id' => $id));
     }
 
     // }}}
