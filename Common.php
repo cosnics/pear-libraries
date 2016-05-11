@@ -11,7 +11,7 @@
  * http://www.php.net/license/3_01.txt If you did not receive a copy of
  * the PHP License and are unable to obtain it through the web, please
  * send a note to license@php.net so we can mail you a copy immediately.
- * 
+ *
  * @category    HTML
  * @package     HTML_Common
  * @author      Adam Daniel <adaniel1@eesus.jnj.com>
@@ -19,7 +19,7 @@
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
  * @version     CVS: $Id$
  * @link        http://pear.php.net/package/HTML_Common/
- */ 
+ */
 
 /**
  * Base class for all HTML classes
@@ -40,7 +40,7 @@ class HTML_Common
     var $_attributes = array();
 
     /**
-     * Tab offset of the tag
+     * Tab offset of the table
      * @var     int
      * @access  private
      */
@@ -77,7 +77,7 @@ class HTML_Common
      * @param    int     $tabOffset      Indent offset in tabs
      * @access   public
      */
-    function HTML_Common($attributes = null, $tabOffset = 0)
+    function __construct($attributes = null, $tabOffset = 0)
     {
         $this->setAttributes($attributes);
         $this->setTabOffset($tabOffset);
@@ -179,10 +179,9 @@ class HTML_Common
                         $arrAttr[strtolower(trim($name))] = strtolower(trim($name));
                     } else {
                         if (substr($value, 0, 1) == "\"" || substr($value, 0, 1) == "'") {
-                            $arrAttr[strtolower(trim($name))] = substr($value, 1, -1);
-                        } else {
-                            $arrAttr[strtolower(trim($name))] = trim($value);
+                            $value = substr($value, 1, -1);
                         }
+                        $arrAttr[strtolower(trim($name))] = trim($value);
                     }
                 }
                 return $arrAttr;
@@ -445,8 +444,8 @@ class HTML_Common
      * $charset = HTML_Common::charset();
      * </code>
      *
-     * @param   string  New charset to use. Omit if just getting the 
-     *                  current value. Consult the htmlspecialchars() docs 
+     * @param   string  New charset to use. Omit if just getting the
+     *                  current value. Consult the htmlspecialchars() docs
      *                  for a list of supported character sets.
      * @return  string  Current charset
      * @access  public
