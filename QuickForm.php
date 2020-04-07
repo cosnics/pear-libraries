@@ -411,7 +411,7 @@ class HTML_QuickForm extends HTML_Common {
      * @access    public
      * @return    void
      */
-    function setDefaults($defaultValues = null, $filter = null)
+    function setDefaults($defaultValues = array(), $filter = null)
     {
         if (is_array($defaultValues)) {
             if (isset($filter)) {
