@@ -34,5 +34,8 @@
     "description": "More info available on: http://pear.php.net/",
     "license": "PHP License",
     "name": "chamilo/pear-libraries",
-    "type": "library"
+    "type": "library",
+    "require": {
+        "ext-mbstring": "*"
+    }
 }
