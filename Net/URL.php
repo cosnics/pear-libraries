@@ -262,6 +262,8 @@ class Net_URL
     {
         if (!empty($this->querystring))
         {
+            $querystring = [];
+
             foreach ($this->querystring as $name => $value)
             {
                 // Encode var name
@@ -283,6 +285,7 @@ class Net_URL
                     $querystring[] = $name;
                 }
             }
+
             $querystring = implode(ini_get('arg_separator.output'), $querystring);
         }
         else
@@ -471,7 +474,7 @@ class Net_URL
      *
      * @return string      The result
      */
-    public function resolvePath(string $path): string
+    public static function resolvePath(string $path): string
     {
         $path = explode('/', str_replace('//', '/', $path));
 
