@@ -1,5 +1,5 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
+
 // +----------------------------------------------------------------------+
 // | PHP Version 4                                                        |
 // +----------------------------------------------------------------------+
@@ -15,127 +15,128 @@
 // +----------------------------------------------------------------------+
 // | Authors: Alexey Borzov <avb@php.net>                                 |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 /**
  * Class for HTML 4.0 <button> element
- * 
+ *
  * @author  Alexey Borzov <avb@php.net>
  * @since   3.2.3
  * @access  public
  */
 class HTML_QuickForm_xbutton extends HTML_QuickForm_element
 {
-   /**
-    * Contents of the <button> tag
-    * @var      string
-    * @access   private
-    */
-    var $_content; 
+    /**
+     * Contents of the <button> tag
+     *
+     * @var      string
+     * @access   private
+     */
+    public $_content;
 
-   /**
-    * Class constructor
-    * 
-    * @param    string  Button name
-    * @param    string  Button content (HTML to add between <button></button> tags)
-    * @param    mixed   Either a typical HTML attribute string or an associative array
-    * @access   public
-    */
-    public function __construct($elementName = null, $elementContent = null, $attributes = null) {
+    /**
+     * Class constructor
+     *
+     * @param string  Button name
+     * @param string  Button content (HTML to add between <button></button> tags)
+     * @param mixed   Either a typical HTML attribute string or an associative array
+     *
+     * @access   public
+     */
+    public function __construct($elementName = null, $elementContent = null, $attributes = null)
+    {
         parent::__construct($elementName, null, $attributes);
         $this->setContent($elementContent);
         $this->setPersistantFreeze(false);
         $this->_type = 'xbutton';
     }
 
-    function toHtml()
+    public function toHtml()
     {
         return '<button' . $this->getAttributes(true) . '>' . $this->_content . '</button>';
     }
 
-
-    function getFrozenHtml()
+    public function getFrozenHtml()
     {
         return $this->toHtml();
     }
 
-
-    function freeze()
+    public function freeze()
     {
         return false;
     }
 
-
-    function setName($name)
+    public function setName($name)
     {
-        $this->updateAttributes(array(
-            'name' => $name 
-        ));
+        $this->updateAttributes([
+            'name' => $name
+        ]);
     }
 
-
-    function getName()
+    public function getName()
     {
         return $this->getAttribute('name');
     }
 
-
-    function setValue($value)
+    public function setValue($value)
     {
-        $this->updateAttributes(array(
+        $this->updateAttributes([
             'value' => $value
-        ));
+        ]);
     }
 
-
-    function getValue()
+    public function getValue()
     {
         return $this->getAttribute('value');
     }
 
-
-   /**
-    * Sets the contents of the button element
-    *
-    * @param    string  Button content (HTML to add between <button></button> tags)
-    */
-    function setContent($content)
+    /**
+     * Sets the contents of the button element
+     *
+     * @param string  Button content (HTML to add between <button></button> tags)
+     */
+    public function setContent($content)
     {
         $this->_content = $content;
     }
 
-
-    function onQuickFormEvent($event, $arg, &$caller)
+    public function onQuickFormEvent($event, $arg, &$caller)
     {
-        if ('updateValue' != $event) {
+        if ('updateValue' != $event)
+        {
             return parent::onQuickFormEvent($event, $arg, $caller);
-        } else {
+        }
+        else
+        {
             $value = $this->_findValue($caller->_constantValues);
-            if (null === $value) {
+            if (null === $value)
+            {
                 $value = $this->_findValue($caller->_defaultValues);
             }
-            if (null !== $value) {
+            if (null !== $value)
+            {
                 $this->setValue($value);
             }
         }
+
         return true;
     }
 
-
-   /**
-    * Returns a 'safe' element's value
-    * 
-    * The value is only returned if the button's type is "submit" and if this
-    * particlular button was clicked
-    */
-    function exportValue(&$submitValues, $assoc = false)
+    /**
+     * Returns a 'safe' element's value
+     * The value is only returned if the button's type is "submit" and if this
+     * particlular button was clicked
+     */
+    public function exportValue(&$submitValues, $assoc = false)
     {
-        if ('submit' == $this->getAttribute('type')) {
+        if ('submit' == $this->getAttribute('type'))
+        {
             return $this->_prepareValue($this->_findValue($submitValues), $assoc);
-        } else {
+        }
+        else
+        {
             return null;
         }
     }
 }
-?>
+
+

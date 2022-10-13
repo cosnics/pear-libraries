@@ -1,5 +1,5 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
+
 // +----------------------------------------------------------------------+
 // | PHP version 4.0                                                      |
 // +----------------------------------------------------------------------+
@@ -15,12 +15,9 @@
 // +----------------------------------------------------------------------+
 // | Author: Alexey Borzov <borz_off@cs.msu.su>                           |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 /**
  * A pseudo-element used for adding raw HTML to form
- *
  * Intended for use with the default renderer only, template-based
  * ones may (and probably will) completely ignore this
  *
@@ -29,36 +26,33 @@
  */
 class HTML_QuickForm_html extends HTML_QuickForm_static
 {
-    // {{{ constructor
 
-   /**
-    * Class constructor
-    *
-    * @param string $text   raw HTML to add
-    * @access public
-    * @return void
-    */
-    public function __construct($text = null) {
+    /**
+     * Class constructor
+     *
+     * @param string $text raw HTML to add
+     *
+     * @access public
+     * @return void
+     */
+    public function __construct($text = null)
+    {
         parent::__construct(null, null, $text);
         $this->_type = 'html';
     }
 
-    // }}}
-    // {{{ accept()
-
-   /**
-    * Accepts a renderer
-    *
-    * @param object     An HTML_QuickForm_Renderer object
-    * @access public
-    * @return void
-    */
-    function accept(&$renderer, $required=false, $error=null)
+    /**
+     * Accepts a renderer
+     *
+     * @param object     An HTML_QuickForm_Renderer object
+     *
+     * @access public
+     * @return void
+     */
+    public function accept($renderer, $required = false, $error = null)
     {
         $renderer->renderHtml($this);
-    } // end func accept
+    }
 
-    // }}}
+}
 
-} //end class HTML_QuickForm_header
-?>

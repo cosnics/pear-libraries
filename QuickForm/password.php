@@ -1,5 +1,5 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
+
 // +----------------------------------------------------------------------+
 // | PHP version 4.0                                                      |
 // +----------------------------------------------------------------------+
@@ -16,12 +16,10 @@
 // | Authors: Adam Daniel <adaniel1@eesus.jnj.com>                        |
 // |          Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 /**
  * HTML class for a password type field
- * 
+ *
  * @author       Adam Daniel <adaniel1@eesus.jnj.com>
  * @author       Bertrand Mansion <bmansion@mamasam.com>
  * @version      1.1
@@ -30,76 +28,68 @@
  */
 class HTML_QuickForm_password extends HTML_QuickForm_input
 {
-    // {{{ constructor
 
     /**
      * Class constructor
-     * 
-     * @param     string    $elementName    (optional)Input field name attribute
-     * @param     string    $elementLabel   (optional)Input field label
-     * @param     mixed     $attributes     (optional)Either a typical HTML attribute string 
+     *
+     * @param string $elementName           (optional)Input field name attribute
+     * @param string $elementLabel          (optional)Input field label
+     * @param mixed $attributes             (optional)Either a typical HTML attribute string
      *                                      or an associative array
+     *
+     * @return    void
+     * @throws
      * @since     1.0
      * @access    public
-     * @return    void
-     * @throws    
      */
-    public function __construct($elementName=null, $elementLabel=null, $attributes=null) {
+    public function __construct($elementName = null, $elementLabel = null, $attributes = null)
+    {
         parent::__construct($elementName, $elementLabel, $attributes);
         $this->setType('password');
-    } //end constructor
-    
-    // }}}
-    // {{{ setSize()
-
-    /**
-     * Sets size of password element
-     * 
-     * @param     string    $size  Size of password field
-     * @since     1.0
-     * @access    public
-     * @return    void
-     */
-    function setSize($size)
-    {
-        $this->updateAttributes(array('size'=>$size));
-    } //end func setSize
-
-    // }}}
-    // {{{ setMaxlength()
-
-    /**
-     * Sets maxlength of password element
-     * 
-     * @param     string    $maxlength  Maximum length of password field
-     * @since     1.0
-     * @access    public
-     * @return    void
-     */
-    function setMaxlength($maxlength)
-    {
-        $this->updateAttributes(array('maxlength'=>$maxlength));
-    } //end func setMaxlength
-        
-    // }}}
-    // {{{ getFrozenHtml()
+    }
 
     /**
      * Returns the value of field without HTML tags (in this case, value is changed to a mask)
-     * 
+     *
+     * @return    string
+     * @throws
      * @since     1.0
      * @access    public
-     * @return    string
-     * @throws    
      */
-    function getFrozenHtml()
+    public function getFrozenHtml()
     {
         $value = $this->getValue();
-        return ('' != $value? '**********': '&nbsp;') .
-               $this->_getPersistantData();
-    } //end func getFrozenHtml
 
-    // }}}
+        return ('' != $value ? '**********' : '&nbsp;') . $this->_getPersistantData();
+    }
 
-} //end class HTML_QuickForm_password
-?>
+    /**
+     * Sets maxlength of password element
+     *
+     * @param string $maxlength Maximum length of password field
+     *
+     * @return    void
+     * @since     1.0
+     * @access    public
+     */
+    public function setMaxlength($maxlength)
+    {
+        $this->updateAttributes(['maxlength' => $maxlength]);
+    }
+
+    /**
+     * Sets size of password element
+     *
+     * @param string $size Size of password field
+     *
+     * @return    void
+     * @since     1.0
+     * @access    public
+     */
+    public function setSize($size)
+    {
+        $this->updateAttributes(['size' => $size]);
+    }
+
+}
+

@@ -1,5 +1,4 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
 // | PHP version 4.0                                                      |
 // +----------------------------------------------------------------------+
@@ -15,79 +14,78 @@
 // +----------------------------------------------------------------------+
 // | Author: Alexey Borzov <avb@php.net>                                  |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 /**
  * Rule to compare two form fields
- * 
- * The most common usage for this is to ensure that the password 
+ * The most common usage for this is to ensure that the password
  * confirmation field matches the password field
- * 
- * @access public
- * @package HTML_QuickForm
- * @version $Revision$
  */
 class HTML_QuickForm_Rule_Compare extends HTML_QuickForm_Rule
 {
-   /**
-    * Possible operators to use
-    * @var array
-    * @access private
-    */
-    var $_operators = array(
-        'eq'  => '==',
+    /**
+     * Possible operators to use
+     *
+     * @var string[]
+     */
+    protected array $_operators = [
+        'eq' => '==',
         'neq' => '!=',
-        'gt'  => '>',
+        'gt' => '>',
         'gte' => '>=',
-        'lt'  => '<',
+        'lt' => '<',
         'lte' => '<='
-    );
+    ];
 
-
-   /**
-    * Returns the operator to use for comparing the values
-    * 
-    * @access private
-    * @param  string     operator name
-    * @return string     operator to use for validation
-    */
-    function _findOperator($name)
+    /**
+     * Returns the operator to use for comparing the values
+     */
+    public function _findOperator(string $name): string
     {
-        if (empty($name)) {
+        if (empty($name))
+        {
             return '==';
-        } elseif (isset($this->_operators[$name])) {
+        }
+        elseif (isset($this->_operators[$name]))
+        {
             return $this->_operators[$name];
-        } elseif (in_array($name, $this->_operators)) {
+        }
+        elseif (in_array($name, $this->_operators))
+        {
             return $name;
-        } else {
+        }
+        else
+        {
             return '==';
         }
     }
 
-
-    function validate($values, $operator = null)
+    public function getValidationScript($operator = null): array
     {
         $operator = $this->_findOperator($operator);
-        if ('==' != $operator && '!=' != $operator) {
-            $compareFn = create_function('$a, $b', 'return floatval($a) ' . $operator . ' floatval($b);');
-        } else {
-            $compareFn = create_function('$a, $b', 'return $a ' . $operator . ' $b;');
-        }
-        
-        return $compareFn($values[0], $values[1]);
-    }
-
-
-    function getValidationScript($operator = null)
-    {
-        $operator = $this->_findOperator($operator);
-        if ('==' != $operator && '!=' != $operator) {
+        if ('==' != $operator && '!=' != $operator)
+        {
             $check = "!(Number({jsVar}[0]) {$operator} Number({jsVar}[1]))";
-        } else {
+        }
+        else
+        {
             $check = "!({jsVar}[0] {$operator} {jsVar}[1])";
         }
-        return array('', "'' != {jsVar}[0] && {$check}");
+
+        return ['', "'' != {jsVar}[0] && {$check}"];
+    }
+
+    public function validate($values, $operator = null): bool
+    {
+        $operator = $this->_findOperator($operator);
+        if ('==' != $operator && '!=' != $operator)
+        {
+            $compareFn = create_function('$a, $b', 'return floatval($a) ' . $operator . ' floatval($b);');
+        }
+        else
+        {
+            $compareFn = create_function('$a, $b', 'return $a ' . $operator . ' $b;');
+        }
+
+        return $compareFn($values[0], $values[1]);
     }
 }
-?>

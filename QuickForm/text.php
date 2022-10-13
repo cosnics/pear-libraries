@@ -1,5 +1,5 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
+
 // +----------------------------------------------------------------------+
 // | PHP version 4.0                                                      |
 // +----------------------------------------------------------------------+
@@ -16,12 +16,10 @@
 // | Authors: Adam Daniel <adaniel1@eesus.jnj.com>                        |
 // |          Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 /**
  * HTML class for a text field
- * 
+ *
  * @author       Adam Daniel <adaniel1@eesus.jnj.com>
  * @author       Bertrand Mansion <bmansion@mamasam.com>
  * @version      1.0
@@ -30,59 +28,53 @@
  */
 class HTML_QuickForm_text extends HTML_QuickForm_input
 {
-                
-    // {{{ constructor
 
     /**
      * Class constructor
-     * 
-     * @param     string    $elementName    (optional)Input field name attribute
-     * @param     string    $elementLabel   (optional)Input field label
-     * @param     mixed     $attributes     (optional)Either a typical HTML attribute string 
+     *
+     * @param string $elementName           (optional)Input field name attribute
+     * @param string $elementLabel          (optional)Input field label
+     * @param mixed $attributes             (optional)Either a typical HTML attribute string
      *                                      or an associative array
+     *
+     * @return    void
      * @since     1.0
      * @access    public
-     * @return    void
      */
-    public function __construct($elementName=null, $elementLabel=null, $attributes=null) {
+    public function __construct($elementName = null, $elementLabel = null, $attributes = null)
+    {
         parent::__construct($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = true;
         $this->setType('text');
-    } //end constructor
-        
-    // }}}
-    // {{{ setSize()
-
-    /**
-     * Sets size of text field
-     * 
-     * @param     string    $size  Size of text field
-     * @since     1.3
-     * @access    public
-     * @return    void
-     */
-    function setSize($size)
-    {
-        $this->updateAttributes(array('size'=>$size));
-    } //end func setSize
-
-    // }}}
-    // {{{ setMaxlength()
+    }
 
     /**
      * Sets maxlength of text field
-     * 
-     * @param     string    $maxlength  Maximum length of text field
+     *
+     * @param string $maxlength Maximum length of text field
+     *
+     * @return    void
      * @since     1.3
      * @access    public
-     * @return    void
      */
-    function setMaxlength($maxlength)
+    public function setMaxlength($maxlength)
     {
-        $this->updateAttributes(array('maxlength'=>$maxlength));
-    } //end func setMaxlength
+        $this->updateAttributes(['maxlength' => $maxlength]);
+    }
 
-    // }}}
-    
-} //end class HTML_QuickForm_text
-?>
+    /**
+     * Sets size of text field
+     *
+     * @param string $size Size of text field
+     *
+     * @return    void
+     * @since     1.3
+     * @access    public
+     */
+    public function setSize($size)
+    {
+        $this->updateAttributes(['size' => $size]);
+    }
+
+}
+

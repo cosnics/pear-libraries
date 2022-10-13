@@ -1,5 +1,4 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
 // | PHP version 4.0                                                      |
 // +----------------------------------------------------------------------+
@@ -16,337 +15,233 @@
 // | Authors: Adam Daniel <adaniel1@eesus.jnj.com>                        |
 // |          Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 /**
  * Base class for form elements
- * 
+ *
  * @author       Adam Daniel <adaniel1@eesus.jnj.com>
  * @author       Bertrand Mansion <bmansion@mamasam.com>
- * @version      1.3
- * @since        PHP4.04pl1
- * @access       public
- * @abstract
  */
-class HTML_QuickForm_element extends HTML_Common
+abstract class HTML_QuickForm_element extends HTML_Common
 {
-    // {{{ properties
 
-    /**
-     * Label of the field
-     * @var       string
-     * @since     1.3
-     * @access    private
-     */
-    var $_label = '';
+    protected bool $_flagFrozen = false;
 
-    /**
-     * Form element type
-     * @var       string
-     * @since     1.0
-     * @access    private
-     */
-    var $_type = '';
-
-    /**
-     * Flag to tell if element is frozen
-     * @var       boolean
-     * @since     1.0
-     * @access    private
-     */
-    var $_flagFrozen = false;
+    protected string $_label = '';
 
     /**
      * Does the element support persistant data when frozen
-     * @var       boolean
-     * @since     1.3
-     * @access    private
      */
-    var $_persistantFreeze = false;
-    
-    // }}}
-    // {{{ constructor
-    
+    protected bool $_persistantFreeze = false;
+
+    protected string $_type = '';
+
     /**
-     * Class constructor
-     * 
-     * @param    string     Name of the element
-     * @param    mixed      Label(s) for the element
-     * @param    mixed      Associative array of tag attributes or HTML attributes name="value" pairs
-     * @since     1.0
-     * @access    public
-     * @return    void
+     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
      */
-    public function __construct($elementName=null, $elementLabel=null, $attributes=null) {
+    public function __construct(?string $elementName = null, ?string $elementLabel = null, $attributes = null)
+    {
         parent::__construct($attributes);
-        if (isset($elementName)) {
+        if (isset($elementName))
+        {
             $this->setName($elementName);
         }
-        if (isset($elementLabel)) {
+        if (isset($elementLabel))
+        {
             $this->setLabel($elementLabel);
         }
-    } //end constructor
-
-    // }}}
-    // {{{ getType()
-
-    /**
-     * Returns element type
-     *
-     * @since     1.0
-     * @access    public
-     * @return    string
-     */
-    function getType()
-    {
-        return $this->_type;
-    } // end func getType
-
-    // }}}
-    // {{{ setName()
-
-    /**
-     * Sets the input field name
-     * 
-     * @param     string    $name   Input field name attribute
-     * @since     1.0
-     * @access    public
-     * @return    void
-     */
-    function setName($name)
-    {
-        // interface method
-    } //end func setName
-    
-    // }}}
-    // {{{ getName()
-
-    /**
-     * Returns the element name
-     * 
-     * @since     1.0
-     * @access    public
-     * @return    string
-     */
-    function getName()
-    {
-        // interface method
-    } //end func getName
-    
-    // }}}
-    // {{{ setValue()
-
-    /**
-     * Sets the value of the form element
-     *
-     * @param     string    $value      Default value of the form element
-     * @since     1.0
-     * @access    public
-     * @return    void
-     */
-    function setValue($value)
-    {
-        // interface
-    } // end func setValue
-
-    // }}}
-    // {{{ getValue()
-
-    /**
-     * Returns the value of the form element
-     *
-     * @since     1.0
-     * @access    public
-     * @return    mixed
-     */
-    function getValue()
-    {
-        // interface
-        return null;
-    } // end func getValue
-    
-    // }}}
-    // {{{ freeze()
-
-    /**
-     * Freeze the element so that only its value is returned
-     * 
-     * @access    public
-     * @return    void
-     */
-    function freeze()
-    {
-        $this->_flagFrozen = true;
-    } //end func freeze
-
-    // }}}
-    // {{{ unfreeze()
-
-   /**
-    * Unfreezes the element so that it becomes editable
-    *
-    * @access public
-    * @return void
-    * @since  3.2.4
-    */
-    function unfreeze()
-    {
-        $this->_flagFrozen = false;
     }
-
-    // }}}
-    // {{{ getFrozenHtml()
-
-    /**
-     * Returns the value of field without HTML tags
-     * 
-     * @since     1.0
-     * @access    public
-     * @return    string
-     */
-    function getFrozenHtml()
-    {
-        $value = $this->getValue();
-        return ('' != $value? htmlspecialchars($value): '&nbsp;') .
-               $this->_getPersistantData();
-    } //end func getFrozenHtml
-    
-    // }}}
-    // {{{ _getPersistantData()
-
-   /**
-    * Used by getFrozenHtml() to pass the element's value if _persistantFreeze is on
-    * 
-    * @access private
-    * @return string
-    */
-    function _getPersistantData()
-    {
-        if (!$this->_persistantFreeze) {
-            return '';
-        } else {
-            $id = $this->getAttribute('id');
-            if (isset($id)) {
-                // Id of persistant input is different then the actual input.
-                $id = array('id' => $id . '_persistant');
-            } else {
-                $id = array();
-            }
-
-            return '<input' . $this->_getAttrString(array(
-                       'type'  => 'hidden',
-                       'name'  => $this->getName(),
-                       'value' => $this->getValue()
-                   ) + $id) . ' />';
-        }
-    }
-
-    // }}}
-    // {{{ isFrozen()
-
-    /**
-     * Returns whether or not the element is frozen
-     *
-     * @since     1.3
-     * @access    public
-     * @return    bool
-     */
-    function isFrozen()
-    {
-        return $this->_flagFrozen;
-    } // end func isFrozen
-
-    // }}}
-    // {{{ setPersistantFreeze()
-
-    /**
-     * Sets wether an element value should be kept in an hidden field
-     * when the element is frozen or not
-     * 
-     * @param     bool    $persistant   True if persistant value
-     * @since     2.0
-     * @access    public
-     * @return    void
-     */
-    function setPersistantFreeze($persistant=false)
-    {
-        $this->_persistantFreeze = $persistant;
-    } //end func setPersistantFreeze
-
-    // }}}
-    // {{{ setLabel()
-
-    /**
-     * Sets display text for the element
-     * 
-     * @param     string    $label  Display text for the element
-     * @since     1.3
-     * @access    public
-     * @return    void
-     */
-    function setLabel($label)
-    {
-        $this->_label = $label;
-    } //end func setLabel
-
-    // }}}
-    // {{{ getLabel()
-
-    /**
-     * Returns display text for the element
-     * 
-     * @since     1.3
-     * @access    public
-     * @return    string
-     */
-    function getLabel()
-    {
-        return $this->_label;
-    } //end func getLabel
-
-    // }}}
-    // {{{ _findValue()
 
     /**
      * Tries to find the element value from the values array
-     * 
-     * @since     2.7
-     * @access    private
-     * @return    mixed
      */
-    function _findValue(&$values)
+    protected function _findValue($values)
     {
-        if (empty($values)) {
+        if (empty($values))
+        {
             return null;
         }
         $elementName = $this->getName();
-        if (isset($values[$elementName])) {
+        if (isset($values[$elementName]))
+        {
             return $values[$elementName];
-        } elseif (strpos($elementName, '[')) {
-            $myVar = "['" . str_replace(array(']', '['), array('', "']['"), $elementName) . "']";
+        }
+        elseif (strpos($elementName, '['))
+        {
+            $myVar = "['" . str_replace([']', '['], ['', "']['"], $elementName) . "']";
+
             return eval("return (isset(\$values$myVar)) ? \$values$myVar : null;");
-        } else {
+        }
+        else
+        {
             return null;
         }
-    } //end func _findValue
+    }
 
-    // }}}
-    // {{{ onQuickFormEvent()
+    /**
+     * Automatically generates and assigns an 'id' attribute for the element. Currently used to ensure that labels work
+     * on radio buttons and checkboxes. Per idea of Alexander Radivanovich.
+     */
+    protected function _generateId()
+    {
+        static $idx = 1;
+
+        if (!$this->getAttribute('id'))
+        {
+            $this->updateAttributes(['id' => 'qf_' . substr(md5(microtime() . $idx ++), 0, 6)]);
+        }
+    }
+
+    /**
+     * Used by getFrozenHtml() to pass the element's value if _persistantFreeze is on
+     */
+    public function _getPersistantData(): string
+    {
+        if (!$this->_persistantFreeze)
+        {
+            return '';
+        }
+        else
+        {
+            $id = $this->getAttribute('id');
+            if (isset($id))
+            {
+                // Id of persistant input is different then the actual input.
+                $id = ['id' => $id . '_persistant'];
+            }
+            else
+            {
+                $id = [];
+            }
+
+            return '<input' . $this->_getAttrString(
+                    [
+                        'type' => 'hidden',
+                        'name' => $this->getName(),
+                        'value' => $this->getValue()
+                    ] + $id
+                ) . ' />';
+        }
+    }
+
+    /**
+     * Used by exportValue() to prepare the value for returning
+     *
+     * @param mixed $value the value found in exportValue()
+     * @param bool $assoc  whether to return the value as associative array
+     *
+     * @return mixed
+     */
+    protected function _prepareValue($value, bool $assoc)
+    {
+        if (null === $value)
+        {
+            return null;
+        }
+        elseif (!$assoc)
+        {
+            return $value;
+        }
+        else
+        {
+            $name = $this->getName();
+            if (!strpos($name, '['))
+            {
+                return [$name => $value];
+            }
+            else
+            {
+                $valueAry = [];
+                $myIndex = "['" . str_replace([']', '['], ['', "']['"], $name) . "']";
+                eval("\$valueAry$myIndex = \$value;");
+
+                return $valueAry;
+            }
+        }
+    }
+
+    /**
+     * Accepts a renderer
+     *
+     * @param HTML_QuickForm_Renderer $renderer An HTML_QuickForm_Renderer object
+     * @param bool $required                    Whether an element is required
+     * @param ?string $error                    An error message associated with an element
+     */
+    public function accept(HTML_QuickForm_Renderer $renderer, bool $required = false, ?string $error = null)
+    {
+        $renderer->renderElement($this, $required, $error);
+    }
+
+    /**
+     * Returns a 'safe' element's value
+     *
+     * @param array $submitValues array of submitted values to search
+     * @param bool $assoc         whether to return the value as associative array
+     */
+    public function exportValue(array $submitValues, bool $assoc = false)
+    {
+        $value = $this->_findValue($submitValues);
+        if (null === $value)
+        {
+            $value = $this->getValue();
+        }
+
+        return $this->_prepareValue($value, $assoc);
+    }
+
+    /**
+     * Freeze the element so that only its value is returned
+     */
+    public function freeze()
+    {
+        $this->_flagFrozen = true;
+    }
+
+    /**
+     * Returns the value of field without HTML tags
+     */
+    public function getFrozenHtml(): string
+    {
+        $value = $this->getValue();
+
+        return ('' != $value ? htmlspecialchars($value) : '&nbsp;') . $this->_getPersistantData();
+    }
+
+    public function getLabel(): string
+    {
+        return $this->_label;
+    }
+
+    public function setLabel(string $label)
+    {
+        $this->_label = $label;
+    }
+
+    abstract public function getName(): string;
+
+    public function getType(): string
+    {
+        return $this->_type;
+    }
+
+    abstract public function getValue();
+
+    public function isFrozen(): bool
+    {
+        return $this->_flagFrozen;
+    }
 
     /**
      * Called by HTML_QuickForm whenever form event is made on this element
      *
-     * @param     string    $event  Name of event
-     * @param     mixed     $arg    event arguments
-     * @param     object    $caller calling object
-     * @since     1.0
-     * @access    public
-     * @return    void
+     * @param string $event  Name of event
+     * @param mixed $arg     event arguments
+     * @param object $caller calling object
      */
-    function onQuickFormEvent($event, $arg, &$caller)
+    public function onQuickFormEvent(string $event, $arg, object $caller)
     {
-        switch ($event) {
+        switch ($event)
+        {
             case 'createElement':
                 static::__construct($arg[0], $arg[1], $arg[2], $arg[3], $arg[4]);
                 break;
@@ -358,109 +253,45 @@ class HTML_QuickForm_element extends HTML_Common
                 // constant values override both default and submitted ones
                 // default values are overriden by submitted
                 $value = $this->_findValue($caller->_constantValues);
-                if (null === $value) {
+                if (null === $value)
+                {
                     $value = $this->_findValue($caller->_submitValues);
-                    if (null === $value) {
+                    if (null === $value)
+                    {
                         $value = $this->_findValue($caller->_defaultValues);
                     }
                 }
-                if (null !== $value) {
+                if (null !== $value)
+                {
                     $this->setValue($value);
                 }
                 break;
             case 'setGroupValue':
                 $this->setValue($arg);
         }
+
         return true;
-    } // end func onQuickFormEvent
-
-    // }}}
-    // {{{ accept()
-
-   /**
-    * Accepts a renderer
-    *
-    * @param object     An HTML_QuickForm_Renderer object
-    * @param bool       Whether an element is required
-    * @param string     An error message associated with an element
-    * @access public
-    * @return void 
-    */
-    function accept(&$renderer, $required=false, $error=null)
-    {
-        $renderer->renderElement($this, $required, $error);
-    } // end func accept
-
-    // }}}
-    // {{{ _generateId()
-
-   /**
-    * Automatically generates and assigns an 'id' attribute for the element.
-    * 
-    * Currently used to ensure that labels work on radio buttons and
-    * checkboxes. Per idea of Alexander Radivanovich.
-    *
-    * @access private
-    * @return void 
-    */
-    function _generateId() {
-        static $idx = 1;
-        
-        if (!$this->getAttribute('id')) {
-            $this->updateAttributes(array('id' => 'qf_' . substr(md5(microtime() . $idx++), 0, 6)));
-        }
     }
 
-    // }}}
-    // {{{ exportValue()
+    abstract public function setName(string $name);
 
-   /**
-    * Returns a 'safe' element's value
-    *
-    * @param  array   array of submitted values to search
-    * @param  bool    whether to return the value as associative array
-    * @access public
-    * @return mixed
-    */
-    function exportValue(&$submitValues, $assoc = false)
+    /**
+     * Sets wether an element value should be kept in an hidden field
+     * when the element is frozen or not
+     */
+    public function setPersistantFreeze(bool $persistant = false)
     {
-        $value = $this->_findValue($submitValues);
-        if (null === $value) {
-            $value = $this->getValue();
-        }
-        return $this->_prepareValue($value, $assoc);
+        $this->_persistantFreeze = $persistant;
     }
-    
-    // }}}
-    // {{{ _prepareValue()
 
-   /**
-    * Used by exportValue() to prepare the value for returning
-    *
-    * @param  mixed   the value found in exportValue()
-    * @param  bool    whether to return the value as associative array
-    * @access private
-    * @return mixed
-    */
-    function _prepareValue($value, $assoc)
+    abstract public function setValue($value);
+
+    /**
+     * Unfreezes the element so that it becomes editable
+     */
+    public function unfreeze()
     {
-        if (null === $value) {
-            return null;
-        } elseif (!$assoc) {
-            return $value;
-        } else {
-            $name = $this->getName();
-            if (!strpos($name, '[')) {
-                return array($name => $value);
-            } else {
-                $valueAry = array();
-                $myIndex  = "['" . str_replace(array(']', '['), array('', "']['"), $name) . "']";
-                eval("\$valueAry$myIndex = \$value;");
-                return $valueAry;
-            }
-        }
+        $this->_flagFrozen = false;
     }
-    
-    // }}}
-} // end class HTML_QuickForm_element
-?>
+
+}

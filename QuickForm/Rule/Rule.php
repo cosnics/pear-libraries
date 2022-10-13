@@ -1,5 +1,4 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
 // | PHP version 4.0                                                      |
 // +----------------------------------------------------------------------+
@@ -15,53 +14,35 @@
 // +----------------------------------------------------------------------+
 // | Authors: Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 class HTML_QuickForm_Rule
 {
-   /**
-    * Name of the rule to use in validate method
-    *
-    * This property is used in more global rules like Callback and Regex
-    * to determine which callback and which regex is to be used for validation
-    *
-    * @var  string
-    * @access   public
-    */
-    var $name;
-
-   /**
-    * Validates a value
-    *
-    * @access public
-    * @abstract
-    */
-    function validate($value, $options = null)
-    {
-        return true;
-    }
-
-   /**
-    * Sets the rule name
-    *
-    * @access public
-    */
-    function setName($ruleName)
-    {
-        $this->name = $ruleName;
-    }
+    /**
+     * Name of the rule to use in validate method
+     * This property is used in more global rules like Callback and Regex
+     * to determine which callback and which regex is to be used for validation
+     */
+    public string $name;
 
     /**
      * Returns the javascript test (the test should return true if the value is INVALID)
      *
-     * @param     mixed     Options for the rule
-     * @access    public
-     * @return    array     first element is code to setup validation, second is the check itself
+     * @param ?mixed $options Options for the rule
+     *
+     * @return array first element is code to setup validation, second is the check itself
      */
-    function getValidationScript($options = null)
+    public function getValidationScript($options = null): array
     {
-        return array('', '');
+        return ['', ''];
+    }
+
+    public function setName($ruleName)
+    {
+        $this->name = $ruleName;
+    }
+
+    public function validate($value, $options = null): bool
+    {
+        return true;
     }
 }
-?>

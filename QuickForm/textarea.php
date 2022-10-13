@@ -1,5 +1,5 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
+
 // +----------------------------------------------------------------------+
 // | PHP version 4.0                                                      |
 // +----------------------------------------------------------------------+
@@ -16,12 +16,10 @@
 // | Authors: Adam Daniel <adaniel1@eesus.jnj.com>                        |
 // |          Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 /**
  * HTML class for a textarea type field
- * 
+ *
  * @author       Adam Daniel <adaniel1@eesus.jnj.com>
  * @author       Bertrand Mansion <bmansion@mamasam.com>
  * @version      1.0
@@ -30,190 +28,170 @@
  */
 class HTML_QuickForm_textarea extends HTML_QuickForm_element
 {
-    // {{{ properties
 
     /**
      * Field value
+     *
      * @var       string
      * @since     1.0
      * @access    private
      */
-    var $_value = null;
+    public $_value = null;
 
-    // }}}
-    // {{{ constructor
-        
     /**
      * Class constructor
-     * 
-     * @param     string    Input field name attribute
-     * @param     mixed     Label(s) for a field
-     * @param     mixed     Either a typical HTML attribute string or an associative array
+     *
+     * @param string    Input field name attribute
+     * @param mixed     Label(s) for a field
+     * @param mixed     Either a typical HTML attribute string or an associative array
+     *
+     * @return    void
      * @since     1.0
      * @access    public
-     * @return    void
      */
-    public function __construct($elementName=null, $elementLabel=null, $attributes=null) {
+    public function __construct($elementName = null, $elementLabel = null, $attributes = null)
+    {
         parent::__construct($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = true;
         $this->_type = 'textarea';
-    } //end constructor
-
-    // }}}
-    // {{{ setName()
+    }
 
     /**
-     * Sets the input field name
-     * 
-     * @param     string    $name   Input field name attribute
+     * Returns the value of field without HTML tags (in this case, value is changed to a mask)
+     *
+     * @return    string
      * @since     1.0
      * @access    public
-     * @return    void
      */
-    function setName($name)
+    public function getFrozenHtml()
     {
-        $this->updateAttributes(array('name'=>$name));
-    } //end func setName
-    
-    // }}}
-    // {{{ getName()
+        $value = htmlspecialchars($this->getValue());
+        if ($this->getAttribute('wrap') == 'off')
+        {
+            $html = $this->_getTabs() . '<pre>' . $value . "</pre>\n";
+        }
+        else
+        {
+            $html = nl2br($value) . "\n";
+        }
+
+        return $html . $this->_getPersistantData();
+    }
 
     /**
      * Returns the element name
-     * 
+     *
+     * @return    string
      * @since     1.0
      * @access    public
-     * @return    string
      */
-    function getName()
+    public function getName()
     {
         return $this->getAttribute('name');
-    } //end func getName
-
-    // }}}
-    // {{{ setValue()
-
-    /**
-     * Sets value for textarea element
-     * 
-     * @param     string    $value  Value for textarea element
-     * @since     1.0
-     * @access    public
-     * @return    void
-     */
-    function setValue($value)
-    {
-        $this->_value = $value;
-    } //end func setValue
-    
-    // }}}
-    // {{{ getValue()
+    }
 
     /**
      * Returns the value of the form element
      *
+     * @return    string
      * @since     1.0
      * @access    public
-     * @return    string
      */
-    function getValue()
+    public function getValue()
     {
         return $this->_value;
-    } // end func getValue
-
-    // }}}
-    // {{{ setWrap()
+    }
 
     /**
-     * Sets wrap type for textarea element
-     * 
-     * @param     string    $wrap  Wrap type
+     * Sets value for textarea element
+     *
+     * @param string $value Value for textarea element
+     *
+     * @return    void
      * @since     1.0
      * @access    public
-     * @return    void
      */
-    function setWrap($wrap)
+    public function setValue($value)
     {
-        $this->updateAttributes(array('wrap' => $wrap));
-    } //end func setWrap
-    
-    // }}}
-    // {{{ setRows()
-
-    /**
-     * Sets height in rows for textarea element
-     * 
-     * @param     string    $rows  Height expressed in rows
-     * @since     1.0
-     * @access    public
-     * @return    void
-     */
-    function setRows($rows)
-    {
-        $this->updateAttributes(array('rows' => $rows));
-    } //end func setRows
-
-    // }}}
-    // {{{ setCols()
+        $this->_value = $value;
+    }
 
     /**
      * Sets width in cols for textarea element
-     * 
-     * @param     string    $cols  Width expressed in cols
+     *
+     * @param string $cols Width expressed in cols
+     *
+     * @return    void
      * @since     1.0
      * @access    public
-     * @return    void
-     */ 
-    function setCols($cols)
+     */
+    public function setCols($cols)
     {
-        $this->updateAttributes(array('cols' => $cols));
-    } //end func setCols
+        $this->updateAttributes(['cols' => $cols]);
+    }
 
-    // }}}
-    // {{{ toHtml()
+    /**
+     * Sets the input field name
+     *
+     * @param string $name Input field name attribute
+     *
+     * @return    void
+     * @since     1.0
+     * @access    public
+     */
+    public function setName($name)
+    {
+        $this->updateAttributes(['name' => $name]);
+    }
+
+    /**
+     * Sets height in rows for textarea element
+     *
+     * @param string $rows Height expressed in rows
+     *
+     * @return    void
+     * @since     1.0
+     * @access    public
+     */
+    public function setRows($rows)
+    {
+        $this->updateAttributes(['rows' => $rows]);
+    }
+
+    /**
+     * Sets wrap type for textarea element
+     *
+     * @param string $wrap Wrap type
+     *
+     * @return    void
+     * @since     1.0
+     * @access    public
+     */
+    public function setWrap($wrap)
+    {
+        $this->updateAttributes(['wrap' => $wrap]);
+    }
 
     /**
      * Returns the textarea element in HTML
-     * 
+     *
+     * @return    string
      * @since     1.0
      * @access    public
-     * @return    string
      */
-    function toHtml()
+    public function toHtml()
     {
-        if ($this->_flagFrozen) {
+        if ($this->_flagFrozen)
+        {
             return $this->getFrozenHtml();
-        } else {
-            return $this->_getTabs() .
-                   '<textarea' . $this->_getAttrString($this->_attributes) . '>' .
-                   // because we wrap the form later we don't want the text indented
-                   preg_replace("/(\r\n|\n|\r)/", '&#010;', htmlspecialchars($this->_value)) .
-                   '</textarea>';
         }
-    } //end func toHtml
-    
-    // }}}
-    // {{{ getFrozenHtml()
-
-    /**
-     * Returns the value of field without HTML tags (in this case, value is changed to a mask)
-     * 
-     * @since     1.0
-     * @access    public
-     * @return    string
-     */
-    function getFrozenHtml()
-    {
-        $value = htmlspecialchars($this->getValue());
-        if ($this->getAttribute('wrap') == 'off') {
-            $html = $this->_getTabs() . '<pre>' . $value."</pre>\n";
-        } else {
-            $html = nl2br($value)."\n";
+        else
+        {
+            return $this->_getTabs() . '<textarea' . $this->_getAttrString($this->_attributes) . '>' .
+                // because we wrap the form later we don't want the text indented
+                preg_replace("/(\r\n|\n|\r)/", '&#010;', htmlspecialchars($this->_value)) . '</textarea>';
         }
-        return $html . $this->_getPersistantData();
-    } //end func getFrozenHtml
+    }
 
-    // }}}
+}
 
-} //end class HTML_QuickForm_textarea
-?>

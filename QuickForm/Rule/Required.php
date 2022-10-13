@@ -1,5 +1,4 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
 // | PHP version 4.0                                                      |
 // +----------------------------------------------------------------------+
@@ -15,36 +14,28 @@
 // +----------------------------------------------------------------------+
 // | Authors: Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 /**
-* Required elements validation
-* @version     1.0
-*/
+ * Required elements validation
+ */
 class HTML_QuickForm_Rule_Required extends HTML_QuickForm_Rule
 {
+    public function getValidationScript($options = null): array
+    {
+        return ['', "{jsVar} == ''"];
+    }
+
     /**
      * Checks if an element is empty
-     *
-     * @param     string    $value      Value to check
-     * @param     mixed     $options    Not used yet
-     * @access    public
-     * @return    boolean   true if value is not empty
      */
-    function validate($value, $options = null)
+    public function validate($value, $options = null): bool
     {
-        if ((string)$value == '') {
+        if ((string) $value == '')
+        {
             return false;
         }
+
         return true;
-    } // end func validate
+    }
 
-
-    function getValidationScript($options = null)
-    {
-        return array('', "{jsVar} == ''");
-    } // end func getValidationScript
-
-} // end class HTML_QuickForm_Rule_Required
-?>
+}

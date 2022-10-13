@@ -1,5 +1,5 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
+
 // +----------------------------------------------------------------------+
 // | PHP version 4.0                                                      |
 // +----------------------------------------------------------------------+
@@ -16,12 +16,10 @@
 // | Authors: Adam Daniel <adaniel1@eesus.jnj.com>                        |
 // |          Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 /**
  * HTML class for a submit type element
- * 
+ *
  * @author       Adam Daniel <adaniel1@eesus.jnj.com>
  * @author       Bertrand Mansion <bmansion@mamasam.com>
  * @version      1.0
@@ -30,50 +28,44 @@
  */
 class HTML_QuickForm_submit extends HTML_QuickForm_input
 {
-    // {{{ constructor
 
     /**
      * Class constructor
-     * 
-     * @param     string    Input field name attribute
-     * @param     string    Input field value
-     * @param     mixed     Either a typical HTML attribute string or an associative array
+     *
+     * @param string    Input field name attribute
+     * @param string    Input field value
+     * @param mixed     Either a typical HTML attribute string or an associative array
+     *
+     * @return    void
      * @since     1.0
      * @access    public
-     * @return    void
      */
-    public function __construct($elementName=null, $value=null, $attributes=null) {
+    public function __construct($elementName = null, $value = null, $attributes = null)
+    {
         parent::__construct($elementName, null, $attributes);
         $this->setValue($value);
         $this->setType('submit');
-    } //end constructor
-
-    // }}}
-    // {{{ freeze()
+    }
 
     /**
-     * Freeze the element so that only its value is returned
-     * 
-     * @access    public
-     * @return    void
+     * Only return the value if it is found within $submitValues (i.e. if
+     * this particular submit button was clicked)
      */
-    function freeze()
-    {
-        return false;
-    } //end func freeze
-
-    // }}}
-    // {{{ exportValue()
-
-   /**
-    * Only return the value if it is found within $submitValues (i.e. if
-    * this particular submit button was clicked)
-    */
-    function exportValue(&$submitValues, $assoc = false)
+    public function exportValue(&$submitValues, $assoc = false)
     {
         return $this->_prepareValue($this->_findValue($submitValues), $assoc);
     }
 
-    // }}}
-} //end class HTML_QuickForm_submit
-?>
+    /**
+     * Freeze the element so that only its value is returned
+     *
+     * @access    public
+     * @return    void
+     */
+    public function freeze()
+    {
+        return false;
+    }
+
+}
+

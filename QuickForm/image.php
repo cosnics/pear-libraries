@@ -1,5 +1,5 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
+
 // +----------------------------------------------------------------------+
 // | PHP version 4.0                                                      |
 // +----------------------------------------------------------------------+
@@ -16,12 +16,10 @@
 // | Authors: Adam Daniel <adaniel1@eesus.jnj.com>                        |
 // |          Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 /**
  * HTML class for a image type element
- * 
+ *
  * @author       Adam Daniel <adaniel1@eesus.jnj.com>
  * @author       Bertrand Mansion <bmansion@mamasam.com>
  * @version      1.0
@@ -30,88 +28,78 @@
  */
 class HTML_QuickForm_image extends HTML_QuickForm_input
 {
-    // {{{ constructor
 
     /**
      * Class constructor
-     * 
-     * @param     string    $elementName    (optional)Element name attribute
-     * @param     string    $src            (optional)Image source
-     * @param     mixed     $attributes     (optional)Either a typical HTML attribute string 
+     *
+     * @param string $elementName           (optional)Element name attribute
+     * @param string $src                   (optional)Image source
+     * @param mixed $attributes             (optional)Either a typical HTML attribute string
      *                                      or an associative array
+     *
+     * @return    void
      * @since     1.0
      * @access    public
-     * @return    void
      */
-    public function __construct($elementName=null, $src='', $attributes=null) {
+    public function __construct($elementName = null, $src = '', $attributes = null)
+    {
         parent::__construct($elementName, null, $attributes);
         $this->setType('image');
         $this->setSource($src);
     } // end class constructor
 
-    // }}}
-    // {{{ setSource()
-
     /**
      * Sets source for image element
-     * 
-     * @param     string    $src  source for image element
+     *
+     * @param string $src source for image element
+     *
+     * @return    void
      * @since     1.0
      * @access    public
-     * @return    void
      */
-    function setSource($src)
+    public function setSource($src)
     {
-        $this->updateAttributes(array('src' => $src));
-    } // end func setSource
-
-    // }}}
-    // {{{ setBorder()
+        $this->updateAttributes(['src' => $src]);
+    }
 
     /**
      * Sets border size for image element
-     * 
-     * @param     string    $border  border for image element
+     *
+     * @param string $border border for image element
+     *
+     * @return    void
      * @since     1.0
      * @access    public
-     * @return    void
      */
-    function setBorder($border)
+    public function setBorder($border)
     {
-        $this->updateAttributes(array('border' => $border));
-    } // end func setBorder
-
-    // }}}
-    // {{{ setAlign()
+        $this->updateAttributes(['border' => $border]);
+    }
 
     /**
      * Sets alignment for image element
-     * 
-     * @param     string    $align  alignment for image element
+     *
+     * @param string $align alignment for image element
+     *
+     * @return    void
      * @since     1.0
      * @access    public
-     * @return    void
      */
-    function setAlign($align)
+    public function setAlign($align)
     {
-        $this->updateAttributes(array('align' => $align));
-    } // end func setAlign
-
-    // }}}
-    // {{{ freeze()
+        $this->updateAttributes(['align' => $align]);
+    }
 
     /**
      * Freeze the element so that only its value is returned
-     * 
+     *
      * @access    public
      * @return    void
      */
-    function freeze()
+    public function freeze()
     {
         return false;
-    } //end func freeze
-
-    // }}}
+    }
 
 } // end class HTML_QuickForm_image
-?>
+

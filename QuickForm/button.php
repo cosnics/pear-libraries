@@ -1,5 +1,5 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
+
 // +----------------------------------------------------------------------+
 // | PHP version 4.0                                                      |
 // +----------------------------------------------------------------------+
@@ -16,12 +16,10 @@
 // | Authors: Adam Daniel <adaniel1@eesus.jnj.com>                        |
 // |          Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 /**
  * HTML class for a button type element
- * 
+ *
  * @author       Adam Daniel <adaniel1@eesus.jnj.com>
  * @author       Bertrand Mansion <bmansion@mamasam.com>
  * @version      1.1
@@ -30,41 +28,37 @@
  */
 class HTML_QuickForm_button extends HTML_QuickForm_input
 {
-    // {{{ constructor
 
     /**
      * Class constructor
-     * 
-     * @param     string    $elementName    (optional)Input field name attribute
-     * @param     string    $value          (optional)Input field value
-     * @param     mixed     $attributes     (optional)Either a typical HTML attribute string 
+     *
+     * @param string $elementName           (optional)Input field name attribute
+     * @param string $value                 (optional)Input field value
+     * @param mixed $attributes             (optional)Either a typical HTML attribute string
      *                                      or an associative array
+     *
+     * @return    void
      * @since     1.0
      * @access    public
-     * @return    void
      */
-    public function __construct($elementName=null, $value=null, $attributes=null) {
+    public function __construct($elementName = null, $value = null, $attributes = null)
+    {
         parent::__construct($elementName, null, $attributes);
         $this->_persistantFreeze = false;
         $this->setValue($value);
         $this->setType('button');
-    } //end constructor
-    
-    // }}}
-    // {{{ freeze()
+    }
 
     /**
      * Freeze the element so that only its value is returned
-     * 
+     *
      * @access    public
      * @return    void
      */
-    function freeze()
+    public function freeze()
     {
         return false;
-    } //end func freeze
+    }
 
-    // }}}
- 
-} //end class HTML_QuickForm_button
-?>
+}
+

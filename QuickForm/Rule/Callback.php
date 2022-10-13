@@ -1,5 +1,4 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
 // | PHP version 4.0                                                      |
 // +----------------------------------------------------------------------+
@@ -15,97 +14,94 @@
 // +----------------------------------------------------------------------+
 // | Authors: Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 /**
-* Validates values using callback functions or methods
-* @version     1.0
-*/
+ * Validates values using callback functions or methods
+ */
 class HTML_QuickForm_Rule_Callback extends HTML_QuickForm_Rule
 {
     /**
+     * Whether to use BC mode for specific rules
+     * Previous versions of QF passed element's name as a first parameter
+     * to validation functions, but not to validation methods. This behaviour
+     * is emulated if you are using 'function' as rule type when registering.
+     */
+    protected array $_BCMode = [];
+
+    /**
      * Array of callbacks
-     *
      * Array is in the format:
      * $_data['rulename'] = array('functionname', 'classname');
      * If the callback is not a method, then the class name is not set.
      *
-     * @var     array
-     * @access  private
+     * @var callable[]
      */
-    var $_data = array();
+    protected array $_data = [];
 
-   /**
-    * Whether to use BC mode for specific rules
-    * 
-    * Previous versions of QF passed element's name as a first parameter
-    * to validation functions, but not to validation methods. This behaviour
-    * is emulated if you are using 'function' as rule type when registering.
-    * 
-    * @var array
-    * @access private
-    */
-    var $_BCMode = array();
+    /**
+     * Adds new callbacks to the callbacks list
+     */
+    public function addData(string $name, string $callback, string $class = null, bool $BCMode = false)
+    {
+        if (!empty($class))
+        {
+            $this->_data[$name] = [$callback, $class];
+        }
+        else
+        {
+            $this->_data[$name] = [$callback];
+        }
+        $this->_BCMode[$name] = $BCMode;
+    }
+
+    public function getValidationScript($options = null): array
+    {
+        if (isset($this->_data[$this->name]))
+        {
+            $callback = $this->_data[$this->name][0];
+            $params =
+                ($this->_BCMode[$this->name] ? "'', {jsVar}" : '{jsVar}') . (isset($options) ? ", '{$options}'" : '');
+        }
+        else
+        {
+            $callback = is_array($options) ? $options[1] : $options;
+            $params = '{jsVar}';
+        }
+
+        return ['', "{jsVar} != '' && !{$callback}({$params})"];
+    }
 
     /**
      * Validates a value using a callback
      *
-     * @param     string    $value      Value to be checked
-     * @param     mixed     $options    Options for callback
-     * @access    public
-     * @return    boolean   true if value is valid
+     * @param string $value  Value to be checked
+     * @param mixed $options Options for callback
      */
-    function validate($value, $options = null)
+    public function validate($value, $options = null): bool
     {
-        if (isset($this->_data[$this->name])) {
+        if (isset($this->_data[$this->name]))
+        {
             $callback = $this->_data[$this->name];
-            if (isset($callback[1])) {
-                return call_user_func(array($callback[1], $callback[0]), $value, $options);
-            } elseif ($this->_BCMode[$this->name]) {
+            if (isset($callback[1]))
+            {
+                return call_user_func([$callback[1], $callback[0]], $value, $options);
+            }
+            elseif ($this->_BCMode[$this->name])
+            {
                 return $callback[0]('', $value, $options);
-            } else {
+            }
+            else
+            {
                 return $callback[0]($value, $options);
             }
-        } elseif (is_callable($options)) {
+        }
+        elseif (is_callable($options))
+        {
             return call_user_func($options, $value);
-        } else {
+        }
+        else
+        {
             return true;
         }
-    } // end func validate
-
-    /**
-     * Adds new callbacks to the callbacks list
-     *
-     * @param     string    $name       Name of rule
-     * @param     string    $callback   Name of function or method
-     * @param     string    $class      Name of class containing the method
-     * @param     bool      $BCMode     Backwards compatibility mode 
-     * @access    public
-     */
-    function addData($name, $callback, $class = null, $BCMode = false)
-    {
-        if (!empty($class)) {
-            $this->_data[$name] = array($callback, $class);
-        } else {
-            $this->_data[$name] = array($callback);
-        }
-        $this->_BCMode[$name] = $BCMode;
-    } // end func addData
-
-
-    function getValidationScript($options = null)
-    {
-        if (isset($this->_data[$this->name])) {
-            $callback = $this->_data[$this->name][0];
-            $params   = ($this->_BCMode[$this->name]? "'', {jsVar}": '{jsVar}') .
-                        (isset($options)? ", '{$options}'": '');
-        } else {
-            $callback = is_array($options)? $options[1]: $options;
-            $params   = '{jsVar}';
-        }
-        return array('', "{jsVar} != '' && !{$callback}({$params})");
-    } // end func getValidationScript
-
-} // end class HTML_QuickForm_Rule_Callback
-?>
+    }
+}

@@ -1,5 +1,5 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
+
 // +----------------------------------------------------------------------+
 // | PHP version 4.0                                                      |
 // +----------------------------------------------------------------------+
@@ -16,12 +16,10 @@
 // | Authors: Adam Daniel <adaniel1@eesus.jnj.com>                        |
 // |          Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 /**
  * HTML class for a checkbox type field
- * 
+ *
  * @author       Adam Daniel <adaniel1@eesus.jnj.com>
  * @author       Bertrand Mansion <bmansion@mamasam.com>
  * @version      1.1
@@ -30,209 +28,202 @@
  */
 class HTML_QuickForm_checkbox extends HTML_QuickForm_input
 {
-    // {{{ properties
 
     /**
      * Checkbox display text
+     *
      * @var       string
      * @since     1.1
      * @access    private
      */
     var $_text = '';
 
-    // }}}
-    // {{{ constructor
-
     /**
      * Class constructor
-     * 
-     * @param     string    $elementName    (optional)Input field name attribute
-     * @param     string    $elementLabel   (optional)Input field value
-     * @param     string    $text           (optional)Checkbox display text
-     * @param     mixed     $attributes     (optional)Either a typical HTML attribute string 
+     *
+     * @param string $elementName           (optional)Input field name attribute
+     * @param string $elementLabel          (optional)Input field value
+     * @param string $text                  (optional)Checkbox display text
+     * @param mixed $attributes             (optional)Either a typical HTML attribute string
      *                                      or an associative array
+     *
+     * @return    void
      * @since     1.0
      * @access    public
-     * @return    void
      */
-    public function __construct($elementName=null, $elementLabel=null, $text='', $attributes=null) {
+    public function __construct($elementName = null, $elementLabel = null, $text = '', $attributes = null)
+    {
         parent::__construct($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = true;
         $this->_text = $text;
         $this->setType('checkbox');
-        $this->updateAttributes(array('value'=>1));
-    } //end constructor
-
-    // }}}
-    // {{{ setChecked()
+        $this->updateAttributes(['value' => 1]);
+    }
 
     /**
      * Sets whether a checkbox is checked
-     * 
-     * @param     bool    $checked  Whether the field is checked or not
+     *
+     * @param bool $checked Whether the field is checked or not
+     *
+     * @return    void
      * @since     1.0
      * @access    public
-     * @return    void
      */
     function setChecked($checked)
     {
-        if (!$checked) {
+        if (!$checked)
+        {
             $this->removeAttribute('checked');
-        } else {
-            $this->updateAttributes(array('checked'=>'checked'));
         }
-    } //end func setChecked
-
-    // }}}
-    // {{{ getChecked()
+        else
+        {
+            $this->updateAttributes(['checked' => 'checked']);
+        }
+    }
 
     /**
      * Returns whether a checkbox is checked
-     * 
+     *
+     * @return    bool
      * @since     1.0
      * @access    public
-     * @return    bool
      */
     function getChecked()
     {
-        return (bool)$this->getAttribute('checked');
-    } //end func getChecked
-    
-    // }}}
-    // {{{ toHtml()
+        return (bool) $this->getAttribute('checked');
+    }
 
     /**
      * Returns the checkbox element in HTML
-     * 
+     *
+     * @return    string
      * @since     1.0
      * @access    public
-     * @return    string
      */
     function toHtml()
     {
         $this->_generateId(); // Seems to be necessary when this is used in a group.
-        if (0 == strlen($this->_text)) {
+        if (0 == strlen($this->_text))
+        {
             $label = '';
-        } elseif ($this->_flagFrozen) {
+        }
+        elseif ($this->_flagFrozen)
+        {
             $label = $this->_text;
-        } else {
+        }
+        else
+        {
             $label = '<label for="' . $this->getAttribute('id') . '">' . $this->_text . '</label>';
         }
+
         return HTML_QuickForm_input::toHtml() . $label;
-    } //end func toHtml
-    
-    // }}}
-    // {{{ getFrozenHtml()
+    }
 
     /**
      * Returns the value of field without HTML tags
-     * 
+     *
+     * @return    string
      * @since     1.0
      * @access    public
-     * @return    string
      */
     function getFrozenHtml()
     {
-        if ($this->getChecked()) {
-            return '<tt>[x]</tt>' .
-                   $this->_getPersistantData();
-        } else {
+        if ($this->getChecked())
+        {
+            return '<tt>[x]</tt>' . $this->_getPersistantData();
+        }
+        else
+        {
             return '<tt>[ ]</tt>';
         }
-    } //end func getFrozenHtml
-
-    // }}}
-    // {{{ setText()
+    }
 
     /**
      * Sets the checkbox text
-     * 
-     * @param     string    $text  
+     *
+     * @param string $text
+     *
+     * @return    void
      * @since     1.1
      * @access    public
-     * @return    void
      */
     function setText($text)
     {
         $this->_text = $text;
-    } //end func setText
-
-    // }}}
-    // {{{ getText()
+    }
 
     /**
-     * Returns the checkbox text 
-     * 
+     * Returns the checkbox text
+     *
+     * @return    string
      * @since     1.1
      * @access    public
-     * @return    string
      */
     function getText()
     {
         return $this->_text;
-    } //end func getText
-
-    // }}}
-    // {{{ setValue()
+    }
 
     /**
      * Sets the value of the form element
      *
-     * @param     string    $value      Default value of the form element
+     * @param string $value Default value of the form element
+     *
+     * @return    void
      * @since     1.0
      * @access    public
-     * @return    void
      */
     function setValue($value)
     {
         return $this->setChecked($value);
-    } // end func setValue
-
-    // }}}
-    // {{{ getValue()
+    }
 
     /**
      * Returns the value of the form element
      *
+     * @return    bool
      * @since     1.0
      * @access    public
-     * @return    bool
      */
     function getValue()
     {
         return $this->getChecked();
-    } // end func getValue
-
-    // }}}
-    // {{{ onQuickFormEvent()
+    }
 
     /**
      * Called by HTML_QuickForm whenever form event is made on this element
      *
-     * @param     string    $event  Name of event
-     * @param     mixed     $arg    event arguments
-     * @param     object    $caller calling object
+     * @param string $event  Name of event
+     * @param mixed $arg     event arguments
+     * @param object $caller calling object
+     *
+     * @return    void
      * @since     1.0
      * @access    public
-     * @return    void
      */
     function onQuickFormEvent($event, $arg, &$caller)
     {
-        switch ($event) {
+        switch ($event)
+        {
             case 'updateValue':
                 // constant values override both default and submitted ones
                 // default values are overriden by submitted
                 $value = $this->_findValue($caller->_constantValues);
-                if (null === $value) {
+                if (null === $value)
+                {
                     // if no boxes were checked, then there is no value in the array
                     // yet we don't want to display default value in this case
-                    if ($caller->isSubmitted()) {
+                    if ($caller->isSubmitted())
+                    {
                         $value = $this->_findValue($caller->_submitValues);
-                    } else {
+                    }
+                    else
+                    {
                         $value = $this->_findValue($caller->_defaultValues);
                     }
                 }
-                if (null !== $value) {
+                if (null !== $value)
+                {
                     $this->setChecked($value);
                 }
                 break;
@@ -242,24 +233,23 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
             default:
                 parent::onQuickFormEvent($event, $arg, $caller);
         }
+
         return true;
-    } // end func onQuickFormEvent
+    }
 
-    // }}}
-    // {{{ exportValue()
-
-   /**
-    * Return true if the checkbox is checked, null if it is not checked (getValue() returns false)
-    */
+    /**
+     * Return true if the checkbox is checked, null if it is not checked (getValue() returns false)
+     */
     function exportValue(&$submitValues, $assoc = false)
     {
         $value = $this->_findValue($submitValues);
-        if (null === $value) {
-            $value = $this->getChecked()? true: null;
+        if (null === $value)
+        {
+            $value = $this->getChecked() ? true : null;
         }
+
         return $this->_prepareValue($value, $assoc);
     }
-    
-    // }}}
-} //end class HTML_QuickForm_checkbox
-?>
+
+}
+

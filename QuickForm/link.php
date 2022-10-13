@@ -1,5 +1,5 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
+
 // +----------------------------------------------------------------------+
 // | PHP version 4.0                                                      |
 // +----------------------------------------------------------------------+
@@ -16,11 +16,10 @@
 // | Authors: Adam Daniel <adaniel1@eesus.jnj.com>                        |
 // |          Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
-//
 
 /**
  * HTML class for a link type field
- * 
+ *
  * @author       Adam Daniel <adaniel1@eesus.jnj.com>
  * @author       Bertrand Mansion <bmansion@mamasam.com>
  * @version      1.0
@@ -29,162 +28,143 @@
  */
 class HTML_QuickForm_link extends HTML_QuickForm_static
 {
-    // {{{ properties
 
     /**
      * Link display text
+     *
      * @var       string
      * @since     1.0
      * @access    private
      */
-    var $_text = "";
+    public $_text = '';
 
-    // }}}
-    // {{{ constructor
-    
     /**
      * Class constructor
-     * 
-     * @param     string    $elementLabel   (optional)Link label
-     * @param     string    $href           (optional)Link href
-     * @param     string    $text           (optional)Link display text
-     * @param     mixed     $attributes     (optional)Either a typical HTML attribute string 
+     *
+     * @param string $elementLabel          (optional)Link label
+     * @param string $href                  (optional)Link href
+     * @param string $text                  (optional)Link display text
+     * @param mixed $attributes             (optional)Either a typical HTML attribute string
      *                                      or an associative array
+     *
+     * @return    void
+     * @throws
      * @since     1.0
      * @access    public
-     * @return    void
-     * @throws    
      */
-    public function __construct($elementName=null, $elementLabel=null, $href=null, $text=null, $attributes=null) {
+    public function __construct(
+        $elementName = null, $elementLabel = null, $href = null, $text = null, $attributes = null
+    )
+    {
         // TODO MDL-52313 Replace with the call to parent::__construct().
         HTML_QuickForm_element::__construct($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = false;
         $this->_type = 'link';
         $this->setHref($href);
         $this->_text = $text;
-    } //end constructor
-
-    // }}}
-    // {{{ setName()
+    }
 
     /**
      * Sets the input field name
-     * 
-     * @param     string    $name   Input field name attribute
+     *
+     * @param string $name Input field name attribute
+     *
+     * @return    void
+     * @throws
      * @since     1.0
      * @access    public
-     * @return    void
-     * @throws    
      */
-    function setName($name)
+    public function setName($name)
     {
-        $this->updateAttributes(array('name'=>$name));
-    } //end func setName
-    
-    // }}}
-    // {{{ getName()
+        $this->updateAttributes(['name' => $name]);
+    }
 
     /**
      * Returns the element name
-     * 
+     *
+     * @return    string
+     * @throws
      * @since     1.0
      * @access    public
-     * @return    string
-     * @throws    
      */
-    function getName()
+    public function getName()
     {
         return $this->getAttribute('name');
-    } //end func getName
-
-    // }}}
-    // {{{ setValue()
+    }
 
     /**
      * Sets value for textarea element
-     * 
-     * @param     string    $value  Value for password element
+     *
+     * @param string $value Value for password element
+     *
+     * @return    void
+     * @throws
      * @since     1.0
      * @access    public
-     * @return    void
-     * @throws    
      */
-    function setValue($value)
+    public function setValue($value)
     {
         return;
-    } //end func setValue
-    
-    // }}}
-    // {{{ getValue()
+    }
 
     /**
      * Returns the value of the form element
      *
+     * @return    void
+     * @throws
      * @since     1.0
      * @access    public
-     * @return    void
-     * @throws    
      */
-    function getValue()
+    public function getValue()
     {
         return;
-    } // end func getValue
-
-    
-    // }}}
-    // {{{ setHref()
+    }
 
     /**
      * Sets the links href
      *
-     * @param     string    $href
+     * @param string $href
+     *
+     * @return    void
+     * @throws
      * @since     1.0
      * @access    public
-     * @return    void
-     * @throws    
      */
-    function setHref($href)
+    public function setHref($href)
     {
-        $this->updateAttributes(array('href'=>$href));
-    } // end func setHref
-
-    // }}}
-    // {{{ toHtml()
+        $this->updateAttributes(['href' => $href]);
+    }
 
     /**
      * Returns the textarea element in HTML
-     * 
+     *
+     * @return    string
+     * @throws
      * @since     1.0
      * @access    public
-     * @return    string
-     * @throws    
      */
-    function toHtml()
+    public function toHtml()
     {
         $tabs = $this->_getTabs();
-        $html = "$tabs<a".$this->_getAttrString($this->_attributes).">";
+        $html = "$tabs<a" . $this->_getAttrString($this->_attributes) . '>';
         $html .= $this->_text;
-        $html .= "</a>";
+        $html .= '</a>';
+
         return $html;
-    } //end func toHtml
-    
-    // }}}
-    // {{{ getFrozenHtml()
+    }
 
     /**
      * Returns the value of field without HTML tags (in this case, value is changed to a mask)
-     * 
+     *
+     * @return    string
+     * @throws
      * @since     1.0
      * @access    public
-     * @return    string
-     * @throws    
      */
-    function getFrozenHtml()
+    public function getFrozenHtml()
     {
         return;
-    } //end func getFrozenHtml
+    }
 
-    // }}}
+}
 
-} //end class HTML_QuickForm_textarea
-?>

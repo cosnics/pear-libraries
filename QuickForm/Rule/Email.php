@@ -1,5 +1,4 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
 // | PHP version 4.0                                                      |
 // +----------------------------------------------------------------------+
@@ -15,45 +14,44 @@
 // +----------------------------------------------------------------------+
 // | Authors: Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 /**
-* Email validation rule
-* @version     1.0
-*/
+ * Email validation rule
+ */
 class HTML_QuickForm_Rule_Email extends HTML_QuickForm_Rule
 {
-    var $regex = '/^((\"[^\"\f\n\r\t\v\b]+\")|([\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+(\.[\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+)*))@((\[(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))\])|(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))|((([A-Za-z0-9\-])+\.)+[A-Za-z\-]+))$/';
+    public string $regex = '/^((\"[^\"\f\n\r\t\v\b]+\")|([\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+(\.[\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+)*))@((\[(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))\])|(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))|((([A-Za-z0-9\-])+\.)+[A-Za-z\-]+))$/';
+
+    public function getValidationScript($options = null): array
+    {
+        return ['  var regex = ' . $this->regex . ";\n", "{jsVar} != '' && !regex.test({jsVar})"];
+    }
 
     /**
      * Validates an email address
      *
-     * @param     string    $email          Email address
-     * @param     boolean   $checkDomain    True if dns check should be performed
-     * @access    public
-     * @return    boolean   true if email is valid
+     * @param string $email     Email address
+     * @param bool $checkDomain True if dns check should be performed
      */
-    function validate($email, $checkDomain = false)
+    public function validate($email, $checkDomain = false): bool
     {
-        if (preg_match($this->regex, $email)) {
-            if ($checkDomain && function_exists('checkdnsrr')) {
+        if (preg_match($this->regex, $email))
+        {
+            if ($checkDomain && function_exists('checkdnsrr'))
+            {
                 $tokens = explode('@', $email);
-                if (checkdnsrr($tokens[1], 'MX') || checkdnsrr($tokens[1], 'A')) {
+                if (checkdnsrr($tokens[1], 'MX') || checkdnsrr($tokens[1], 'A'))
+                {
                     return true;
                 }
+
                 return false;
             }
+
             return true;
         }
+
         return false;
-    } // end func validate
+    }
 
-
-    function getValidationScript($options = null)
-    {
-        return array("  var regex = " . $this->regex . ";\n", "{jsVar} != '' && !regex.test({jsVar})");
-    } // end func getValidationScript
-
-} // end class HTML_QuickForm_Rule_Email
-?>
+}

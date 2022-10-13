@@ -1,5 +1,4 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
 // | PHP version 4.0                                                      |
 // +----------------------------------------------------------------------+
@@ -15,73 +14,63 @@
 // +----------------------------------------------------------------------+
 // | Authors: Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 /**
-* Validates values using regular expressions
-* @version     1.0
-*/
+ * Validates values using regular expressions
+ */
 class HTML_QuickForm_Rule_Regex extends HTML_QuickForm_Rule
 {
     /**
      * Array of regular expressions
-     *
      * Array is in the format:
      * $_data['rulename'] = 'pattern';
      *
-     * @var     array
-     * @access  private
+     * @var string[]
      */
-    var $_data = array(
-                    'lettersonly'   => '/^[a-zA-Z]+$/',
-                    'alphanumeric'  => '/^[a-zA-Z0-9]+$/',
-                    'numeric'       => '/(^-?\d\d*\.\d*$)|(^-?\d\d*$)|(^-?\.\d\d*$)/',
-                    'nopunctuation' => '/^[^().\/\*\^\?#!@$%+=,\"\'><~\[\]{}]+$/',
-                    'nonzero'       => '/^-?[1-9][0-9]*/'
-                    );
+    protected array $_data = [
+        'lettersonly' => '/^[a-zA-Z]+$/',
+        'alphanumeric' => '/^[a-zA-Z0-9]+$/',
+        'numeric' => '/(^-?\d\d*\.\d*$)|(^-?\d\d*$)|(^-?\.\d\d*$)/',
+        'nopunctuation' => '/^[^().\/\*\^\?#!@$%+=,\"\'><~\[\]{}]+$/',
+        'nonzero' => '/^-?[1-9][0-9]*/'
+    ];
+
+    /**
+     * Adds new regular expressions to the list
+     */
+    public function addData(string $name, string $pattern)
+    {
+        $this->_data[$name] = $pattern;
+    }
+
+    public function getValidationScript($options = null): array
+    {
+        $regex = $this->_data[$this->name] ?? $options;
+
+        return ['  var regex = ' . $regex . ";\n", "{jsVar} != '' && !regex.test({jsVar})"];
+    }
 
     /**
      * Validates a value using a regular expression
      *
-     * @param     string    $value      Value to be checked
-     * @param     string    $regex      Regular expression
-     * @access    public
-     * @return    boolean   true if value is valid
+     * @param string $value Value to be checked
+     * @param string $regex Regular expression
      */
-    function validate($value, $regex = null)
+    public function validate($value, $regex = null): bool
     {
-        if (isset($this->_data[$this->name])) {
-            if (!preg_match($this->_data[$this->name], $value)) {
-                return false;
-            }
-        } else {
-            if (!preg_match($regex, $value)) {
+        if (isset($this->_data[$this->name]))
+        {
+            if (!preg_match($this->_data[$this->name], $value))
+            {
                 return false;
             }
         }
+        elseif (!preg_match($regex, $value))
+        {
+            return false;
+        }
+
         return true;
-    } // end func validate
+    }
 
-    /**
-     * Adds new regular expressions to the list
-     *
-     * @param     string    $name       Name of rule
-     * @param     string    $pattern    Regular expression pattern
-     * @access    public
-     */
-    function addData($name, $pattern)
-    {
-        $this->_data[$name] = $pattern;
-    } // end func addData
-
-
-    function getValidationScript($options = null)
-    {
-        $regex = isset($this->_data[$this->name]) ? $this->_data[$this->name] : $options;
-
-        return array("  var regex = " . $regex . ";\n", "{jsVar} != '' && !regex.test({jsVar})");
-    } // end func getValidationScript
-
-} // end class HTML_QuickForm_Rule_Regex
-?>
+}

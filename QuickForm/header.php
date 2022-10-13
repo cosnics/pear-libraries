@@ -1,5 +1,5 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
+
 // +----------------------------------------------------------------------+
 // | PHP version 4.0                                                      |
 // +----------------------------------------------------------------------+
@@ -15,8 +15,6 @@
 // +----------------------------------------------------------------------+
 // | Author: Alexey Borzov <borz_off@cs.msu.su>                           |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 /**
  * A pseudo-element used for adding headers to form
@@ -26,37 +24,34 @@
  */
 class HTML_QuickForm_header extends HTML_QuickForm_static
 {
-    // {{{ constructor
 
-   /**
-    * Class constructor
-    *
-    * @param string $elementName    Header name
-    * @param string $text           Header text
-    * @access public
-    * @return void
-    */
-    public function __construct($elementName = null, $text = null) {
+    /**
+     * Class constructor
+     *
+     * @param string $elementName Header name
+     * @param string $text        Header text
+     *
+     * @access public
+     * @return void
+     */
+    public function __construct($elementName = null, $text = null)
+    {
         parent::__construct($elementName, null, $text);
         $this->_type = 'header';
     }
 
-    // }}}
-    // {{{ accept()
-
-   /**
-    * Accepts a renderer
-    *
-    * @param object     An HTML_QuickForm_Renderer object
-    * @access public
-    * @return void
-    */
-    function accept(&$renderer, $required=false, $error=null)
+    /**
+     * Accepts a renderer
+     *
+     * @param object     An HTML_QuickForm_Renderer object
+     *
+     * @access public
+     * @return void
+     */
+    public function accept($renderer, $required = false, $error = null)
     {
         $renderer->renderHeader($this);
-    } // end func accept
+    }
 
-    // }}}
+}
 
-} //end class HTML_QuickForm_header
-?>
