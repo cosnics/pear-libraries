@@ -495,7 +495,6 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
 
     function toHtml()
     {
-        include_once('HTML/QuickForm/Renderer/Default.php');
         $renderer = new HTML_QuickForm_Renderer_Default();
         $renderer->setElementTemplate('{element}');
         parent::accept($renderer);

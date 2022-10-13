@@ -112,7 +112,7 @@ class HTML_Table extends HTML_Common
     /**
      * Returns the table structure as HTML
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function __toString(): string
     {
@@ -122,7 +122,7 @@ class HTML_Table extends HTML_Common
     /**
      * Adjusts the number of bodies
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     protected function _adjustTbodyCount(int $body, string $method)
     {
@@ -135,7 +135,7 @@ class HTML_Table extends HTML_Common
         }
         else
         {
-            throw new PearException(
+            throw new TableException(
                 'Invalid body reference[' . $body . '] in HTML_Table::' . $method
             );
         }
@@ -174,7 +174,7 @@ class HTML_Table extends HTML_Common
      * @param ?array|?string $attributes Associative array or string of table row attributes
      * @param string $type               Cell type either 'th' or 'td'
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function addCol(?array $contents = null, $attributes = null, string $type = 'td', int $body = 0): int
     {
@@ -193,7 +193,7 @@ class HTML_Table extends HTML_Common
      * @param bool $inTR        false if attributes are to be applied in TD tags; true if attributes are to be applied
      *                          in TR tag
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function addRow(
         ?array $contents = null, $attributes = null, string $type = 'td', bool $inTR = false, int $body = 0
@@ -213,7 +213,7 @@ class HTML_Table extends HTML_Common
      *                                    be applied in TR tag
      * @param int $firstAttributes        Which attributes should be applied to the first row, 1 or 2.
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function altRowAttributes(
         int $start, $attributes1, $attributes2, bool $inTR = false, int $firstAttributes = 1, ?int $body = null
@@ -249,7 +249,7 @@ class HTML_Table extends HTML_Common
      *
      * @param ?int $body The index of the body to get. Pass null to get the default for new bodies.
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function getAutoFill(?int $body = null): string
     {
@@ -271,7 +271,7 @@ class HTML_Table extends HTML_Common
      * @param bool $fill Whether autoFill should be enabled or not
      * @param ?int $body The index of the body to set. Pass null to set for all bodies.
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function setAutoFill(bool $fill, ?int $body = null)
     {
@@ -295,7 +295,7 @@ class HTML_Table extends HTML_Common
      *
      * @param ?int $body The index of the body to get. Pass null to get the default for new bodies.
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function getAutoGrow(?int $body = null): bool
     {
@@ -317,7 +317,7 @@ class HTML_Table extends HTML_Common
      * @param bool $grow Whether autoGrow should be enabled or not
      * @param ?int $body The index of the body to set. Pass null to set for all bodies.
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function setAutoGrow(bool $grow, ?int $body = null)
     {
@@ -340,7 +340,7 @@ class HTML_Table extends HTML_Common
      * Returns the HTML_Table_Storage object for the specified <tbody> (or the whole table if <t{head|foot|body}> is
      * not used)
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function getBody(int $body = 0): ?HTML_Table_Storage
     {
@@ -354,7 +354,7 @@ class HTML_Table extends HTML_Common
      *
      * @param ?int $body The index of the body to get.
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function getCellAttributes(int $row, int $col, int $body = 0): array
     {
@@ -367,7 +367,7 @@ class HTML_Table extends HTML_Common
      * Returns the cell contents for an existing cell
      *
      * @return mixed
-     * @throws \PearException
+     * @throws \TableException
      */
     public function getCellContents(int $row, int $col, int $body = 0)
     {
@@ -380,7 +380,7 @@ class HTML_Table extends HTML_Common
      * Gets the number of columns in the table. If a row index is specified, the count will not take the spanned cells
      * into account in the return value.
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function getColCount(?int $row = null, int $body = 0): int
     {
@@ -426,7 +426,7 @@ class HTML_Table extends HTML_Common
     /**
      * Returns the attributes for a given row as contained in the TR tag
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function getRowAttributes(int $row, int $body = 0): array
     {
@@ -440,7 +440,7 @@ class HTML_Table extends HTML_Common
      *
      * @param ?int $body The index of the body to get. Pass null to get the total number of rows in all bodies.
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function getRowCount(?int $body = null): int
     {
@@ -468,7 +468,7 @@ class HTML_Table extends HTML_Common
      * @param ?array|?string $attributes Associative array or string of table row attributes
      * @param ?int $body                 The index of the body to set. Pass null to set for all bodies.
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function setAllAttributes($attributes = null, ?int $body = null)
     {
@@ -507,7 +507,7 @@ class HTML_Table extends HTML_Common
      * @param ?array|?string $attributes Associative array or string of
      *                                   table row attributes
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function setCellAttributes(int $row, int $col, $attributes, int $body = 0)
     {
@@ -529,7 +529,7 @@ class HTML_Table extends HTML_Common
      *                        following columns in $row
      * @param string $type    Cell type either 'TH' or 'TD'
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function setCellContents(int $row, int $col, $contents, string $type = 'TD', int $body = 0)
     {
@@ -543,7 +543,7 @@ class HTML_Table extends HTML_Common
      * @param ?array|?string $attributes Associative array or string of table row attributes
      * @param ?int $body                 The index of the body to set. Pass null to set for all bodies.
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function setColAttributes(int $col, $attributes = null, ?int $body = null)
     {
@@ -564,7 +564,7 @@ class HTML_Table extends HTML_Common
     /**
      * Sets the number of columns in the table
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function setColCount(int $cols, int $body = 0)
     {
@@ -604,7 +604,7 @@ class HTML_Table extends HTML_Common
      * @param ?int $body   The index of the body to set.
      *                     Pass null to set for all bodies.
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function setColType(int $col, string $type, ?int $body = null)
     {
@@ -628,7 +628,7 @@ class HTML_Table extends HTML_Common
      * @param mixed $contents
      * @param ?array|?string $attributes Associative array or string of table row attributes
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function setHeaderContents(
         int $row, int $col, $contents, $attributes = null, int $body = 0
@@ -649,7 +649,7 @@ class HTML_Table extends HTML_Common
      *                                   TD tags; true if attributes are to be
      *                                   applied in TR tag
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function setRowAttributes(int $row, $attributes, bool $inTR = false, int $body = 0)
     {
@@ -658,7 +658,7 @@ class HTML_Table extends HTML_Common
     }
 
     /**
-     * @throws \PearException
+     * @throws \TableException
      */
     public function setRowCount(int $rows, int $body = 0)
     {
@@ -671,7 +671,7 @@ class HTML_Table extends HTML_Common
      *
      * @param string $type 'TH' or 'TD'
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function setRowType(int $row, string $type, int $body = 0)
     {
@@ -680,7 +680,7 @@ class HTML_Table extends HTML_Common
     }
 
     /**
-     * @throws \PearException
+     * @throws \TableException
      */
     public function toHtml(): string
     {
@@ -809,7 +809,7 @@ class HTML_Table extends HTML_Common
      * @param ?int $body                 The index of the body to set.
      *                                   Pass null to set for all bodies.
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function updateAllAttributes($attributes = null, ?int $body = null)
     {
@@ -834,7 +834,7 @@ class HTML_Table extends HTML_Common
      * @param ?array|?string $attributes Associative array or string of table row
      *                                   attributes
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function updateCellAttributes(int $row, int $col, $attributes, int $body = 0)
     {
@@ -850,7 +850,7 @@ class HTML_Table extends HTML_Common
      * @param ?int $body                 The index of the body to set.
      *                                   Pass null to set for all bodies.
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function updateColAttributes(int $col, $attributes = null, ?int $body = null)
     {
@@ -877,7 +877,7 @@ class HTML_Table extends HTML_Common
      *                                   TD tags; true if attributes are to be
      *                                   applied in TR tag
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function updateRowAttributes(
         int $row, $attributes = null, bool $inTR = false, int $body = 0

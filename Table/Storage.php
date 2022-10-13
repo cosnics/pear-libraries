@@ -103,7 +103,7 @@ class HTML_Table_Storage extends HTML_Common
      * @param string $method    Method name of caller. Used to populate \Exception if thrown.
      * @param array $attributes Assoc array of attributes. Default is an empty array.
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     protected function _adjustEnds(int $row, int $col, string $method, array $attributes = [])
     {
@@ -118,7 +118,7 @@ class HTML_Table_Storage extends HTML_Common
             }
             else
             {
-                throw new PearException(
+                throw new TableException(
                     'Invalid table row reference[' . $row . '] in HTML_Table::' . $method
                 );
             }
@@ -132,7 +132,7 @@ class HTML_Table_Storage extends HTML_Common
             }
             else
             {
-                throw new PearException(
+                throw new TableException(
                     'Invalid table column reference[' . $col . '] in HTML_Table::' . $method
                 );
             }
@@ -164,7 +164,7 @@ class HTML_Table_Storage extends HTML_Common
      *                        this and the following columns in $row
      * @param string $type    Cell type either 'TH' or 'TD'
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     protected function _setSingleCellContents(int $row, int $col, $contents, string $type = 'TD')
     {
@@ -229,13 +229,13 @@ class HTML_Table_Storage extends HTML_Common
      * @param string $type               Cell type either 'th' or 'td'
      *
      * @return int
-     * @throws \PearException
+     * @throws \TableException
      */
     public function addCol(?array $contents = null, $attributes = null, string $type = 'td'): int
     {
         if (isset($contents) && !is_array($contents))
         {
-            throw new PearException(
+            throw new TableException(
                 'First parameter to HTML_Table::addCol ' . 'must be an array'
             );
         }
@@ -276,7 +276,7 @@ class HTML_Table_Storage extends HTML_Common
      *                                   applied in TR tag
      *
      * @return int
-     * @throws \PearException
+     * @throws \TableException
      */
     public function addRow(
         ?array $contents = null, $attributes = null, string $type = 'td', bool $inTR = false
@@ -284,7 +284,7 @@ class HTML_Table_Storage extends HTML_Common
     {
         if (isset($contents) && !is_array($contents))
         {
-            throw new PearException(
+            throw new TableException(
                 'First parameter to HTML_Table::addRow ' . 'must be an array'
             );
         }
@@ -323,7 +323,7 @@ class HTML_Table_Storage extends HTML_Common
      *                                    be applied in TR tag
      * @param int $firstAttributes        Which attributes should be applied to the first row, 1 or 2.
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function altRowAttributes(
         int $start, $attributes1, $attributes2, bool $inTR = false, int $firstAttributes = 1
@@ -366,7 +366,7 @@ class HTML_Table_Storage extends HTML_Common
     /**
      * Returns the attributes for a given cell
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function getCellAttributes(int $row, int $col): array
     {
@@ -376,7 +376,7 @@ class HTML_Table_Storage extends HTML_Common
         }
         elseif (!isset($this->_structure[$row][$col]))
         {
-            throw new PearException(
+            throw new TableException(
                 'Invalid table cell reference[' . $row . '][' . $col . '] in HTML_Table::getCellAttributes'
             );
         }
@@ -388,7 +388,7 @@ class HTML_Table_Storage extends HTML_Common
      * Returns the cell contents for an existing cell
      *
      * @return ?mixed
-     * @throws \PearException
+     * @throws \TableException
      */
     public function getCellContents(int $row, int $col)
     {
@@ -399,7 +399,7 @@ class HTML_Table_Storage extends HTML_Common
 
         if (!isset($this->_structure[$row][$col]))
         {
-            throw new PearException(
+            throw new TableException(
                 'Invalid table cell reference[' . $row . '][' . $col . '] in HTML_Table::getCellContents'
             );
         }
@@ -464,7 +464,7 @@ class HTML_Table_Storage extends HTML_Common
      *
      * @param mixed $attributes Associative array or string of table row attributes
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function setAllAttributes($attributes = null)
     {
@@ -480,7 +480,7 @@ class HTML_Table_Storage extends HTML_Common
      *
      * @param ?array|?string $attributes Associative array or string of table row attributes
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function setCellAttributes(int $row, int $col, $attributes)
     {
@@ -504,7 +504,7 @@ class HTML_Table_Storage extends HTML_Common
      *                        this and the following columns in $row
      * @param string $type    Cell type either 'TH' or 'TD'
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function setCellContents(int $row, int $col, $contents, string $type = 'TD')
     {
@@ -530,7 +530,7 @@ class HTML_Table_Storage extends HTML_Common
      * @param ?array|?string $attributes Associative array or string
      *                                   of table row attributes
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function setColAttributes(int $col, $attributes = null)
     {
@@ -578,7 +578,7 @@ class HTML_Table_Storage extends HTML_Common
      * @param mixed $contents
      * @param ?array|?string $attributes Associative array or string of table row attributes
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function setHeaderContents(int $row, int $col, $contents, $attributes = null)
     {
@@ -598,7 +598,7 @@ class HTML_Table_Storage extends HTML_Common
      * @param bool $inTR                 false if attributes are to be applied in TD tags; true if attributes are to be
      *                                   applied in TR tag
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function setRowAttributes(int $row, $attributes, bool $inTR = false)
     {
@@ -762,7 +762,7 @@ class HTML_Table_Storage extends HTML_Common
      *
      * @param mixed $attributes Associative array or string of table row attributes
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function updateAllAttributes($attributes = null)
     {
@@ -778,7 +778,7 @@ class HTML_Table_Storage extends HTML_Common
      *
      * @param ?array|?string $attributes Associative array or string of table row attributes
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function updateCellAttributes(int $row, int $col, $attributes)
     {
@@ -798,7 +798,7 @@ class HTML_Table_Storage extends HTML_Common
      *
      * @param ?array|?string $attributes Associative array or string of table row attributes
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function updateColAttributes(int $col, $attributes = null)
     {
@@ -826,7 +826,7 @@ class HTML_Table_Storage extends HTML_Common
      * @param bool $inTR                 false if attributes are to be applied in TD tags; true if attributes are to be
      *                                   applied in TR tag
      *
-     * @throws \PearException
+     * @throws \TableException
      */
     public function updateRowAttributes(int $row, $attributes = null, bool $inTR = false)
     {

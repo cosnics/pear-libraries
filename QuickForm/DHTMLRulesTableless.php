@@ -56,7 +56,6 @@ class HTML_QuickForm_DHTMLRulesTableless extends HTML_QuickForm {
             return '';
         }
 
-        include_once('HTML/QuickForm/RuleRegistry.php');
         $registry =& HTML_QuickForm_RuleRegistry::singleton();
         $test = array();
         $js_escape = array(

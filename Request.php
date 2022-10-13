@@ -527,13 +527,13 @@ class HTTP_Request
      * @param mixed $contentType content-type(s) of file(s) being uploaded
      *
      * @return bool      true on success
-     * @throws \PearException
+     * @throws \RequestException
      */
     public function addFile(string $inputName, $fileName, $contentType = 'application/octet-stream'): bool
     {
         if (!is_array($fileName) && !is_readable($fileName))
         {
-            throw new PearException("File '$fileName' is not readable");
+            throw new RequestException("File '$fileName' is not readable");
         }
         elseif (is_array($fileName))
         {
@@ -541,7 +541,7 @@ class HTTP_Request
             {
                 if (!is_readable($name))
                 {
-                    throw new PearException("File '$name' is not readable");
+                    throw new RequestException("File '$name' is not readable");
                 }
             }
         }
@@ -644,7 +644,7 @@ class HTTP_Request
     /**
      * Disconnect the socket, if connected. Only useful if using Keep-Alive.
      *
-     * @throws \PearException
+     * @throws \RequestException
      */
     public function disconnect()
     {
@@ -816,13 +816,13 @@ class HTTP_Request
      *                       set this to false if downloading a LARGE file and using a Listener
      *
      * @return bool
-     * @throws \PearException
+     * @throws \RequestException
      */
     public function sendRequest(bool $saveBody = true): bool
     {
         if (!is_a($this->_url, 'Net_URL'))
         {
-            throw new PearException('No URL given');
+            throw new RequestException('No URL given');
         }
 
         $host = $this->_proxy_host ?? $this->_url->host;
@@ -833,11 +833,11 @@ class HTTP_Request
             // Bug #14127, don't try connecting to HTTPS sites without OpenSSL
             if (version_compare(PHP_VERSION, '4.3.0', '<') || !extension_loaded('openssl'))
             {
-                throw new PearException('Need PHP 4.3.0 or later with OpenSSL support for https:// requests');
+                throw new RequestException('Need PHP 4.3.0 or later with OpenSSL support for https:// requests');
             }
             elseif (isset($this->_proxy_host))
             {
-                throw new PearException('HTTPS proxies are not supported');
+                throw new RequestException('HTTPS proxies are not supported');
             }
             $host = 'ssl://' . $host;
         }
@@ -971,7 +971,7 @@ class HTTP_Request
         }
         elseif ($this->_allowRedirects and $this->_redirects > $this->_maxRedirects)
         {
-            throw new PearException('Too many redirects');
+            throw new RequestException('Too many redirects');
         }
 
         return true;
@@ -1099,7 +1099,7 @@ class HTTP_Response
      * method only parses the header and checks data for compliance with
      * RFC 1952
      *
-     * @throws \PearException
+     * @throws \RequestException
      */
     protected function _decodeGzip(string $data): string
     {
@@ -1121,14 +1121,14 @@ class HTTP_Response
 
         if (8 != $method)
         {
-            throw new PearException('_decodeGzip(): unknown compression method');
+            throw new RequestException('_decodeGzip(): unknown compression method');
         }
 
         $flags = ord(substr($data, 3, 1));
 
         if ($flags & 224)
         {
-            throw new PearException('_decodeGzip(): reserved bits are set');
+            throw new RequestException('_decodeGzip(): reserved bits are set');
         }
 
         // header is 10 bytes minimum. may be longer, though.
@@ -1139,14 +1139,14 @@ class HTTP_Response
         {
             if ($length - $headerLength - 2 < 8)
             {
-                throw new PearException('_decodeGzip(): data too short');
+                throw new RequestException('_decodeGzip(): data too short');
             }
 
             $extraLength = unpack('v', substr($data, 10, 2));
 
             if ($length - $headerLength - 2 - $extraLength[1] < 8)
             {
-                throw new PearException('_decodeGzip(): data too short');
+                throw new RequestException('_decodeGzip(): data too short');
             }
             $headerLength += $extraLength[1] + 2;
         }
@@ -1156,14 +1156,14 @@ class HTTP_Response
         {
             if ($length - $headerLength - 1 < 8)
             {
-                throw new PearException('_decodeGzip(): data too short');
+                throw new RequestException('_decodeGzip(): data too short');
             }
 
             $filenameLength = strpos(substr($data, $headerLength), chr(0));
 
             if (false === $filenameLength || $length - $headerLength - $filenameLength - 1 < 8)
             {
-                throw new PearException('_decodeGzip(): data too short');
+                throw new RequestException('_decodeGzip(): data too short');
             }
 
             $headerLength += $filenameLength + 1;
@@ -1174,14 +1174,14 @@ class HTTP_Response
         {
             if ($length - $headerLength - 1 < 8)
             {
-                throw new PearException('_decodeGzip(): data too short');
+                throw new RequestException('_decodeGzip(): data too short');
             }
 
             $commentLength = strpos(substr($data, $headerLength), chr(0));
 
             if (false === $commentLength || $length - $headerLength - $commentLength - 1 < 8)
             {
-                throw new PearException('_decodeGzip(): data too short');
+                throw new RequestException('_decodeGzip(): data too short');
             }
 
             $headerLength += $commentLength + 1;
@@ -1192,7 +1192,7 @@ class HTTP_Response
         {
             if ($length - $headerLength - 2 < 8)
             {
-                throw new PearException('_decodeGzip(): data too short');
+                throw new RequestException('_decodeGzip(): data too short');
             }
 
             $crcReal = 0xffff & crc32(substr($data, 0, $headerLength));
@@ -1200,7 +1200,7 @@ class HTTP_Response
 
             if ($crcReal != $crcStored[1])
             {
-                throw new PearException('_decodeGzip(): header CRC check failed');
+                throw new RequestException('_decodeGzip(): header CRC check failed');
             }
             $headerLength += 2;
         }
@@ -1216,15 +1216,15 @@ class HTTP_Response
 
         if (false === $unpacked)
         {
-            throw new PearException('_decodeGzip(): gzinflate() call failed');
+            throw new RequestException('_decodeGzip(): gzinflate() call failed');
         }
         elseif ($dataSize != strlen($unpacked))
         {
-            throw new PearException('_decodeGzip(): data size check failed');
+            throw new RequestException('_decodeGzip(): data size check failed');
         }
         elseif ((0xffffffff & $dataCrc) != (0xffffffff & crc32($unpacked)))
         {
-            throw new PearException('_decodeGzip(): data CRC check failed');
+            throw new RequestException('_decodeGzip(): data CRC check failed');
         }
 
         if (HTTP_REQUEST_MBSTRING && isset($oldEncoding))
@@ -1330,7 +1330,7 @@ class HTTP_Response
     /**
      * Read a part of response body encoded with chunked Transfer-Encoding
      *
-     * @throws \PearException
+     * @throws \RequestException
      */
     protected function _readChunked(): string
     {
@@ -1378,7 +1378,7 @@ class HTTP_Response
      * @param bool $canHaveBody Whether the response can actually have a message-body.
      *                          Will be set to false for HEAD requests.
      *
-     * @throws \PearException
+     * @throws \RequestException
      */
     public function process(bool $saveBody = true, bool $canHaveBody = true): bool
     {
@@ -1388,7 +1388,7 @@ class HTTP_Response
 
             if (!preg_match('!^(HTTP/\d\.\d) (\d{3})(?: (.+))?!', $line, $s))
             {
-                throw new PearException('Malformed response');
+                throw new RequestException('Malformed response');
             }
             else
             {
