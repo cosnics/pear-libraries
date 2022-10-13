@@ -45,19 +45,19 @@ $GLOBALS['HTML_QUICKFORM_ELEMENT_TYPES'] = [
 ];
 
 $GLOBALS['_HTML_QuickForm_registered_rules'] = [
-    'required' => ['HTML_QuickForm_Rule_Required', 'HTML/QuickForm/Rule/Required.php'],
-    'maxlength' => ['HTML_QuickForm_Rule_Range', 'HTML/QuickForm/Rule/Range.php'],
-    'minlength' => ['HTML_QuickForm_Rule_Range', 'HTML/QuickForm/Rule/Range.php'],
-    'rangelength' => ['HTML_QuickForm_Rule_Range', 'HTML/QuickForm/Rule/Range.php'],
-    'email' => ['HTML_QuickForm_Rule_Email', 'HTML/QuickForm/Rule/Email.php'],
-    'regex' => ['HTML_QuickForm_Rule_Regex', 'HTML/QuickForm/Rule/Regex.php'],
-    'lettersonly' => ['HTML_QuickForm_Rule_Regex', 'HTML/QuickForm/Rule/Regex.php'],
-    'alphanumeric' => ['HTML_QuickForm_Rule_Regex', 'HTML/QuickForm/Rule/Regex.php'],
-    'numeric' => ['HTML_QuickForm_Rule_Regex', 'HTML/QuickForm/Rule/Regex.php'],
-    'nopunctuation' => ['HTML_QuickForm_Rule_Regex', 'HTML/QuickForm/Rule/Regex.php'],
-    'nonzero' => ['HTML_QuickForm_Rule_Regex', 'HTML/QuickForm/Rule/Regex.php'],
-    'callback' => ['HTML_QuickForm_Rule_Callback', 'HTML/QuickForm/Rule/Callback.php'],
-    'compare' => ['HTML_QuickForm_Rule_Compare', 'HTML/QuickForm/Rule/Compare.php']
+    'required' => 'HTML_QuickForm_Rule_Required',
+    'maxlength' => 'HTML_QuickForm_Rule_Range',
+    'minlength' => 'HTML/QuickForm/Rule/Range.php',
+    'rangelength' => 'HTML_QuickForm_Rule_Range',
+    'email' => 'HTML_QuickForm_Rule_Email',
+    'regex' => 'HTML_QuickForm_Rule_Regex',
+    'lettersonly' => 'HTML_QuickForm_Rule_Regex',
+    'alphanumeric' => 'HTML_QuickForm_Rule_Regex',
+    'numeric' => 'HTML_QuickForm_Rule_Regex',
+    'nopunctuation' => 'HTML_QuickForm_Rule_Regex',
+    'nonzero' => 'HTML_QuickForm_Rule_Regex',
+    'callback' => 'HTML_QuickForm_Rule_Callback',
+    'compare' => 'HTML_QuickForm_Rule_Compare'
 ];
 
 /*

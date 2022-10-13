@@ -92,11 +92,11 @@ class HTML_QuickForm_RuleRegistry
         } elseif (is_object($data1)) {
             // An instance of HTML_QuickForm_Rule
             $this->_rules[strtolower(get_class($data1))] = $data1;
-            $GLOBALS['_HTML_QuickForm_registered_rules'][$ruleName] = array(strtolower(get_class($data1)), null);
+            $GLOBALS['_HTML_QuickForm_registered_rules'][$ruleName] = strtolower(get_class($data1));
 
         } else {
             // Rule class name
-            $GLOBALS['_HTML_QuickForm_registered_rules'][$ruleName] = array(strtolower($data1), $data2);
+            $GLOBALS['_HTML_QuickForm_registered_rules'][$ruleName] = strtolower($data1);
         }
     } // end func registerRule
 
@@ -109,7 +109,7 @@ class HTML_QuickForm_RuleRegistry
      */
     function &getRule($ruleName)
     {
-        list($class, $path) = $GLOBALS['_HTML_QuickForm_registered_rules'][$ruleName];
+        $class = $GLOBALS['_HTML_QuickForm_registered_rules'][$ruleName];
 
         if (!isset($this->_rules[$class])) {
             $this->_rules[$class] = new $class();
