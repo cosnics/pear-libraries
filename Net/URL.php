@@ -32,82 +32,40 @@
 // | Author: Richard Heyes <richard at php net>                            |
 // +-----------------------------------------------------------------------+
 //
-// $Id: URL.php,v 1.49 2007/06/28 14:43:07 davidc Exp $
-//
-// Net_URL Class
 
 class Net_URL
 {
-    /**
-     * Anchor
-     * @var string
-     */
     public string $anchor;
 
-    /**
-     * Host
-     * @var string
-     */
     public string $host;
 
     public array $options = ['encode_query_keys' => false];
 
-    /**
-     * Password
-     * @var string
-     */
     public string $password;
 
-    /**
-     * Path
-     * @var string
-     */
     public string $path;
 
-    /**
-     * Port
-     * @var int
-     */
     public int $port;
 
-    /**
-     * Protocol
-     * @var string
-     */
     public string $protocol;
 
-    /**
-     * Query string
-     * @var array
-     */
     public array $querystring;
 
-    /**
-     * Full url
-     * @var string
-     */
     public string $url;
 
     /**
      * Whether to use []
-     * @var bool
      */
     public bool $useBrackets;
 
-    /**
-     * Username
-     * @var string
-     */
     public string $username;
 
     /**
-     * PHP5 Constructor
-     *
      * Parses the given url and stores the various parts
      * Defaults are used in certain cases
      *
-     * @param ?string $url Optional URL
-     * @param bool $useBrackets Whether to use square brackets when
+     * @param ?string $url        Optional URL
+     * @param bool $useBrackets   Whether to use square brackets when
      *                            multiple querystrings with the same name
      *                            exist
      */
@@ -121,13 +79,8 @@ class Net_URL
 
     /**
      * Parses raw querystring and returns an array of it
-     *
-     * @param string $querystring The querystring to parse
-     *
-     * @return array                An array of the querystring data
-     * @access private
      */
-    public function _parseRawQuerystring(string $querystring): array
+    protected function _parseRawQuerystring(string $querystring): array
     {
         $parts = preg_split(
             '/[' . preg_quote(ini_get('arg_separator.input'), '/') . ']/', $querystring, - 1, PREG_SPLIT_NO_EMPTY
@@ -194,11 +147,8 @@ class Net_URL
      * You can pass an array to $value, it gets mapped via [] in the URL if
      * $this->useBrackets is activated.
      *
-     * @param string $name Name of item
      * @param string|array $value Value of item
-     * @param bool $preencoded Whether value is urlencoded or not, default = not
-     *
-     * @access public
+     * @param bool $preencoded    Whether value is urlencoded or not, default = not
      */
     public function addQueryString(string $name, $value, bool $preencoded = false)
     {
@@ -221,8 +171,6 @@ class Net_URL
      * Sets the querystring to literally what you supply
      *
      * @param string $querystring The querystring data. Should be of the format foo=bar&x=y etc
-     *
-     * @access public
      */
     public function addRawQueryString(string $querystring)
     {
@@ -230,15 +178,7 @@ class Net_URL
     }
 
     /**
-     * Get an option
-     *
-     * This function gets an option
-     * from the $this->options array
-     * and return it's value.
-     *
-     * @access public
-     *
-     * @param string $optionName The name of the option to retrieve
+     * Get an option. This function gets an option from the $this->options array and return it's value.
      *
      * @see    $this->options
      */
@@ -256,7 +196,6 @@ class Net_URL
      * Returns flat querystring
      *
      * @return string Querystring
-     * @access public
      */
     public function getQueryString(): string
     {
@@ -301,8 +240,6 @@ class Net_URL
      *
      * @param string $scheme The protocol to lookup
      *
-     * @return int         Port number or NULL if no scheme matches
-     *
      * @author Philippe Jausions <Philippe.Jausions@11abacus.com>
      */
     public function getStandardPort(string $scheme): ?int
@@ -328,12 +265,6 @@ class Net_URL
         }
     }
 
-    /**
-     * Returns full url
-     *
-     * @return string Full url
-     * @access public
-     */
     public function getURL(): string
     {
         $querystring = $this->getQueryString();
@@ -371,6 +302,7 @@ class Net_URL
                 preg_match('/^(.*)(:([0-9]+))?$/U', $HTTP_SERVER_VARS['HTTP_HOST'], $matches))
             {
                 $host = $matches[1];
+
                 if (!empty($matches[3]))
                 {
                     $port = $matches[3];
@@ -444,8 +376,6 @@ class Net_URL
      * Removes a querystring item
      *
      * @param string $name Name of item
-     *
-     * @access public
      */
     public function removeQueryString(string $name)
     {
@@ -463,16 +393,10 @@ class Net_URL
     /**
      * Resolves //, ../ and ./ from a path and returns
      * the result. Eg:
-     *
      * /foo/bar/../boo.php    => /foo/boo.php
      * /foo/bar/../../boo.php => /boo.php
      * /foo/bar/.././/boo.php => /foo/boo.php
-     *
      * This method can also be called statically.
-     *
-     * @param string $path URL path to resolve
-     *
-     * @return string      The result
      */
     public static function resolvePath(string $path): string
     {
@@ -505,15 +429,7 @@ class Net_URL
     }
 
     /**
-     * Set an option
-     *
-     * This function set an option
-     * to be used thorough the script.
-     *
-     * @access public
-     *
-     * @param string $optionName The optionname to set
-     * @param string $value The value of this option.
+     * Set an option. This function set an option to be used thorough the script.
      */
     public function setOption(string $optionName, string $value)
     {
@@ -530,7 +446,7 @@ class Net_URL
      * Forces the URL to a particular protocol
      *
      * @param string $protocol Protocol to force the URL to
-     * @param ?int $port Optional port (standard port is used by default)
+     * @param ?int $port       Optional port (standard port is used by default)
      */
     public function setProtocol(string $protocol, ?int $port = null)
     {

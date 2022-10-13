@@ -2,18 +2,13 @@
 /** @noinspection PhpComposerExtensionStubsInspection */
 /**
  * Class for performing HTTP requests
- *
  * PHP versions 4 and 5
- *
  * LICENSE:
- *
  * Copyright (c) 2002-2007, Richard Heyes
  * All rights reserved.
- *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
- *
  * o Redistributions of source code must retain the above copyright
  *   notice, this list of conditions and the following disclaimer.
  * o Redistributions in binary form must reproduce the above copyright
@@ -22,7 +17,6 @@
  * o The names of the authors may not be used to endorse or promote
  *   products derived from this software without specific prior written
  *   permission.
- *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -45,7 +39,7 @@
  * @link        http://pear.php.net/package/HTTP_Request/
  */
 
-/**#@+
+/**
  * Constants for HTTP request methods
  */
 const HTTP_REQUEST_METHOD_GET = 'GET';
@@ -57,7 +51,7 @@ const HTTP_REQUEST_METHOD_OPTIONS = 'OPTIONS';
 const HTTP_REQUEST_METHOD_TRACE = 'TRACE';
 /**#@-*/
 
-/**#@+
+/**
  * Constants for HTTP request error codes
  */
 const HTTP_REQUEST_ERROR_FILE = 1;
@@ -69,14 +63,12 @@ const HTTP_REQUEST_ERROR_GZIP_METHOD = 32;
 const HTTP_REQUEST_ERROR_GZIP_READ = 64;
 const HTTP_REQUEST_ERROR_GZIP_DATA = 128;
 const HTTP_REQUEST_ERROR_GZIP_CRC = 256;
-/**#@-*/
 
-/**#@+
+/**
  * Constants for HTTP protocol versions
  */
 const HTTP_REQUEST_HTTP_VER_1_0 = '1.0';
 const HTTP_REQUEST_HTTP_VER_1_1 = '1.1';
-/**#@-*/
 
 if (extension_loaded('mbstring') && (2 & ini_get('mbstring.func_overload')))
 {
@@ -95,7 +87,6 @@ else
 
 /**
  * Class for performing HTTP requests
- *
  * Simple example (fetches yahoo.com and displays it):
  * <code>
  * $a = &new HTTP_Request('http://www.yahoo.com/');
@@ -111,197 +102,109 @@ else
  */
 class HTTP_Request
 {
-    /**#@+
-     * @access private
-     */
-    /**
-     * Whether to allow redirects
-     * @var bool
-     */
-    public bool $_allowRedirects;
 
-    /**
-     * Request body
-     * @var string
-     */
-    public string $_body;
+    protected bool $_allowRedirects;
+
+    protected string $_body;
 
     /**
      * A list of methods that MUST NOT have a request body, per RFC 2616
-     * @var array
      */
-    public array $_bodyDisallowed = ['TRACE'];
+    protected array $_bodyDisallowed = ['TRACE'];
 
     /**
      * Methods having defined semantics for request body
-     *
      * Content-Length header (indicating that the body follows, section 4.3 of
      * RFC 2616) will be sent for these methods even if nobody was added
-     *
-     * @var array
      */
-    public array $_bodyRequired = ['POST', 'PUT'];
+    protected array $_bodyRequired = ['POST', 'PUT'];
 
     /**
      * HTTP Version
-     * @var string
      */
-    public string $_http;
+    protected string $_http;
 
-    /**
-     * Attached listeners
-     * @var array
-     */
-    public array $_listeners = [];
-
-    /**
-     * Maximum redirects allowed
-     * @var int
-     */
-    public int $_maxRedirects;
+    protected int $_maxRedirects;
 
     /**
      * Type of request
-     * @var string
      */
-    public string $_method;
+    protected string $_method;
 
-    /**
-     * Basic Auth Password
-     * @var string
-     */
-    public string $_pass;
+    protected string $_pass;
 
-    /**
-     * Post data
-     * @var ?array
-     */
-    public ?array $_postData;
+    protected ?array $_postData;
 
-    /**
-     * Files to post
-     * @var array
-     */
-    public array $_postFiles = [];
+    protected array $_postFiles = [];
 
-    /**
-     * Proxy server
-     * @var string
-     */
-    public string $_proxy_host;
+    protected string $_proxy_host;
 
-    /**
-     * Proxy password
-     * @var string
-     */
-    public string $_proxy_pass;
+    protected string $_proxy_pass;
 
-    /**
-     * Proxy port
-     * @var ?int
-     */
-    public ?int $_proxy_port;
+    protected ?int $_proxy_port;
 
-    /**
-     * Proxy username
-     * @var string
-     */
-    public string $_proxy_user;
+    protected string $_proxy_user;
 
     /**
      * Timeout for reading from socket (array(seconds, microseconds))
-     * @var ?array
      */
-    public ?array $_readTimeout = null;
+    protected ?array $_readTimeout = null;
 
     /**
      * Current number of redirects
-     * @var int
      */
-    public int $_redirects;
+    protected int $_redirects;
 
-    /**
-     * Request headers
-     * @var array
-     */
-    public array $_requestHeaders;
+    protected array $_requestHeaders;
 
-    /**
-     * HTTP_Response object
-     * @var ?HTTP_Response
-     */
-    public ?HTTP_Response $_response;
+    protected ?HTTP_Response $_response;
 
     /**
      * Whether to save response body in response object property
-     * @var bool
      */
-    public bool $_saveBody = true;
+    protected bool $_saveBody = true;
 
-    /**
-     * Socket object
-     * @var Net_Socket
-     */
-    public Net_Socket $_sock;
+    protected Net_Socket $_sock;
 
     /**
      * Options to pass to Net_Socket::connect. See stream_context_create
-     * @var ?array
      */
-    public ?array $_socketOptions = null;
+    protected ?array $_socketOptions = null;
 
     /**
      * Connection timeout.
-     * @var ?float
      */
-    public ?float $_timeout;
+    protected ?float $_timeout;
 
-    /**
-     * Instance of Net_URL
-     * @var Net_URL
-     */
-    public Net_URL $_url;
+    protected Net_URL $_url;
 
     /**
      * Whether to append brackets [] to array variables
-     * @var bool
      */
-    public bool $_useBrackets = true;
+    protected bool $_useBrackets = true;
+
+    protected string $_user;
 
     /**
-     * Basic Auth Username
-     * @var string
-     */
-    public string $_user;
-
-    /**#@-*/
-
-    /**
-     * Constructor
-     *
-     * Sets up the object
-     *
-     * @param string $url The url to fetch/access
      * @param array $params Associative array of parameters which can have the following keys:
-     * <ul>
-     *   <li>method         - Method to use, GET, POST etc (string)</li>
-     *   <li>http           - HTTP Version to use, 1.0 or 1.1 (string)</li>
-     *   <li>user           - Basic Auth username (string)</li>
-     *   <li>pass           - Basic Auth password (string)</li>
-     *   <li>proxy_host     - Proxy server host (string)</li>
-     *   <li>proxy_port     - Proxy server port (integer)</li>
-     *   <li>proxy_user     - Proxy auth username (string)</li>
-     *   <li>proxy_pass     - Proxy auth password (string)</li>
-     *   <li>timeout        - Connection timeout in seconds (float)</li>
-     *   <li>allowRedirects - Whether to follow redirects or not (bool)</li>
-     *   <li>maxRedirects   - Max number of redirects to follow (integer)</li>
-     *   <li>useBrackets    - Whether to append [] to array variable names (bool)</li>
-     *   <li>saveBody       - Whether to save response body in response object property (bool)</li>
-     *   <li>readTimeout    - Timeout for reading / writing data over the socket (array (seconds, microseconds))</li>
-     *   <li>socketOptions  - Options to pass to Net_Socket object (array)</li>
-     * </ul>
-     *
-     * @access public
+     *                      <ul>
+     *                      <li>method         - Method to use, GET, POST etc (string)</li>
+     *                      <li>http           - HTTP Version to use, 1.0 or 1.1 (string)</li>
+     *                      <li>user           - Basic Auth username (string)</li>
+     *                      <li>pass           - Basic Auth password (string)</li>
+     *                      <li>proxy_host     - Proxy server host (string)</li>
+     *                      <li>proxy_port     - Proxy server port (integer)</li>
+     *                      <li>proxy_user     - Proxy auth username (string)</li>
+     *                      <li>proxy_pass     - Proxy auth password (string)</li>
+     *                      <li>timeout        - Connection timeout in seconds (float)</li>
+     *                      <li>allowRedirects - Whether to follow redirects or not (bool)</li>
+     *                      <li>maxRedirects   - Max number of redirects to follow (integer)</li>
+     *                      <li>useBrackets    - Whether to append [] to array variable names (bool)</li>
+     *                      <li>saveBody       - Whether to save response body in response object property (bool)</li>
+     *                      <li>readTimeout    - Timeout for reading / writing data over the socket (array (seconds,
+     *                      microseconds))</li>
+     *                      <li>socketOptions  - Options to pass to Net_Socket object (array)</li>
+     *                      </ul>
      */
     public function __construct(string $url = '', array $params = [])
     {
@@ -367,12 +270,11 @@ class HTTP_Request
      * Recursively applies the callback function to the value
      *
      * @param mixed $callback Callback function
-     * @param mixed $value Value to process
+     * @param mixed $value    Value to process
      *
-     * @access   private
      * @return   mixed   Processed value
      */
-    public function _arrayMapRecursive($callback, $value)
+    protected function _arrayMapRecursive($callback, $value)
     {
         if (!is_array($value))
         {
@@ -381,6 +283,7 @@ class HTTP_Request
         else
         {
             $map = [];
+
             foreach ($value as $k => $v)
             {
                 $map[$k] = $this->_arrayMapRecursive($callback, $v);
@@ -393,10 +296,9 @@ class HTTP_Request
     /**
      * Builds the request string
      *
-     * @access private
      * @return string The request string
      */
-    public function _buildRequest(): string
+    protected function _buildRequest(): string
     {
         $separator = ini_get('arg_separator.output');
         ini_set('arg_separator.output', '&');
@@ -468,6 +370,7 @@ class HTTP_Request
                 if (!empty($this->_postData))
                 {
                     $flatData = $this->_flattenArray('', $this->_postData);
+
                     foreach ($flatData as $item)
                     {
                         $postdata .= '--' . $boundary . "\r\n";
@@ -486,6 +389,7 @@ class HTTP_Request
                         $varname = $name;
                         $value['name'] = [$value['name']];
                     }
+
                     foreach ($value['name'] as $key => $filename)
                     {
                         $fp = fopen($filename, 'r');
@@ -524,6 +428,7 @@ class HTTP_Request
             {
                 $request .= "Content-Length: 0\r\n";
             }
+
             $request .= "\r\n";
         }
 
@@ -534,13 +439,12 @@ class HTTP_Request
      * Helper function to change the (probably multidimensional) associative array
      * into the simple one.
      *
-     * @param string $name name for item
+     * @param string $name  name for item
      * @param mixed $values item's values
      *
      * @return   array   array with the following items: array('item name', 'item value');
-     * @access   private
      */
-    public function _flattenArray(string $name, $values): array
+    protected function _flattenArray(string $name, $values): array
     {
         if (!is_array($values))
         {
@@ -549,6 +453,7 @@ class HTTP_Request
         else
         {
             $ret = [];
+
             foreach ($values as $k => $v)
             {
                 if (empty($name))
@@ -573,10 +478,9 @@ class HTTP_Request
     /**
      * Generates a Host header for HTTP/1.1 requests
      *
-     * @access private
      * @return string
      */
-    public function _generateHostHeader(): string
+    protected function _generateHostHeader(): string
     {
         if ($this->_url->port != 80 and strcasecmp($this->_url->protocol, 'http') == 0)
         {
@@ -600,29 +504,10 @@ class HTTP_Request
     }
 
     /**
-     * Notifies all registered listeners of an event.
-     *
-     * @param string $event Event name
-     * @param mixed $data Additional data
-     *
-     * @access   private
-     * @see      HTTP_Request::attach()
-     */
-    public function _notify(string $event, $data = null)
-    {
-        foreach (array_keys($this->_listeners) as $id)
-        {
-            $this->_listeners[$id]->update($this, $event, $data);
-        }
-    }
-
-    /**
      * Appends a cookie to "Cookie:" header
      *
-     * @param string $name cookie name
+     * @param string $name  cookie name
      * @param string $value cookie value
-     *
-     * @access public
      */
     public function addCookie(string $name, string $value)
     {
@@ -632,27 +517,23 @@ class HTTP_Request
 
     /**
      * Adds a file to form-based file upload
-     *
      * Used to emulate file upload via a HTML form. The method also sets
      * Content-Type of HTTP request to 'multipart/form-data'.
-     *
      * If you just want to send the contents of a file as the body of HTTP
      * request you should use setBody() method.
      *
-     * @access public
-     *
-     * @param string $inputName name of file-upload field
-     * @param mixed $fileName file name(s)
+     * @param string $inputName  name of file-upload field
+     * @param mixed $fileName    file name(s)
      * @param mixed $contentType content-type(s) of file(s) being uploaded
      *
      * @return bool      true on success
-     * @throws \Exception
+     * @throws \PearException
      */
     public function addFile(string $inputName, $fileName, $contentType = 'application/octet-stream'): bool
     {
         if (!is_array($fileName) && !is_readable($fileName))
         {
-            throw new Exception("File '$fileName' is not readable");
+            throw new PearException("File '$fileName' is not readable");
         }
         elseif (is_array($fileName))
         {
@@ -660,7 +541,7 @@ class HTTP_Request
             {
                 if (!is_readable($name))
                 {
-                    throw new Exception("File '$name' is not readable");
+                    throw new PearException("File '$name' is not readable");
                 }
             }
         }
@@ -676,10 +557,8 @@ class HTTP_Request
     /**
      * Adds a request header
      *
-     * @param string $name Header name
+     * @param string $name  Header name
      * @param string $value Header value
-     *
-     * @access public
      */
     public function addHeader(string $name, string $value)
     {
@@ -689,11 +568,9 @@ class HTTP_Request
     /**
      * Adds postdata items
      *
-     * @param string $name Post data name
-     * @param string $value Post data value
+     * @param string $name     Post data name
+     * @param string $value    Post data value
      * @param bool $preencoded Whether data is already urlencoded or not, default = not
-     *
-     * @access public
      */
     public function addPostData(string $name, string $value, bool $preencoded = false)
     {
@@ -710,11 +587,9 @@ class HTTP_Request
     /**
      * Adds a querystring parameter
      *
-     * @param string $name Querystring parameter name
-     * @param string $value Querystring parameter value
+     * @param string $name     Querystring parameter name
+     * @param string $value    Querystring parameter value
      * @param bool $preencoded Whether the value is already urlencoded or not, default = not
-     *
-     * @access public
      */
     public function addQueryString(string $name, string $value, bool $preencoded = false)
     {
@@ -727,7 +602,6 @@ class HTTP_Request
      * @param string $postdata The data
      * @param bool $preencoded Whether data is preencoded or not, default = already encoded
      *
-     * @access public
      * @deprecated       deprecated since 1.3.0, method setBody() should be used instead
      */
     public function addRawPostData(string $postdata, bool $preencoded = true)
@@ -739,8 +613,6 @@ class HTTP_Request
      * Sets the querystring to literally what you supply
      *
      * @param string $querystring The querystring data. Should be of the format foo=bar&x=y etc
-     *
-     * @access public
      */
     public function addRawQueryString(string $querystring)
     {
@@ -748,42 +620,9 @@ class HTTP_Request
     }
 
     /**
-     * Adds a Listener to the list of listeners that are notified of
-     * the object's events
-     *
-     * Events sent by HTTP_Request object
-     * - 'connect': on connection to server
-     * - 'sentRequest': after the request was sent
-     * - 'disconnect': on disconnection from server
-     *
-     * Events sent by HTTP_Response object
-     * - 'gotHeaders': after receiving response headers (headers are passed in $data)
-     * - 'tick': on receiving a part of response body (the part is passed in $data)
-     * - 'gzTick': on receiving a gzip-encoded part of response body (ditto)
-     * - 'gotBody': after receiving the response body (passes the decoded body in $data if it was gzipped)
-     *
-     * @param HTTP_Request_Listener $listener listener to attach
-     *
-     * @return   bool                 whether the listener was successfully attached
-     * @access   public
-     */
-    public function attach(HTTP_Request_Listener $listener): bool
-    {
-        if (!is_a($listener, 'HTTP_Request_Listener'))
-        {
-            return false;
-        }
-        $this->_listeners[$listener->getId()] =& $listener;
-
-        return true;
-    }
-
-    /**
      * Clears any cookies that have been added (DEPRECATED).
-     *
      * Useful for multiple request scenarios
      *
-     * @access public
      * @deprecated deprecated since 1.2
      */
     public function clearCookies()
@@ -793,10 +632,8 @@ class HTTP_Request
 
     /**
      * Clears any postdata that has been added (DEPRECATED).
-     *
      * Useful for multiple request scenarios.
      *
-     * @access public
      * @deprecated deprecated since 1.2
      */
     public function clearPostData()
@@ -805,35 +642,14 @@ class HTTP_Request
     }
 
     /**
-     * Removes a Listener from the list of listeners
-     *
-     * @param HTTP_Request_Listener $listener listener to detach
-     *
-     * @return   bool                 whether the listener was successfully detached
-     * @access   public
-     */
-    public function detach(HTTP_Request_Listener $listener): bool
-    {
-        if (!is_a($listener, 'HTTP_Request_Listener') || !isset($this->_listeners[$listener->getId()]))
-        {
-            return false;
-        }
-        unset($this->_listeners[$listener->getId()]);
-
-        return true;
-    }
-
-    /**
      * Disconnect the socket, if connected. Only useful if using Keep-Alive.
      *
-     * @access public
-     * @throws \Exception
+     * @throws \PearException
      */
     public function disconnect()
     {
         if (!empty($this->_sock) && !empty($this->_sock->fp))
         {
-            $this->_notify('disconnect');
             $this->_sock->disconnect();
         }
     }
@@ -841,7 +657,6 @@ class HTTP_Request
     /**
      * Returns the body of the response
      *
-     * @access public
      * @return string|bool     response body, false if not set
      */
     public function getResponseBody()
@@ -852,7 +667,6 @@ class HTTP_Request
     /**
      * Returns the response code
      *
-     * @access public
      * @return string|bool     Response code, false if not set
      */
     public function getResponseCode()
@@ -863,7 +677,6 @@ class HTTP_Request
     /**
      * Returns cookies set in response
      *
-     * @access public
      * @return array|bool     array of response cookies, false if none are present
      */
     public function getResponseCookies()
@@ -873,8 +686,6 @@ class HTTP_Request
 
     /**
      * Returns either the named header or all if no name given
-     *
-     * @access public
      *
      * @param ?string $headername The header name to return, do not set to get all headers
      *
@@ -898,7 +709,6 @@ class HTTP_Request
     /**
      * Returns the response reason phrase
      *
-     * @access public
      * @return string|bool     Response reason phrase, false if not set
      */
     public function getResponseReason()
@@ -913,7 +723,7 @@ class HTTP_Request
      * You MUST use a reference, or they will not persist!
      *
      * @param string $class The calling classname, to prevent clashes
-     * @param string $var The variable to retrieve.
+     * @param string $var   The variable to retrieve.
      *
      * @return mixed   A reference to the variable. If not set it will be
      *                 auto initialised to NULL.
@@ -921,10 +731,12 @@ class HTTP_Request
     public static function &getStaticProperty(string $class, string $var)
     {
         static $properties;
+
         if (!isset($properties[$class]))
         {
             $properties[$class] = [];
         }
+
         if (!array_key_exists($var, $properties[$class]))
         {
             $properties[$class][$var] = null;
@@ -937,7 +749,6 @@ class HTTP_Request
      * Returns the current request URL
      *
      * @return   string  Current request URL
-     * @access   public
      */
     public function getUrl(): string
     {
@@ -948,8 +759,6 @@ class HTTP_Request
      * Sets the URL to be requested
      *
      * @param string $url The url to be requested
-     *
-     * @access public
      */
     public function setURL(string $url)
     {
@@ -976,8 +785,6 @@ class HTTP_Request
      * Removes a request header
      *
      * @param string $name Header name to remove
-     *
-     * @access public
      */
     public function removeHeader(string $name)
     {
@@ -991,11 +798,10 @@ class HTTP_Request
      * Resets the object to its initial state (DEPRECATED).
      * Takes the same parameters as the constructor.
      *
-     * @param string $url The url to be requested
-     * @param array $params Associative array of parameters
+     * @param string $url     The url to be requested
+     * @param array $params   Associative array of parameters
      *                        (see constructor for details)
      *
-     * @access public
      * @deprecated deprecated since 1.2, call the constructor if this is necessary
      */
     public function reset(string $url, array $params = [])
@@ -1006,19 +812,17 @@ class HTTP_Request
     /**
      * Sends the request
      *
-     * @access public
-     *
      * @param bool $saveBody Whether to store response body in Response object property,
-     *                set this to false if downloading a LARGE file and using a Listener
+     *                       set this to false if downloading a LARGE file and using a Listener
      *
      * @return bool
-     * @throws \Exception
+     * @throws \PearException
      */
     public function sendRequest(bool $saveBody = true): bool
     {
         if (!is_a($this->_url, 'Net_URL'))
         {
-            throw new Exception('No URL given');
+            throw new PearException('No URL given');
         }
 
         $host = $this->_proxy_host ?? $this->_url->host;
@@ -1029,11 +833,11 @@ class HTTP_Request
             // Bug #14127, don't try connecting to HTTPS sites without OpenSSL
             if (version_compare(PHP_VERSION, '4.3.0', '<') || !extension_loaded('openssl'))
             {
-                throw new Exception('Need PHP 4.3.0 or later with OpenSSL support for https:// requests');
+                throw new PearException('Need PHP 4.3.0 or later with OpenSSL support for https:// requests');
             }
             elseif (isset($this->_proxy_host))
             {
-                throw new Exception('HTTPS proxies are not supported');
+                throw new PearException('HTTPS proxies are not supported');
             }
             $host = 'ssl://' . $host;
         }
@@ -1063,10 +867,10 @@ class HTTP_Request
         }
         else
         {
-            $this->_notify('connect');
             $this->_sock = new Net_Socket();
             $this->_sock->connect($host, $port, null, $this->_timeout, $this->_socketOptions);
         }
+
         $this->_sock->write($this->_buildRequest());
 
         if (!empty($this->_readTimeout))
@@ -1074,10 +878,8 @@ class HTTP_Request
             $this->_sock->setTimeout($this->_readTimeout[0], $this->_readTimeout[1]);
         }
 
-        $this->_notify('sentRequest');
-
         // Read the response
-        $this->_response = new HTTP_Response($this->_sock, $this->_listeners);
+        $this->_response = new HTTP_Response($this->_sock);
         $this->_response->process(
             $this->_saveBody && $saveBody, HTTP_REQUEST_METHOD_HEAD != $this->_method
         );
@@ -1087,6 +889,7 @@ class HTTP_Request
             $keepAlive = (isset($this->_response->_headers['content-length']) ||
                 (isset($this->_response->_headers['transfer-encoding']) &&
                     strtolower($this->_response->_headers['transfer-encoding']) == 'chunked'));
+
             if ($keepAlive)
             {
                 if (isset($this->_response->_headers['connection']))
@@ -1142,6 +945,7 @@ class HTTP_Request
                 {
                     $redirect = dirname($this->_url->path) . '/' . $redirect;
                 }
+
                 $redirect = Net_URL::resolvePath($redirect);
                 $this->_url->path = $redirect;
                 // Filename, no path
@@ -1156,6 +960,7 @@ class HTTP_Request
                 {
                     $redirect = dirname($this->_url->path) . '/' . $redirect;
                 }
+
                 $this->_url->path = $redirect;
             }
 
@@ -1166,7 +971,7 @@ class HTTP_Request
         }
         elseif ($this->_allowRedirects and $this->_redirects > $this->_maxRedirects)
         {
-            throw new Exception('Too many redirects');
+            throw new PearException('Too many redirects');
         }
 
         return true;
@@ -1190,8 +995,6 @@ class HTTP_Request
      * Sets the request body (for POST, PUT and similar requests)
      *
      * @param string $body Request body
-     *
-     * @access   public
      */
     public function setBody(string $body)
     {
@@ -1202,8 +1005,6 @@ class HTTP_Request
      * Sets the HTTP version to use, 1.0 or 1.1
      *
      * @param string $http Version to use. Use the defined constants for this
-     *
-     * @access public
      */
     public function setHttpVer(string $http)
     {
@@ -1214,8 +1015,6 @@ class HTTP_Request
      * Sets the method to be used, GET, POST etc.
      *
      * @param string $method Method to use. Use the defined constants for this
-     *
-     * @access public
      */
     public function setMethod(string $method)
     {
@@ -1225,12 +1024,10 @@ class HTTP_Request
     /**
      * Sets a proxy to be used
      *
-     * @param string $host Proxy host
-     * @param int $port Proxy port
+     * @param string $host  Proxy host
+     * @param int $port     Proxy port
      * @param ?string $user Proxy username
      * @param ?string $pass Proxy password
-     *
-     * @access public
      */
     public function setProxy(string $host, int $port = 8080, ?string $user = null, ?string $pass = null)
     {
@@ -1257,93 +1054,54 @@ class HTTP_Request
  */
 class HTTP_Response
 {
-    /**
-     * Response body
-     * @var string
-     */
+
     public string $_body = '';
 
     /**
      * Used by _readChunked(): remaining length of the current chunk
-     * @var int
      */
     public int $_chunkLength = 0;
 
-    /**
-     * Return code
-     * @var string
-     */
     public string $_code;
 
     /**
      * Cookies set in response
-     * @var array
      */
     public array $_cookies;
 
-    /**
-     * Response headers
-     * @var array
-     */
     public array $_headers;
 
-    /**
-     * Attached listeners
-     * @var array
-     */
-    public array $_listeners = [];
-
-    /**
-     * Protocol
-     * @var string
-     */
     public string $_protocol;
 
     /**
      * Response reason phrase
-     * @var string
      */
     public string $_reason;
 
-    /**
-     * Socket object
-     * @var Net_Socket
-     */
     public Net_Socket $_sock;
 
     /**
      * Bytes left to read from message-body
-     * @var null|int
      */
     public ?int $_toRead;
 
     /**
-     * Constructor
-     *
      * @param Net_Socket $sock socket to read the response from
-     * @param array $listeners listeners attached to request
      */
-    public function __construct(Net_Socket $sock, array $listeners)
+    public function __construct(Net_Socket $sock)
     {
         $this->_sock = $sock;
-        $this->_listeners = $listeners;
     }
 
     /**
      * Decodes the message-body encoded by gzip
-     *
      * The real decoding work is done by gzinflate() built-in function, this
      * method only parses the header and checks data for compliance with
      * RFC 1952
      *
-     * @access   private
-     *
-     * @param string $data gzip-encoded data
-     *
-     * @return   string  decoded data
-     * @throws \Exception
+     * @throws \PearException
      */
-    public function _decodeGzip(string $data): string
+    protected function _decodeGzip(string $data): string
     {
         if (HTTP_REQUEST_MBSTRING)
         {
@@ -1352,81 +1110,101 @@ class HTTP_Response
         }
 
         $length = strlen($data);
+
         // If it doesn't look like gzip-encoded data, don't bother
         if (18 > $length || strcmp(substr($data, 0, 2), "\x1f\x8b"))
         {
             return $data;
         }
+
         $method = ord(substr($data, 2, 1));
+
         if (8 != $method)
         {
-            throw new Exception('_decodeGzip(): unknown compression method');
+            throw new PearException('_decodeGzip(): unknown compression method');
         }
+
         $flags = ord(substr($data, 3, 1));
+
         if ($flags & 224)
         {
-            throw new Exception('_decodeGzip(): reserved bits are set');
+            throw new PearException('_decodeGzip(): reserved bits are set');
         }
 
         // header is 10 bytes minimum. may be longer, though.
         $headerLength = 10;
+
         // extra fields, need to skip 'em
         if ($flags & 4)
         {
             if ($length - $headerLength - 2 < 8)
             {
-                throw new Exception('_decodeGzip(): data too short');
+                throw new PearException('_decodeGzip(): data too short');
             }
+
             $extraLength = unpack('v', substr($data, 10, 2));
+
             if ($length - $headerLength - 2 - $extraLength[1] < 8)
             {
-                throw new Exception('_decodeGzip(): data too short');
+                throw new PearException('_decodeGzip(): data too short');
             }
             $headerLength += $extraLength[1] + 2;
         }
+
         // file name, need to skip that
         if ($flags & 8)
         {
             if ($length - $headerLength - 1 < 8)
             {
-                throw new Exception('_decodeGzip(): data too short');
+                throw new PearException('_decodeGzip(): data too short');
             }
+
             $filenameLength = strpos(substr($data, $headerLength), chr(0));
+
             if (false === $filenameLength || $length - $headerLength - $filenameLength - 1 < 8)
             {
-                throw new Exception('_decodeGzip(): data too short');
+                throw new PearException('_decodeGzip(): data too short');
             }
+
             $headerLength += $filenameLength + 1;
         }
+
         // comment, need to skip that also
         if ($flags & 16)
         {
             if ($length - $headerLength - 1 < 8)
             {
-                throw new Exception('_decodeGzip(): data too short');
+                throw new PearException('_decodeGzip(): data too short');
             }
+
             $commentLength = strpos(substr($data, $headerLength), chr(0));
+
             if (false === $commentLength || $length - $headerLength - $commentLength - 1 < 8)
             {
-                throw new Exception('_decodeGzip(): data too short');
+                throw new PearException('_decodeGzip(): data too short');
             }
+
             $headerLength += $commentLength + 1;
         }
+
         // have a CRC for header. let's check
         if ($flags & 1)
         {
             if ($length - $headerLength - 2 < 8)
             {
-                throw new Exception('_decodeGzip(): data too short');
+                throw new PearException('_decodeGzip(): data too short');
             }
+
             $crcReal = 0xffff & crc32(substr($data, 0, $headerLength));
             $crcStored = unpack('v', substr($data, $headerLength, 2));
+
             if ($crcReal != $crcStored[1])
             {
-                throw new Exception('_decodeGzip(): header CRC check failed');
+                throw new PearException('_decodeGzip(): header CRC check failed');
             }
             $headerLength += 2;
         }
+
         // unpacked data CRC and size at the end of encoded data
         $tmp = unpack('V2', substr($data, - 8));
         $dataCrc = $tmp[1];
@@ -1435,17 +1213,18 @@ class HTTP_Response
         // finally, call the gzinflate() function
         // don't pass $dataSize to gzinflate, see bugs #13135, #14370
         $unpacked = gzinflate(substr($data, $headerLength, - 8));
+
         if (false === $unpacked)
         {
-            throw new Exception('_decodeGzip(): gzinflate() call failed');
+            throw new PearException('_decodeGzip(): gzinflate() call failed');
         }
         elseif ($dataSize != strlen($unpacked))
         {
-            throw new Exception('_decodeGzip(): data size check failed');
+            throw new PearException('_decodeGzip(): data size check failed');
         }
         elseif ((0xffffffff & $dataCrc) != (0xffffffff & crc32($unpacked)))
         {
-            throw new Exception('_decodeGzip(): data CRC check failed');
+            throw new PearException('_decodeGzip(): data CRC check failed');
         }
 
         if (HTTP_REQUEST_MBSTRING && isset($oldEncoding))
@@ -1457,30 +1236,11 @@ class HTTP_Response
     }
 
     /**
-     * Notifies all registered listeners of an event.
-     *
-     * @param string $event Event name
-     * @param mixed $data Additional data
-     *
-     * @access   private
-     * @see HTTP_Request::_notify()
-     */
-    public function _notify(string $event, $data = null)
-    {
-        foreach (array_keys($this->_listeners) as $id)
-        {
-            $this->_listeners[$id]->update($this, $event, $data);
-        }
-    }
-
-    /**
      * Parse a Set-Cookie header to fill $_cookies array
-     *
-     * @access private
      *
      * @param string $headervalue value of Set-Cookie header
      */
-    public function _parseCookie(string $headervalue)
+    protected function _parseCookie(string $headervalue)
     {
         $cookie = [
             'expires' => null,
@@ -1515,7 +1275,9 @@ class HTTP_Response
                 {
                     [$elName, $elValue] = array_map('trim', explode('=', $elements[$i]));
                 }
+
                 $elName = strtolower($elName);
+
                 if ('secure' == $elName)
                 {
                     $cookie['secure'] = true;
@@ -1537,19 +1299,13 @@ class HTTP_Response
         $this->_cookies[] = $cookie;
     }
 
-    /**
-     * Processes the response header
-     *
-     * @access private
-     *
-     * @param string $header HTTP header
-     */
-    public function _processHeader(string $header)
+    protected function _processHeader(string $header)
     {
         if (false === strpos($header, ':'))
         {
             return;
         }
+
         [$headername, $headervalue] = explode(':', $header, 2);
         $headername = strtolower($headername);
         $headervalue = ltrim($headervalue);
@@ -1574,16 +1330,15 @@ class HTTP_Response
     /**
      * Read a part of response body encoded with chunked Transfer-Encoding
      *
-     * @access private
-     * @return string
-     * @throws \Exception
+     * @throws \PearException
      */
-    public function _readChunked(): string
+    protected function _readChunked(): string
     {
         // at start of the next chunk?
         if (0 == $this->_chunkLength)
         {
             $line = $this->_sock->readLine();
+
             if (preg_match('/^([0-9a-f]+)/i', $line, $matches))
             {
                 $this->_chunkLength = hexdec($matches[1]);
@@ -1600,8 +1355,10 @@ class HTTP_Response
                 return '';
             }
         }
+
         $data = $this->_sock->read($this->_chunkLength);
         $this->_chunkLength -= HTTP_REQUEST_MBSTRING ? mb_strlen($data, 'iso-8859-1') : strlen($data);
+
         if (0 == $this->_chunkLength)
         {
             $this->_sock->readLine(); // Trailing CRLF
@@ -1612,29 +1369,26 @@ class HTTP_Response
 
     /**
      * Processes a HTTP response
-     *
      * This extracts response code, headers, cookies and decodes body if it
      * was encoded in some way
      *
-     * @access public
-     *
-     * @param bool $saveBody Whether to store response body in object property, set
-     *                   this to false if downloading a LARGE file and using a Listener.
-     *                   This is assumed to be true if body is gzip-encoded.
+     * @param bool $saveBody    Whether to store response body in object property, set
+     *                          this to false if downloading a LARGE file and using a Listener.
+     *                          This is assumed to be true if body is gzip-encoded.
      * @param bool $canHaveBody Whether the response can actually have a message-body.
-     *                   Will be set to false for HEAD requests.
+     *                          Will be set to false for HEAD requests.
      *
-     * @return bool     true on success, PEAR_Error in case of malformed response
-     * @throws \Exception
+     * @throws \PearException
      */
     public function process(bool $saveBody = true, bool $canHaveBody = true): bool
     {
         do
         {
             $line = $this->_sock->readLine();
+
             if (!preg_match('!^(HTTP/\d\.\d) (\d{3})(?: (.+))?!', $line, $s))
             {
-                throw new Exception('Malformed response');
+                throw new PearException('Malformed response');
             }
             else
             {
@@ -1642,14 +1396,13 @@ class HTTP_Response
                 $this->_code = intval($s[2]);
                 $this->_reason = empty($s[3]) ? null : $s[3];
             }
+
             while ('' !== ($header = $this->_sock->readLine()))
             {
                 $this->_processHeader($header);
             }
         }
         while (100 == $this->_code);
-
-        $this->_notify('gotHeaders', $this->_headers);
 
         // RFC 2616, section 4.4:
         // 1. Any response message which "MUST NOT" include a message-body ...
@@ -1663,6 +1416,7 @@ class HTTP_Response
         $chunked = isset($this->_headers['transfer-encoding']) && ('chunked' == $this->_headers['transfer-encoding']);
         $gzipped = isset($this->_headers['content-encoding']) && ('gzip' == $this->_headers['content-encoding']);
         $hasBody = false;
+
         if ($canHaveBody &&
             ($chunked || !isset($this->_headers['content-length']) || 0 != $this->_headers['content-length']))
         {
@@ -1674,6 +1428,7 @@ class HTTP_Response
             {
                 $this->_toRead = $this->_headers['content-length'];
             }
+
             while (!$this->_sock->eof() && (is_null($this->_toRead) || 0 < $this->_toRead))
             {
                 if ($chunked)
@@ -1689,6 +1444,7 @@ class HTTP_Response
                     $data = $this->_sock->read(min(4096, $this->_toRead));
                     $this->_toRead -= HTTP_REQUEST_MBSTRING ? mb_strlen($data, 'iso-8859-1') : strlen($data);
                 }
+
                 if ('' == $data && (!$this->_chunkLength || $this->_sock->eof()))
                 {
                     break;
@@ -1696,11 +1452,11 @@ class HTTP_Response
                 else
                 {
                     $hasBody = true;
+
                     if ($saveBody || $gzipped)
                     {
                         $this->_body .= $data;
                     }
-                    $this->_notify($gzipped ? 'gzTick' : 'tick', $data);
                 }
             }
         }
@@ -1712,14 +1468,9 @@ class HTTP_Response
             {
                 $body = $this->_decodeGzip($this->_body);
                 $this->_body = $body;
-                $this->_notify('gotBody', $this->_body);
-            }
-            else
-            {
-                $this->_notify('gotBody');
             }
         }
 
         return true;
     }
-} // End class HTTP_Response
+}

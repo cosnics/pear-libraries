@@ -45,9 +45,8 @@
 
 /**
  * Storage class for HTML::Table data
- * This class stores data for tables built with HTML_Table. When having
- * more than one instance, it can be used for grouping the table into the
- * parts <thead>...</thead>, <tfoot>...</tfoot> and <tbody>...</tbody>.
+ * This class stores data for tables built with HTML_Table. When having more than one instance, it can be used for
+ * grouping the table into the parts <thead>...</thead>, <tfoot>...</tfoot> and <tbody>...</tbody>.
  *
  * @category   HTML
  * @package    HTML_Table
@@ -65,65 +64,48 @@ class HTML_Table_Storage extends HTML_Common
     /**
      * Value to insert into empty cells
      */
-    private string $_autoFill = '&nbsp;';
+    protected string $_autoFill = '&nbsp;';
 
     /**
-     * Automatically adds a new row or column if a given row or column index
-     * does not exist
+     * Automatically adds a new row or column if a given row or column index does not exist
      */
-    private bool $_autoGrow = true;
+    protected bool $_autoGrow = true;
 
-    /**
-     * Number of column composing the table
-     */
-    private int $_cols = 0;
+    protected int $_cols = 0;
 
-    /**
-     * Tracks the level of nested tables
-     */
-    private int $_nestLevel = 0;
+    protected int $_nestLevel = 0;
 
-    /**
-     * Number of rows composing in the table
-     */
-    private int $_rows = 0;
+    protected int $_rows = 0;
 
     /**
      * Array containing the table structure
      */
-    private array $_structure = [];
+    protected array $_structure = [];
 
     /**
      * Whether to use <thead>, <tfoot> and <tbody> or not
      */
-    private bool $_useTGroups;
+    protected bool $_useTGroups;
 
     /**
-     * Class constructor
-     *
-     * @param int $tabOffset
      * @param bool $useTGroups Whether to use <thead>, <tfoot> and
      *                         <tbody> or not
      */
-    public function __construct($tabOffset = 0, $useTGroups = false)
+    public function __construct(int $tabOffset = 0, bool $useTGroups = false)
     {
-        parent::__construct(null, (int) $tabOffset);
-        $this->_useTGroups = (boolean) $useTGroups;
+        parent::__construct(null, $tabOffset);
+        $this->_useTGroups = $useTGroups;
     }
 
     /**
      * Adjusts ends (total number of rows and columns)
      *
-     * @param int $row          Row index
-     * @param int $col          Column index
-     * @param string $method    Method name of caller
-     *                          Used to populate \Exception if thrown.
-     * @param array $attributes Assoc array of attributes
-     *                          Default is an empty array.
+     * @param string $method    Method name of caller. Used to populate \Exception if thrown.
+     * @param array $attributes Assoc array of attributes. Default is an empty array.
      *
-     * @throws \Exception
+     * @throws \PearException
      */
-    private function _adjustEnds(int $row, int $col, string $method, array $attributes = [])
+    protected function _adjustEnds(int $row, int $col, string $method, array $attributes = [])
     {
         $colspan = $attributes['colspan'] ?? 1;
         $rowspan = $attributes['rowspan'] ?? 1;
@@ -136,7 +118,7 @@ class HTML_Table_Storage extends HTML_Common
             }
             else
             {
-                throw new Exception(
+                throw new PearException(
                     'Invalid table row reference[' . $row . '] in HTML_Table::' . $method
                 );
             }
@@ -150,7 +132,7 @@ class HTML_Table_Storage extends HTML_Common
             }
             else
             {
-                throw new Exception(
+                throw new PearException(
                     'Invalid table column reference[' . $col . '] in HTML_Table::' . $method
                 );
             }
@@ -160,7 +142,7 @@ class HTML_Table_Storage extends HTML_Common
     /**
      * Tells if the parameter is an array of attribute arrays/strings
      */
-    private function _isAttributesArray(array $attributes): bool
+    protected function _isAttributesArray(array $attributes): bool
     {
         if (isset($attributes[0]))
         {
@@ -174,24 +156,17 @@ class HTML_Table_Storage extends HTML_Common
     }
 
     /**
-     * Sets the cell contents for a single existing cell
-     * If the given indices do not exist and autoGrow is true then the given
-     * row and/or col is automatically added.  If autoGrow is false then an
-     * error is returned.
+     * Sets the cell contents for a single existing cell. If the given indices do not exist and autoGrow is true then
+     * the given row and/or col is automatically added.  If autoGrow is false then an error is returned.
      *
-     * @param int $row        Row index
-     * @param int $col        Column index
-     * @param mixed $contents May contain html or any object with a
-     *                        toHTML() method; if it is an array (with
-     *                        strings and/or objects), $col will be used
-     *                        as start offset and the array elements will
-     *                        be set to this and the following columns
-     *                        in $row
-     * @param string $type    (optional) Cell type either 'TH' or 'TD'
+     * @param mixed $contents May contain html or any object with a toHTML() method; if it is an array (with strings
+     *                        and/or objects), $col will be used as start offset and the array elements will be set to
+     *                        this and the following columns in $row
+     * @param string $type    Cell type either 'TH' or 'TD'
      *
-     * @throws \Exception
+     * @throws \PearException
      */
-    private function _setSingleCellContents(int $row, int $col, $contents, string $type = 'TD')
+    protected function _setSingleCellContents(int $row, int $col, $contents, string $type = 'TD')
     {
         if (isset($this->_structure[$row][$col]) && $this->_structure[$row][$col] == '__SPANNED__')
         {
@@ -205,11 +180,8 @@ class HTML_Table_Storage extends HTML_Common
 
     /**
      * Checks if rows or columns are spanned
-     *
-     * @param int $row Row index
-     * @param int $col Column index
      */
-    private function _updateSpanGrid(int $row, int $col)
+    protected function _updateSpanGrid(int $row, int $col)
     {
         if (isset($this->_structure[$row][$col]['attr']['colspan']))
         {
@@ -252,20 +224,18 @@ class HTML_Table_Storage extends HTML_Common
     /**
      * Adds a table column and returns the column identifier
      *
-     * @param ?array $contents           (optional) Must be a indexed array of valid
-     *                                   cell contents
-     * @param ?array|?string $attributes (optional) Associative array or string of
-     *                                   table row attributes
-     * @param string $type               (optional) Cell type either 'th' or 'td'
+     * @param ?array $contents           Must be a indexed array of valid cell contents
+     * @param ?array|?string $attributes Associative array or string of table row attributes
+     * @param string $type               Cell type either 'th' or 'td'
      *
      * @return int
-     * @throws \Exception
+     * @throws \PearException
      */
     public function addCol(?array $contents = null, $attributes = null, string $type = 'td'): int
     {
         if (isset($contents) && !is_array($contents))
         {
-            throw new Exception(
+            throw new PearException(
                 'First parameter to HTML_Table::addCol ' . 'must be an array'
             );
         }
@@ -298,21 +268,15 @@ class HTML_Table_Storage extends HTML_Common
     /**
      * Adds a table row and returns the row identifier
      *
-     * @param ?array $contents           (optional) Must be a indexed array of valid
-     *                                   cell contents
-     * @param ?array|?string $attributes (optional) Associative array or string of
-     *                                   table row attributes. This can
-     *                                   also be an array of attributes,
-     *                                   in which case the attributes
-     *                                   will be repeated in a loop.
-     * @param string $type               (optional) Cell type either 'th' or 'td'
-     * @param bool $inTR                 false if attributes are to be
-     *                                   applied in TD tags; true if
-     *                                   attributes are to be applied in
-     *                                   TR tag
+     * @param ?array $contents           Must be a indexed array of valid cell contents
+     * @param ?array|?string $attributes Associative array or string of table row attributes. This can also be an array
+     *                                   of attributes, in which case the attributes will be repeated in a loop.
+     * @param string $type               Cell type either 'th' or 'td'
+     * @param bool $inTR                 false if attributes are to be applied in TD tags; true if attributes are to be
+     *                                   applied in TR tag
      *
      * @return int
-     * @throws \Exception
+     * @throws \PearException
      */
     public function addRow(
         ?array $contents = null, $attributes = null, string $type = 'td', bool $inTR = false
@@ -320,7 +284,7 @@ class HTML_Table_Storage extends HTML_Common
     {
         if (isset($contents) && !is_array($contents))
         {
-            throw new Exception(
+            throw new PearException(
                 'First parameter to HTML_Table::addRow ' . 'must be an array'
             );
         }
@@ -353,19 +317,13 @@ class HTML_Table_Storage extends HTML_Common
     /**
      * Alternates the row attributes starting at $start
      *
-     * @param int $start                  Row index of row in which alternating
-     *                                    begins
-     * @param ?array|?string $attributes1 Associative array or string of table
-     *                                    row attributes
-     * @param ?array|?string $attributes2 Associative array or string of table
-     *                                    row attributes
-     * @param bool $inTR                  false if attributes are to be applied
-     *                                    in TD tags; true if attributes are to
+     * @param ?array|?string $attributes1 Associative array or string of table row attributes
+     * @param ?array|?string $attributes2 Associative array or string of table row attributes
+     * @param bool $inTR                  false if attributes are to be applied in TD tags; true if attributes are to
      *                                    be applied in TR tag
-     * @param int $firstAttributes        (optional) Which attributes should be
-     *                                    applied to the first row, 1 or 2.
+     * @param int $firstAttributes        Which attributes should be applied to the first row, 1 or 2.
      *
-     * @throws \Exception
+     * @throws \PearException
      */
     public function altRowAttributes(
         int $start, $attributes1, $attributes2, bool $inTR = false, int $firstAttributes = 1
@@ -408,7 +366,7 @@ class HTML_Table_Storage extends HTML_Common
     /**
      * Returns the attributes for a given cell
      *
-     * @throws \Exception
+     * @throws \PearException
      */
     public function getCellAttributes(int $row, int $col): array
     {
@@ -418,7 +376,7 @@ class HTML_Table_Storage extends HTML_Common
         }
         elseif (!isset($this->_structure[$row][$col]))
         {
-            throw new Exception(
+            throw new PearException(
                 'Invalid table cell reference[' . $row . '][' . $col . '] in HTML_Table::getCellAttributes'
             );
         }
@@ -430,7 +388,7 @@ class HTML_Table_Storage extends HTML_Common
      * Returns the cell contents for an existing cell
      *
      * @return ?mixed
-     * @throws \Exception
+     * @throws \PearException
      */
     public function getCellContents(int $row, int $col)
     {
@@ -441,7 +399,7 @@ class HTML_Table_Storage extends HTML_Common
 
         if (!isset($this->_structure[$row][$col]))
         {
-            throw new Exception(
+            throw new PearException(
                 'Invalid table cell reference[' . $row . '][' . $col . '] in HTML_Table::getCellContents'
             );
         }
@@ -504,10 +462,9 @@ class HTML_Table_Storage extends HTML_Common
     /**
      * Sets the attributes for all cells
      *
-     * @param mixed $attributes (optional) Associative array or
-     *                          string of table row attributes
+     * @param mixed $attributes Associative array or string of table row attributes
      *
-     * @throws \Exception
+     * @throws \PearException
      */
     public function setAllAttributes($attributes = null)
     {
@@ -518,17 +475,12 @@ class HTML_Table_Storage extends HTML_Common
     }
 
     /**
-     * Sets the cell attributes for an existing cell.
-     * If the given indices do not exist and autoGrow is true then the given
-     * row and/or col is automatically added.  If autoGrow is false then an
-     * error is returned.
+     * Sets the cell attributes for an existing cell. If the given indices do not exist and autoGrow is true then the
+     * given row and/or col is automatically added.  If autoGrow is false then an error is returned.
      *
-     * @param int $row                   Row index
-     * @param int $col                   Column index
-     * @param ?array|?string $attributes Associative array or string of table
-     *                                   row attributes
+     * @param ?array|?string $attributes Associative array or string of table row attributes
      *
-     * @throws \Exception
+     * @throws \PearException
      */
     public function setCellAttributes(int $row, int $col, $attributes)
     {
@@ -544,22 +496,15 @@ class HTML_Table_Storage extends HTML_Common
     }
 
     /**
-     * Sets the cell contents for an existing cell
-     * If the given indices do not exist and autoGrow is true then the given
-     * row and/or col is automatically added.  If autoGrow is false then an
-     * error is returned.
+     * Sets the cell contents for an existing cell. If the given indices do not exist and autoGrow is true then the
+     * given row and/or col is automatically added.  If autoGrow is false then an error is returned.
      *
-     * @param int $row        Row index
-     * @param int $col        Column index
-     * @param mixed $contents May contain html or any object with a
-     *                        toHTML() method; if it is an array (with
-     *                        strings and/or objects), $col will be used
-     *                        as start offset and the array elements will
-     *                        be set to this and the following columns
-     *                        in $row
-     * @param string $type    (optional) Cell type either 'TH' or 'TD'
+     * @param mixed $contents May contain html or any object with a toHTML() method; if it is an array (with strings
+     *                        and/or objects), $col will be used as start offset and the array elements will be set to
+     *                        this and the following columns in $row
+     * @param string $type    Cell type either 'TH' or 'TD'
      *
-     * @throws \Exception
+     * @throws \PearException
      */
     public function setCellContents(int $row, int $col, $contents, string $type = 'TD')
     {
@@ -582,11 +527,10 @@ class HTML_Table_Storage extends HTML_Common
     /**
      * Sets the column attributes for an existing column
      *
-     * @param int $col                   Column index
-     * @param ?array|?string $attributes (optional) Associative array or string
+     * @param ?array|?string $attributes Associative array or string
      *                                   of table row attributes
      *
-     * @throws \Exception
+     * @throws \PearException
      */
     public function setColAttributes(int $col, $attributes = null)
     {
@@ -618,7 +562,6 @@ class HTML_Table_Storage extends HTML_Common
     /**
      * Sets a columns type 'TH' or 'TD'
      *
-     * @param int $col     Column index
      * @param string $type 'TH' or 'TD'
      */
     public function setColType(int $col, string $type)
@@ -632,13 +575,10 @@ class HTML_Table_Storage extends HTML_Common
     /**
      * Sets the contents of a header cell
      *
-     * @param int $row
-     * @param int $col
      * @param mixed $contents
-     * @param ?array|?string $attributes Associative array or string of table row
-     *                                   attributes
+     * @param ?array|?string $attributes Associative array or string of table row attributes
      *
-     * @throws \Exception
+     * @throws \PearException
      */
     public function setHeaderContents(int $row, int $col, $contents, $attributes = null)
     {
@@ -653,16 +593,12 @@ class HTML_Table_Storage extends HTML_Common
     /**
      * Sets the row attributes for an existing row
      *
-     * @param int $row                   Row index
-     * @param ?array|?string $attributes Associative array or string of table
-     *                                   row attributes. This can also be an
-     *                                   array of attributes, in which case the
-     *                                   attributes will be repeated in a loop.
-     * @param bool $inTR                 false if attributes are to be applied
-     *                                   in TD tags; true if attributes are to
-     *                                   be applied in TR tag
+     * @param ?array|?string $attributes Associative array or string of table row attributes. This can also be an array
+     *                                   of attributes, in which case the attributes will be repeated in a loop.
+     * @param bool $inTR                 false if attributes are to be applied in TD tags; true if attributes are to be
+     *                                   applied in TR tag
      *
-     * @throws \Exception
+     * @throws \PearException
      */
     public function setRowAttributes(int $row, $attributes, bool $inTR = false)
     {
@@ -703,7 +639,6 @@ class HTML_Table_Storage extends HTML_Common
     /**
      * Sets a rows type 'TH' or 'TD'
      *
-     * @param int $row     Row index
      * @param string $type 'TH' or 'TD'
      */
     public function setRowType(int $row, string $type)
@@ -825,10 +760,9 @@ class HTML_Table_Storage extends HTML_Common
     /**
      * Updates the attributes for all cells
      *
-     * @param mixed $attributes (optional) Associative array or
-     *                          string of table row attributes
+     * @param mixed $attributes Associative array or string of table row attributes
      *
-     * @throws \Exception
+     * @throws \PearException
      */
     public function updateAllAttributes($attributes = null)
     {
@@ -842,12 +776,9 @@ class HTML_Table_Storage extends HTML_Common
      * Updates the cell attributes passed but leaves other existing attributes
      * intact
      *
-     * @param int $row                   Row index
-     * @param int $col                   Column index
-     * @param ?array|?string $attributes Associative array or string of table row
-     *                                   attributes
+     * @param ?array|?string $attributes Associative array or string of table row attributes
      *
-     * @throws \Exception
+     * @throws \PearException
      */
     public function updateCellAttributes(int $row, int $col, $attributes)
     {
@@ -865,11 +796,9 @@ class HTML_Table_Storage extends HTML_Common
     /**
      * Updates the column attributes for an existing column
      *
-     * @param int $col                   Column index
-     * @param ?array|?string $attributes (optional) Associative array or string
-     *                                   of table row attributes
+     * @param ?array|?string $attributes Associative array or string of table row attributes
      *
-     * @throws \Exception
+     * @throws \PearException
      */
     public function updateColAttributes(int $col, $attributes = null)
     {
@@ -893,14 +822,11 @@ class HTML_Table_Storage extends HTML_Common
     /**
      * Updates the row attributes for an existing row
      *
-     * @param int $row                   Row index
-     * @param ?string|?array $attributes Associative array or string of table
-     *                                   row attributes
-     * @param bool $inTR                 false if attributes are to be applied
-     *                                   in TD tags; true if attributes are to
-     *                                   be applied in TR tag
+     * @param ?string|?array $attributes Associative array or string of table row attributes
+     * @param bool $inTR                 false if attributes are to be applied in TD tags; true if attributes are to be
+     *                                   applied in TR tag
      *
-     * @throws \Exception
+     * @throws \PearException
      */
     public function updateRowAttributes(int $row, $attributes = null, bool $inTR = false)
     {

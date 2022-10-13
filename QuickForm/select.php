@@ -72,24 +72,6 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
             $this->load($options);
         }
     } //end constructor
-    
-    // }}}
-    // {{{ apiVersion()
-
-    /**
-     * Returns the current API version 
-     * 
-     * @since     1.0
-     * @access    public
-     * @return    double
-     */
-    function apiVersion()
-    {
-        return 2.3;
-    } //end func apiVersion
-
-    // }}}
-    // {{{ setSelected()
 
     /**
      * Sets the default values of the select box

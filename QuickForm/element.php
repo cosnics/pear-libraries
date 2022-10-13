@@ -87,21 +87,6 @@ class HTML_QuickForm_element extends HTML_Common
             $this->setLabel($elementLabel);
         }
     } //end constructor
-    
-    // }}}
-    // {{{ apiVersion()
-
-    /**
-     * Returns the current API version
-     *
-     * @since     1.0
-     * @access    public
-     * @return    float
-     */
-    function apiVersion()
-    {
-        return 2.0;
-    } // end func apiVersion
 
     // }}}
     // {{{ getType()
