@@ -18,88 +18,78 @@
 // +----------------------------------------------------------------------+
 
 /**
- * HTML class for a image type element
+ * HTML class for a password type field
  *
  * @author       Adam Daniel <adaniel1@eesus.jnj.com>
  * @author       Bertrand Mansion <bmansion@mamasam.com>
- * @version      1.0
+ * @version      1.1
  * @since        PHP4.04pl1
  * @access       public
  */
-class HTML_QuickForm_image extends HTML_QuickForm_input
+class HTML_QuickForm_password extends HTML_QuickForm_input
 {
 
     /**
      * Class constructor
      *
-     * @param string $elementName           (optional)Element name attribute
-     * @param string $src                   (optional)Image source
+     * @param string $elementName           (optional)Input field name attribute
+     * @param string $elementLabel          (optional)Input field label
      * @param mixed $attributes             (optional)Either a typical HTML attribute string
      *                                      or an associative array
      *
      * @return    void
+     * @throws
      * @since     1.0
      * @access    public
      */
-    public function __construct($elementName = null, $src = '', $attributes = null)
+    public function __construct($elementName = null, $elementLabel = null, $attributes = null)
     {
-        parent::__construct($elementName, null, $attributes);
-        $this->setType('image');
-        $this->setSource($src);
-    } // end class constructor
+        parent::__construct($elementName, $elementLabel, $attributes);
+        $this->setType('password');
+    }
 
     /**
-     * Sets source for image element
+     * Returns the value of field without HTML tags (in this case, value is changed to a mask)
      *
-     * @param string $src source for image element
+     * @return    string
+     * @throws
+     * @since     1.0
+     * @access    public
+     */
+    public function getFrozenHtml(): string
+    {
+        $value = $this->getValue();
+
+        return ('' != $value ? '**********' : '&nbsp;') . $this->_getPersistantData();
+    }
+
+    /**
+     * Sets maxlength of password element
+     *
+     * @param string $maxlength Maximum length of password field
      *
      * @return    void
      * @since     1.0
      * @access    public
      */
-    public function setSource($src)
+    public function setMaxlength($maxlength)
     {
-        $this->updateAttributes(['src' => $src]);
+        $this->updateAttributes(['maxlength' => $maxlength]);
     }
 
     /**
-     * Sets border size for image element
+     * Sets size of password element
      *
-     * @param string $border border for image element
+     * @param string $size Size of password field
      *
      * @return    void
      * @since     1.0
      * @access    public
      */
-    public function setBorder($border)
+    public function setSize($size)
     {
-        $this->updateAttributes(['border' => $border]);
+        $this->updateAttributes(['size' => $size]);
     }
 
-    /**
-     * Sets alignment for image element
-     *
-     * @param string $align alignment for image element
-     *
-     * @return    void
-     * @since     1.0
-     * @access    public
-     */
-    public function setAlign($align)
-    {
-        $this->updateAttributes(['align' => $align]);
-    }
-
-    /**
-     * Freeze the element so that only its value is returned
-     *
-     * @access    public
-     * @return    void
-     */
-    public function freeze()
-    {
-        return false;
-    }
-
-} // end class HTML_QuickForm_image
+}
 

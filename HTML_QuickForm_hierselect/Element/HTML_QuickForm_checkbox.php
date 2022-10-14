@@ -100,7 +100,7 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
      * @since     1.0
      * @access    public
      */
-    function toHtml()
+    function toHtml(): string
     {
         $this->_generateId(); // Seems to be necessary when this is used in a group.
         if (0 == strlen($this->_text))
@@ -126,7 +126,7 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
      * @since     1.0
      * @access    public
      */
-    function getFrozenHtml()
+    function getFrozenHtml(): string
     {
         if ($this->getChecked())
         {
@@ -201,7 +201,7 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
      * @since     1.0
      * @access    public
      */
-    function onQuickFormEvent($event, $arg, &$caller)
+    public function onQuickFormEvent(string $event, $arg, object $caller): bool
     {
         switch ($event)
         {

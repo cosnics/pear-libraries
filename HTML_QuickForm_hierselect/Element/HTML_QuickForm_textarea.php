@@ -18,24 +18,32 @@
 // +----------------------------------------------------------------------+
 
 /**
- * Base class for input form elements
+ * HTML class for a textarea type field
  *
  * @author       Adam Daniel <adaniel1@eesus.jnj.com>
  * @author       Bertrand Mansion <bmansion@mamasam.com>
  * @version      1.0
  * @since        PHP4.04pl1
  * @access       public
- * @abstract
  */
-abstract class HTML_QuickForm_input extends HTML_QuickForm_element
+class HTML_QuickForm_textarea extends HTML_QuickForm_element
 {
+
+    /**
+     * Field value
+     *
+     * @var       string
+     * @since     1.0
+     * @access    private
+     */
+    public $_value = null;
 
     /**
      * Class constructor
      *
-     * @param string     Input field name attribute
-     * @param mixed      Label(s) for the input field
-     * @param mixed      Either a typical HTML attribute string or an associative array
+     * @param string    Input field name attribute
+     * @param mixed     Label(s) for a field
+     * @param mixed     Either a typical HTML attribute string or an associative array
      *
      * @return    void
      * @since     1.0
@@ -44,22 +52,30 @@ abstract class HTML_QuickForm_input extends HTML_QuickForm_element
     public function __construct($elementName = null, $elementLabel = null, $attributes = null)
     {
         parent::__construct($elementName, $elementLabel, $attributes);
+        $this->_persistantFreeze = true;
+        $this->_type = 'textarea';
     }
 
     /**
-     * We don't need values from button-type elements (except submit) and files
+     * Returns the value of field without HTML tags (in this case, value is changed to a mask)
+     *
+     * @return    string
+     * @since     1.0
+     * @access    public
      */
-    public function exportValue(&$submitValues, $assoc = false)
+    public function getFrozenHtml(): string
     {
-        $type = $this->getType();
-        if ('reset' == $type || 'image' == $type || 'button' == $type || 'file' == $type)
+        $value = htmlspecialchars($this->getValue());
+        if ($this->getAttribute('wrap') == 'off')
         {
-            return null;
+            $html = $this->_getTabs() . '<pre>' . $value . "</pre>\n";
         }
         else
         {
-            return parent::exportValue($submitValues, $assoc);
+            $html = nl2br($value) . "\n";
         }
+
+        return $html . $this->_getPersistantData();
     }
 
     /**
@@ -69,7 +85,7 @@ abstract class HTML_QuickForm_input extends HTML_QuickForm_element
      * @since     1.0
      * @access    public
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->getAttribute('name');
     }
@@ -83,44 +99,35 @@ abstract class HTML_QuickForm_input extends HTML_QuickForm_element
      */
     public function getValue()
     {
-        return $this->getAttribute('value');
+        return $this->_value;
     }
 
     /**
-     * Called by HTML_QuickForm whenever form event is made on this element
+     * Sets value for textarea element
      *
-     * @param string $event  Name of event
-     * @param mixed $arg     event arguments
-     * @param object $caller calling object
+     * @param string $value Value for textarea element
      *
      * @return    void
-     * @throws
      * @since     1.0
      * @access    public
      */
-    public function onQuickFormEvent($event, $arg, &$caller)
+    public function setValue($value)
     {
-        // do not use submit values for button-type elements
-        $type = $this->getType();
-        if (('updateValue' != $event) ||
-            ('submit' != $type && 'reset' != $type && 'image' != $type && 'button' != $type))
-        {
-            parent::onQuickFormEvent($event, $arg, $caller);
-        }
-        else
-        {
-            $value = $this->_findValue($caller->_constantValues);
-            if (null === $value)
-            {
-                $value = $this->_findValue($caller->_defaultValues);
-            }
-            if (null !== $value)
-            {
-                $this->setValue($value);
-            }
-        }
+        $this->_value = $value;
+    }
 
-        return true;
+    /**
+     * Sets width in cols for textarea element
+     *
+     * @param string $cols Width expressed in cols
+     *
+     * @return    void
+     * @since     1.0
+     * @access    public
+     */
+    public function setCols($cols)
+    {
+        $this->updateAttributes(['cols' => $cols]);
     }
 
     /**
@@ -138,42 +145,41 @@ abstract class HTML_QuickForm_input extends HTML_QuickForm_element
     }
 
     /**
-     * Sets the element type
+     * Sets height in rows for textarea element
      *
-     * @param string $type Element type
-     *
-     * @return    void
-     * @since     1.0
-     * @access    public
-     */
-    public function setType($type)
-    {
-        $this->_type = $type;
-        $this->updateAttributes(['type' => $type]);
-    }
-
-    /**
-     * Sets the value of the form element
-     *
-     * @param string $value Default value of the form element
+     * @param string $rows Height expressed in rows
      *
      * @return    void
      * @since     1.0
      * @access    public
      */
-    public function setValue($value)
+    public function setRows($rows)
     {
-        $this->updateAttributes(['value' => $value]);
+        $this->updateAttributes(['rows' => $rows]);
     }
 
     /**
-     * Returns the input field in HTML
+     * Sets wrap type for textarea element
+     *
+     * @param string $wrap Wrap type
+     *
+     * @return    void
+     * @since     1.0
+     * @access    public
+     */
+    public function setWrap($wrap)
+    {
+        $this->updateAttributes(['wrap' => $wrap]);
+    }
+
+    /**
+     * Returns the textarea element in HTML
      *
      * @return    string
      * @since     1.0
      * @access    public
      */
-    public function toHtml()
+    public function toHtml(): string
     {
         if ($this->_flagFrozen)
         {
@@ -181,9 +187,11 @@ abstract class HTML_QuickForm_input extends HTML_QuickForm_element
         }
         else
         {
-            return $this->_getTabs() . '<input' . $this->_getAttrString($this->_attributes) . ' />';
+            return $this->_getTabs() . '<textarea' . $this->_getAttrString($this->_attributes) . '>' .
+                // because we wrap the form later we don't want the text indented
+                preg_replace("/(\r\n|\n|\r)/", '&#010;', htmlspecialchars($this->_value)) . '</textarea>';
         }
     }
 
-} // end class HTML_QuickForm_element
+}
 

@@ -37,7 +37,7 @@ class HTML_QuickForm_Rule_Range extends HTML_QuickForm_Rule
         }
 
         return ['', "{jsVar} != '' && {$test}"];
-    } // end func validate
+    }
 
     /**
      * Validates a value using a range comparison
@@ -60,6 +60,6 @@ class HTML_QuickForm_Rule_Range extends HTML_QuickForm_Rule
             default:
                 return ($length >= $options[0] && $length <= $options[1]);
         }
-    } // end func getValidationScript
+    }
 
 }

@@ -1290,7 +1290,7 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
         $renderer->renderElement($this, $required, $error);
     }
 
-    public function onQuickFormEvent($event, $arg, &$caller)
+    public function onQuickFormEvent(string $event, $arg, object $caller): bool
     {
         if ('updateValue' == $event)
         {

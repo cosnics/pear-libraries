@@ -113,7 +113,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      * We check the options and return only the values that _could_ have been
      * selected. We also return a scalar value if select is not "multiple"
      */
-    public function exportValue(&$submitValues, $assoc = false)
+    public function exportValue(array &$submitValues, bool $assoc = false)
     {
         $value = $this->_findValue($submitValues);
         if (is_null($value))
@@ -160,7 +160,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      * @since     1.0
      * @access    public
      */
-    public function getFrozenHtml()
+    public function getFrozenHtml(): string
     {
         $value = [];
         if (is_array($this->_values))
@@ -225,7 +225,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      * @since     1.0
      * @access    public
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->getAttribute('name');
     }
@@ -345,7 +345,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
         return true;
     }
 
-    public function onQuickFormEvent($event, $arg, &$caller)
+    public function onQuickFormEvent(string $event, $arg, object $caller): bool
     {
         if ('updateValue' == $event)
         {
@@ -468,7 +468,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      * @since     1.0
      * @access    public
      */
-    public function toHtml()
+    public function toHtml(): string
     {
         if ($this->_flagFrozen)
         {

@@ -282,7 +282,7 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
         $renderer->renderElement($this, $required, $error);
     }
 
-    public function onQuickFormEvent($event, $arg, &$caller)
+    public function onQuickFormEvent(string $event, $arg, object $caller): bool
     {
         if ('updateValue' == $event)
         {
@@ -409,7 +409,7 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
         $this->_setOptions();
     }
 
-    public function toHtml()
+    public function toHtml(): string
     {
         $this->_js = '';
         if (!$this->_flagFrozen)
@@ -603,4 +603,4 @@ JAVASCRIPT;
             $renderer->toHtml();
     }
 
-} // end class HTML_QuickForm_hierselect
+}

@@ -42,10 +42,12 @@ abstract class HTML_QuickForm_element extends HTML_Common
     public function __construct(?string $elementName = null, ?string $elementLabel = null, $attributes = null)
     {
         parent::__construct($attributes);
+
         if (isset($elementName))
         {
             $this->setName($elementName);
         }
+
         if (isset($elementLabel))
         {
             $this->setLabel($elementLabel);
@@ -61,7 +63,9 @@ abstract class HTML_QuickForm_element extends HTML_Common
         {
             return null;
         }
+
         $elementName = $this->getName();
+
         if (isset($values[$elementName]))
         {
             return $values[$elementName];
@@ -69,8 +73,9 @@ abstract class HTML_QuickForm_element extends HTML_Common
         elseif (strpos($elementName, '['))
         {
             $myVar = "['" . str_replace([']', '['], ['', "']['"], $elementName) . "']";
+            $stringToEvaluate = 'return (isset(' . $values . $myVar . ')) ? ' . $values . $myVar . ' : null;';
 
-            return eval("return (isset(\$values$myVar)) ? \$values$myVar : null;");
+            return eval($stringToEvaluate);
         }
         else
         {
@@ -104,6 +109,7 @@ abstract class HTML_QuickForm_element extends HTML_Common
         else
         {
             $id = $this->getAttribute('id');
+
             if (isset($id))
             {
                 // Id of persistant input is different then the actual input.
@@ -145,6 +151,7 @@ abstract class HTML_QuickForm_element extends HTML_Common
         else
         {
             $name = $this->getName();
+
             if (!strpos($name, '['))
             {
                 return [$name => $value];
@@ -153,7 +160,8 @@ abstract class HTML_QuickForm_element extends HTML_Common
             {
                 $valueAry = [];
                 $myIndex = "['" . str_replace([']', '['], ['', "']['"], $name) . "']";
-                eval("\$valueAry$myIndex = \$value;");
+                $stringToEvaluate = '$valueAry' . $myIndex . ' = $value;';
+                eval($stringToEvaluate);
 
                 return $valueAry;
             }
@@ -178,7 +186,7 @@ abstract class HTML_QuickForm_element extends HTML_Common
      * @param array $submitValues array of submitted values to search
      * @param bool $assoc         whether to return the value as associative array
      */
-    public function exportValue(array $submitValues, bool $assoc = false)
+    public function exportValue(array &$submitValues, bool $assoc = false)
     {
         $value = $this->_findValue($submitValues);
         if (null === $value)
@@ -238,7 +246,7 @@ abstract class HTML_QuickForm_element extends HTML_Common
      * @param mixed $arg     event arguments
      * @param object $caller calling object
      */
-    public function onQuickFormEvent(string $event, $arg, object $caller)
+    public function onQuickFormEvent(string $event, $arg, object $caller): bool
     {
         switch ($event)
         {
@@ -253,6 +261,7 @@ abstract class HTML_QuickForm_element extends HTML_Common
                 // constant values override both default and submitted ones
                 // default values are overriden by submitted
                 $value = $this->_findValue($caller->_constantValues);
+
                 if (null === $value)
                 {
                     $value = $this->_findValue($caller->_submitValues);
@@ -261,6 +270,7 @@ abstract class HTML_QuickForm_element extends HTML_Common
                         $value = $this->_findValue($caller->_defaultValues);
                     }
                 }
+
                 if (null !== $value)
                 {
                     $this->setValue($value);

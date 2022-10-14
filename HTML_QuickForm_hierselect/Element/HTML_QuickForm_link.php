@@ -87,7 +87,7 @@ class HTML_QuickForm_link extends HTML_QuickForm_static
      * @since     1.0
      * @access    public
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->getAttribute('name');
     }
@@ -143,7 +143,7 @@ class HTML_QuickForm_link extends HTML_QuickForm_static
      * @since     1.0
      * @access    public
      */
-    public function toHtml()
+    public function toHtml(): string
     {
         $tabs = $this->_getTabs();
         $html = "$tabs<a" . $this->_getAttrString($this->_attributes) . '>';
@@ -161,7 +161,7 @@ class HTML_QuickForm_link extends HTML_QuickForm_static
      * @since     1.0
      * @access    public
      */
-    public function getFrozenHtml()
+    public function getFrozenHtml(): string
     {
         return;
     }

@@ -54,7 +54,7 @@ class HTML_QuickForm_static extends HTML_QuickForm_element
     /**
      * We override this here because we don't want any values from static elements
      */
-    function exportValue(&$submitValues, $assoc = false)
+    function exportValue($submitValues, $assoc = false)
     {
         return null;
     }
@@ -65,7 +65,7 @@ class HTML_QuickForm_static extends HTML_QuickForm_element
      * @access    public
      * @return    string
      */
-    function getFrozenHtml()
+    function getFrozenHtml(): string
     {
         return $this->toHtml();
     }
@@ -76,7 +76,7 @@ class HTML_QuickForm_static extends HTML_QuickForm_element
      * @access    public
      * @return    string
      */
-    function getName()
+    function getName(): string
     {
         return $this->getAttribute('name');
     }
@@ -93,7 +93,7 @@ class HTML_QuickForm_static extends HTML_QuickForm_element
      * @since     1.0
      * @access    public
      */
-    function onQuickFormEvent($event, $arg, &$caller)
+    public function onQuickFormEvent(string $event, $arg, object $caller): bool
     {
         switch ($event)
         {
@@ -161,10 +161,14 @@ class HTML_QuickForm_static extends HTML_QuickForm_element
      * @access    public
      * @return    string
      */
-    function toHtml()
+    function toHtml(): string
     {
         return $this->_getTabs() . $this->_text;
     }
 
+    public function getValue()
+    {
+        return null;
+    }
 }
 

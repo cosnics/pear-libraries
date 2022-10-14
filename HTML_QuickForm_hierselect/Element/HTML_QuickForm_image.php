@@ -18,77 +18,87 @@
 // +----------------------------------------------------------------------+
 
 /**
- * HTML class for a password type field
+ * HTML class for a image type element
  *
  * @author       Adam Daniel <adaniel1@eesus.jnj.com>
  * @author       Bertrand Mansion <bmansion@mamasam.com>
- * @version      1.1
+ * @version      1.0
  * @since        PHP4.04pl1
  * @access       public
  */
-class HTML_QuickForm_password extends HTML_QuickForm_input
+class HTML_QuickForm_image extends HTML_QuickForm_input
 {
 
     /**
      * Class constructor
      *
-     * @param string $elementName           (optional)Input field name attribute
-     * @param string $elementLabel          (optional)Input field label
+     * @param string $elementName           (optional)Element name attribute
+     * @param string $src                   (optional)Image source
      * @param mixed $attributes             (optional)Either a typical HTML attribute string
      *                                      or an associative array
      *
      * @return    void
-     * @throws
      * @since     1.0
      * @access    public
      */
-    public function __construct($elementName = null, $elementLabel = null, $attributes = null)
+    public function __construct($elementName = null, $src = '', $attributes = null)
     {
-        parent::__construct($elementName, $elementLabel, $attributes);
-        $this->setType('password');
+        parent::__construct($elementName, null, $attributes);
+        $this->setType('image');
+        $this->setSource($src);
     }
 
     /**
-     * Returns the value of field without HTML tags (in this case, value is changed to a mask)
+     * Sets source for image element
      *
-     * @return    string
-     * @throws
-     * @since     1.0
-     * @access    public
-     */
-    public function getFrozenHtml()
-    {
-        $value = $this->getValue();
-
-        return ('' != $value ? '**********' : '&nbsp;') . $this->_getPersistantData();
-    }
-
-    /**
-     * Sets maxlength of password element
-     *
-     * @param string $maxlength Maximum length of password field
+     * @param string $src source for image element
      *
      * @return    void
      * @since     1.0
      * @access    public
      */
-    public function setMaxlength($maxlength)
+    public function setSource($src)
     {
-        $this->updateAttributes(['maxlength' => $maxlength]);
+        $this->updateAttributes(['src' => $src]);
     }
 
     /**
-     * Sets size of password element
+     * Sets border size for image element
      *
-     * @param string $size Size of password field
+     * @param string $border border for image element
      *
      * @return    void
      * @since     1.0
      * @access    public
      */
-    public function setSize($size)
+    public function setBorder($border)
     {
-        $this->updateAttributes(['size' => $size]);
+        $this->updateAttributes(['border' => $border]);
+    }
+
+    /**
+     * Sets alignment for image element
+     *
+     * @param string $align alignment for image element
+     *
+     * @return    void
+     * @since     1.0
+     * @access    public
+     */
+    public function setAlign($align)
+    {
+        $this->updateAttributes(['align' => $align]);
+    }
+
+    /**
+     * Freeze the element so that only its value is returned
+     *
+     * @access    public
+     * @return    void
+     */
+    public function freeze()
+    {
+        return false;
     }
 
 }

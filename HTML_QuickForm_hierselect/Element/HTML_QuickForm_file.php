@@ -139,7 +139,7 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
      * @since     1.0
      * @access    public
      */
-    public function onQuickFormEvent($event, $arg, &$caller)
+    public function onQuickFormEvent(string $event, $arg, object $caller): bool
     {
         switch ($event)
         {
@@ -329,5 +329,5 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
         }
     }
 
-} // end class HTML_QuickForm_file
+}
 

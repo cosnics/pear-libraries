@@ -22,7 +22,6 @@
  * ones may (and probably will) completely ignore this
  *
  * @author Alexey Borzov <borz_off@cs.msu.su>
- * @access public
  */
 class HTML_QuickForm_html extends HTML_QuickForm_static
 {
@@ -30,29 +29,26 @@ class HTML_QuickForm_html extends HTML_QuickForm_static
     /**
      * Class constructor
      *
-     * @param string $text raw HTML to add
-     *
-     * @access public
-     * @return void
+     * @param ?string $text raw HTML to add
      */
-    public function __construct($text = null)
+    public function __construct(?string $text = null)
     {
         parent::__construct(null, null, $text);
+
         $this->_type = 'html';
     }
 
     /**
-     * Accepts a renderer
-     *
-     * @param object     An HTML_QuickForm_Renderer object
-     *
-     * @access public
-     * @return void
+     * @param HTML_QuickForm_Renderer $renderer An HTML_QuickForm_Renderer object
      */
-    public function accept($renderer, $required = false, $error = null)
+    public function accept(HTML_QuickForm_Renderer $renderer, bool $required = false, ?string $error = null)
     {
         $renderer->renderHtml($this);
     }
 
+    public function getValue()
+    {
+        return null;
+    }
 }
 

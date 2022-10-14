@@ -95,7 +95,7 @@ class HTML_QuickForm_autocomplete extends HTML_QuickForm_text
      * @access      public
      * @return      string
      */
-    public function toHtml()
+    public function toHtml(): string
     {
         // prevent problems with grouped elements
         $arrayName = str_replace(['[', ']'], ['__', ''], $this->getName()) . '_values';
@@ -234,7 +234,7 @@ EOS;
         }
 
         return $js . parent::toHtml();
-    }// end func toHtml
+    }
 
-} // end class HTML_QuickForm_autocomplete
+}
 

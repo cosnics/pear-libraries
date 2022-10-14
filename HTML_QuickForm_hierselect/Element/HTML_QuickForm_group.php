@@ -358,7 +358,7 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
      * @since     1.3
      * @access    public
      */
-    function getFrozenHtml()
+    function getFrozenHtml(): string
     {
         $flags = [];
         $this->_createElementsIfNotExist();
@@ -413,7 +413,7 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
      * @since     1.0
      * @access    public
      */
-    function getName()
+    function getName(): string
     {
         return $this->_name;
     }
@@ -495,7 +495,7 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
      * @since     1.0
      * @access    public
      */
-    function onQuickFormEvent($event, $arg, &$caller)
+    public function onQuickFormEvent(string $event, $arg, object $caller): bool
     {
         switch ($event)
         {
@@ -591,7 +591,7 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
      * @since       1.0
      * @access      public
      */
-    function toHtml()
+    function toHtml(): string
     {
         $renderer = new HTML_QuickForm_Renderer_Default();
         $renderer->setElementTemplate('{element}');
