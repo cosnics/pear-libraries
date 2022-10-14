@@ -27,28 +27,15 @@ class HTML_QuickForm_password extends HTML_QuickForm_input
 {
 
     /**
-     * Class constructor
-     *
-     * @param string $elementName           (optional)Input field name attribute
-     * @param string $elementLabel          (optional)Input field label
-     * @param mixed $attributes             (optional)Either a typical HTML attribute string
-     *                                      or an associative array
-     *
-     * @return    void
-     * @throws
+     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
      */
-    public function __construct($elementName = null, $elementLabel = null, $attributes = null)
+    public function __construct(?string $elementName = null, ?string $elementLabel = null, $attributes = null)
     {
         parent::__construct($elementName, $elementLabel, $attributes);
+
         $this->setType('password');
     }
 
-    /**
-     * Returns the value of field without HTML tags (in this case, value is changed to a mask)
-     *
-     * @return    string
-     * @throws
-     */
     public function getFrozenHtml(): string
     {
         $value = $this->getValue();
@@ -56,26 +43,12 @@ class HTML_QuickForm_password extends HTML_QuickForm_input
         return ('' != $value ? '**********' : '&nbsp;') . $this->_getPersistantData();
     }
 
-    /**
-     * Sets maxlength of password element
-     *
-     * @param string $maxlength Maximum length of password field
-     *
-     * @return    void
-     */
-    public function setMaxlength($maxlength)
+    public function setMaxlength(?int $maxlength)
     {
         $this->updateAttributes(['maxlength' => $maxlength]);
     }
 
-    /**
-     * Sets size of password element
-     *
-     * @param string $size Size of password field
-     *
-     * @return    void
-     */
-    public function setSize($size)
+    public function setSize(?int $size)
     {
         $this->updateAttributes(['size' => $size]);
     }

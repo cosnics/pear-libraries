@@ -44,8 +44,9 @@ abstract class HTML_QuickForm_Renderer
 
     /**
      * Called when visiting a hidden element
+     * @param HTML_QuickForm_hidden|\HTML_QuickForm_hiddenselect $element
      */
-    abstract public function renderHidden(HTML_QuickForm_hidden $element);
+    abstract public function renderHidden($element);
 
     /**
      * Called when visiting a raw HTML/text pseudo-element

@@ -23,26 +23,17 @@
  */
 class HTML_QuickForm_xbutton extends HTML_QuickForm_element
 {
-    /**
-     * Contents of the <button> tag
-     *
-     * @var      string
-     */
-    protected $_content;
+    protected ?string $_content;
 
     /**
-     * Class constructor
-     *
-     * @param string  Button name
-     * @param string  Button content (HTML to add between <button></button> tags)
-     * @param mixed   Either a typical HTML attribute string or an associative array
-     *
+     * @param ?string $elementContent    Button content (HTML to add between <button></button> tags)
+     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
      */
-    public function __construct($elementName = null, $elementContent = null, $attributes = null)
+    public function __construct(?string $elementName = null, ?string $elementContent = null, $attributes = null)
     {
         parent::__construct($elementName, null, $attributes);
         $this->setContent($elementContent);
-        $this->setPersistantFreeze(false);
+        $this->setPersistantFreeze();
         $this->_type = 'xbutton';
     }
 
@@ -105,17 +96,12 @@ class HTML_QuickForm_xbutton extends HTML_QuickForm_element
         return true;
     }
 
-    /**
-     * Sets the contents of the button element
-     *
-     * @param string  Button content (HTML to add between <button></button> tags)
-     */
-    public function setContent($content)
+    public function setContent(?string $content)
     {
         $this->_content = $content;
     }
 
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->updateAttributes([
             'name' => $name

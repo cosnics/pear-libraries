@@ -26,27 +26,18 @@
 class HTML_QuickForm_checkbox extends HTML_QuickForm_input
 {
 
-    /**
-     * Checkbox display text
-     *
-     * @var       string
-     */
-    protected $_text = '';
+    protected string $_text = '';
 
     /**
-     * Class constructor
-     *
-     * @param string $elementName           (optional)Input field name attribute
-     * @param string $elementLabel          (optional)Input field value
-     * @param string $text                  (optional)Checkbox display text
-     * @param mixed $attributes             (optional)Either a typical HTML attribute string
-     *                                      or an associative array
-     *
-     * @return    void
+     * @param string $text               Checkbox display text
+     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
      */
-    public function __construct($elementName = null, $elementLabel = null, $text = '', $attributes = null)
+    public function __construct(
+        ?string $elementName = null, ?string $elementLabel = null, string $text = '', $attributes = null
+    )
     {
         parent::__construct($elementName, $elementLabel, $attributes);
+
         $this->_persistantFreeze = true;
         $this->_text = $text;
         $this->setType('checkbox');
@@ -67,21 +58,11 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
         return $this->_prepareValue($value, $assoc);
     }
 
-    /**
-     * Returns whether a checkbox is checked
-     *
-     * @return    bool
-     */
-    public function getChecked()
+    public function getChecked(): bool
     {
         return (bool) $this->getAttribute('checked');
     }
 
-    /**
-     * Returns the value of field without HTML tags
-     *
-     * @return    string
-     */
     public function getFrozenHtml(): string
     {
         if ($this->getChecked())
@@ -94,33 +75,16 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
         }
     }
 
-    /**
-     * Returns the checkbox text
-     *
-     * @return    string
-     */
-    public function getText()
+    public function getText(): string
     {
         return $this->_text;
     }
 
-    /**
-     * Sets the checkbox text
-     *
-     * @param string $text
-     *
-     * @return    void
-     */
-    public function setText($text)
+    public function setText(string $text)
     {
         $this->_text = $text;
     }
 
-    /**
-     * Returns the value of the form element
-     *
-     * @return    bool
-     */
     public function getValue()
     {
         return $this->getChecked();
@@ -132,8 +96,6 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
      * @param string $event  Name of event
      * @param mixed $arg     event arguments
      * @param object $caller calling object
-     *
-     * @return    void
      */
     public function onQuickFormEvent(string $event, $arg, object $caller): bool
     {
@@ -171,14 +133,7 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
         return true;
     }
 
-    /**
-     * Sets whether a checkbox is checked
-     *
-     * @param bool $checked Whether the field is checked or not
-     *
-     * @return    void
-     */
-    public function setChecked($checked)
+    public function setChecked(bool $checked)
     {
         if (!$checked)
         {
@@ -190,26 +145,15 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
         }
     }
 
-    /**
-     * Sets the value of the form element
-     *
-     * @param string $value Default value of the form element
-     *
-     * @return    void
-     */
     public function setValue($value)
     {
-        return $this->setChecked($value);
+        $this->setChecked($value);
     }
 
-    /**
-     * Returns the checkbox element in HTML
-     *
-     * @return    string
-     */
     public function toHtml(): string
     {
         $this->_generateId(); // Seems to be necessary when this is used in a group.
+        
         if (0 == strlen($this->_text))
         {
             $label = '';
@@ -223,7 +167,7 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
             $label = '<label for="' . $this->getAttribute('id') . '">' . $this->_text . '</label>';
         }
 
-        return HTML_QuickForm_input::toHtml() . $label;
+        return parent::toHtml() . $label;
     }
 
 }

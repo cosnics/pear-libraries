@@ -27,42 +27,23 @@ class HTML_QuickForm_hidden extends HTML_QuickForm_input
 {
 
     /**
-     * Class constructor
-     *
-     * @param string $elementName           (optional)Input field name attribute
-     * @param string $value                 (optional)Input field value
-     * @param mixed $attributes             (optional)Either a typical HTML attribute string
-     *                                      or an associative array
-     *
-     * @return    void
+     * @param string $value              (optional)Input field value
+     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
      */
-    public function __construct($elementName = null, $value = '', $attributes = null)
+    public function __construct(?string $elementName = null, string $value = '', $attributes = null)
     {
         parent::__construct($elementName, null, $attributes);
         $this->setType('hidden');
         $this->setValue($value);
     }
 
-    /**
-     * Accepts a renderer
-     *
-     * @param object     An HTML_QuickForm_Renderer object
-     *
-     * @return void
-     */
-    public function accept($renderer, $required = false, $error = null)
+    public function accept(HTML_QuickForm_Renderer $renderer, bool $required = false, ?string $error = null)
     {
         $renderer->renderHidden($this);
     }
 
-    /**
-     * Freeze the element so that only its value is returned
-     *
-     * @return    void
-     */
     public function freeze()
     {
-        return false;
     }
 
 }

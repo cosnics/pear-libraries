@@ -27,42 +27,22 @@ class HTML_QuickForm_text extends HTML_QuickForm_input
 {
 
     /**
-     * Class constructor
-     *
-     * @param string $elementName           (optional)Input field name attribute
-     * @param string $elementLabel          (optional)Input field label
-     * @param mixed $attributes             (optional)Either a typical HTML attribute string
-     *                                      or an associative array
-     *
-     * @return    void
+     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
      */
-    public function __construct($elementName = null, $elementLabel = null, $attributes = null)
+    public function __construct(?string $elementName = null, ?string $elementLabel = null, $attributes = null)
     {
         parent::__construct($elementName, $elementLabel, $attributes);
+
         $this->_persistantFreeze = true;
         $this->setType('text');
     }
 
-    /**
-     * Sets maxlength of text field
-     *
-     * @param string $maxlength Maximum length of text field
-     *
-     * @return    void
-     */
-    public function setMaxlength($maxlength)
+    public function setMaxlength(?int $maxlength)
     {
         $this->updateAttributes(['maxlength' => $maxlength]);
     }
 
-    /**
-     * Sets size of text field
-     *
-     * @param string $size Size of text field
-     *
-     * @return    void
-     */
-    public function setSize($size)
+    public function setSize(?int $size)
     {
         $this->updateAttributes(['size' => $size]);
     }

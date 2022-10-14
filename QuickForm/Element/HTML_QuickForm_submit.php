@@ -27,15 +27,10 @@ class HTML_QuickForm_submit extends HTML_QuickForm_input
 {
 
     /**
-     * Class constructor
-     *
-     * @param string    Input field name attribute
-     * @param string    Input field value
-     * @param mixed     Either a typical HTML attribute string or an associative array
-     *
-     * @return    void
+     * @param ?string $value             Input field value
+     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
      */
-    public function __construct($elementName = null, $value = null, $attributes = null)
+    public function __construct(?string $elementName = null, ?string $value = null, $attributes = null)
     {
         parent::__construct($elementName, null, $attributes);
         $this->setValue($value);
@@ -51,14 +46,8 @@ class HTML_QuickForm_submit extends HTML_QuickForm_input
         return $this->_prepareValue($this->_findValue($submitValues), $assoc);
     }
 
-    /**
-     * Freeze the element so that only its value is returned
-     *
-     * @return    void
-     */
     public function freeze()
     {
-        return false;
     }
 
 }

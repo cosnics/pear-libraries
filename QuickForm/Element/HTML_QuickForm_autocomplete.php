@@ -39,57 +39,41 @@ class HTML_QuickForm_autocomplete extends HTML_QuickForm_text
 
     /**
      * "One-time" javascript (containing functions), see bug #4611
-     *
-     * @var     string
      */
-    public $_js = '';
+    public string $_js = '';
 
     /**
      * Options for the autocomplete input text element
-     *
-     * @var       array
      */
-    protected $_options = [];
+    protected array $_options = [];
 
     /**
-     * Class constructor
-     *
-     * @param string $elementName           (optional)Input field name attribute
-     * @param string $elementLabel          (optional)Input field label in form
-     * @param array $options                (optional)Autocomplete options
-     * @param mixed $attributes             (optional)Either a typical HTML attribute string
-     *                                      or an associative array. Date format is passed along the attributes.
+     * @param array $options             Autocomplete options
+     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs.
+     *                                   Date format is passed along the attributes.
      *
      * @return    void
      */
-    public function __construct($elementName = null, $elementLabel = null, $options = null, $attributes = null)
+    public function __construct(
+        ?string $elementName = null, ?string $elementLabel = null, array $options = [], $attributes = null
+    )
     {
         parent::__construct($elementName, $elementLabel, $attributes);
+
         $this->_persistantFreeze = true;
         $this->_type = 'autocomplete';
+
         if (isset($options))
         {
             $this->setOptions($options);
         }
     }
 
-    /**
-     * Sets the options for the autocomplete input text element
-     *
-     * @param array $options Array of options for the autocomplete input text element
-     *
-     * @return    void
-     */
-    public function setOptions($options)
+    public function setOptions(array $options)
     {
         $this->_options = array_values($options);
     }
 
-    /**
-     * Returns Html for the autocomplete input text element
-     *
-     * @return      string
-     */
     public function toHtml(): string
     {
         // prevent problems with grouped elements

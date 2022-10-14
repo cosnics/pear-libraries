@@ -114,9 +114,6 @@ class HTML_QuickForm_static extends HTML_QuickForm_element
         $this->setText($text);
     }
 
-    /**
-     * Returns the static text element in HTML
-     */
     public function toHtml(): string
     {
         return $this->_getTabs() . $this->_text;

@@ -40,6 +40,7 @@ abstract class HTML_QuickForm_input extends HTML_QuickForm_element
     public function exportValue(array &$submitValues, bool $assoc = false)
     {
         $type = $this->getType();
+
         if ('reset' == $type || 'image' == $type || 'button' == $type || 'file' == $type)
         {
             return null;
@@ -50,21 +51,11 @@ abstract class HTML_QuickForm_input extends HTML_QuickForm_element
         }
     }
 
-    /**
-     * Returns the element name
-     *
-     * @return    string
-     */
     public function getName(): string
     {
         return $this->getAttribute('name');
     }
 
-    /**
-     * Returns the value of the form element
-     *
-     * @return    string
-     */
     public function getValue()
     {
         return $this->getAttribute('value');
@@ -76,14 +67,12 @@ abstract class HTML_QuickForm_input extends HTML_QuickForm_element
      * @param string $event  Name of event
      * @param mixed $arg     event arguments
      * @param object $caller calling object
-     *
-     * @return    void
-     * @throws
      */
     public function onQuickFormEvent(string $event, $arg, object $caller): bool
     {
         // do not use submit values for button-type elements
         $type = $this->getType();
+
         if (('updateValue' != $event) ||
             ('submit' != $type && 'reset' != $type && 'image' != $type && 'button' != $type))
         {
@@ -92,10 +81,12 @@ abstract class HTML_QuickForm_input extends HTML_QuickForm_element
         else
         {
             $value = $this->_findValue($caller->_constantValues);
+
             if (null === $value)
             {
                 $value = $this->_findValue($caller->_defaultValues);
             }
+
             if (null !== $value)
             {
                 $this->setValue($value);
@@ -105,48 +96,22 @@ abstract class HTML_QuickForm_input extends HTML_QuickForm_element
         return true;
     }
 
-    /**
-     * Sets the input field name
-     *
-     * @param string $name Input field name attribute
-     *
-     * @return    void
-     */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->updateAttributes(['name' => $name]);
     }
 
-    /**
-     * Sets the element type
-     *
-     * @param string $type Element type
-     *
-     * @return    void
-     */
-    public function setType($type)
+    public function setType(string $type)
     {
         $this->_type = $type;
         $this->updateAttributes(['type' => $type]);
     }
 
-    /**
-     * Sets the value of the form element
-     *
-     * @param string $value Default value of the form element
-     *
-     * @return    void
-     */
     public function setValue($value)
     {
         $this->updateAttributes(['value' => $value]);
     }
 
-    /**
-     * Returns the input field in HTML
-     *
-     * @return    string
-     */
     public function toHtml(): string
     {
         if ($this->_flagFrozen)

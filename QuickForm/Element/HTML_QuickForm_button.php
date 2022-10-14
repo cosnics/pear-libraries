@@ -27,31 +27,20 @@ class HTML_QuickForm_button extends HTML_QuickForm_input
 {
 
     /**
-     * Class constructor
-     *
-     * @param string $elementName           (optional)Input field name attribute
-     * @param string $value                 (optional)Input field value
-     * @param mixed $attributes             (optional)Either a typical HTML attribute string
-     *                                      or an associative array
-     *
-     * @return    void
+     * @param ?string $value             Input field value
+     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
      */
-    public function __construct($elementName = null, $value = null, $attributes = null)
+    public function __construct(?string $elementName = null, ?string $value = null, $attributes = null)
     {
         parent::__construct($elementName, null, $attributes);
+
         $this->_persistantFreeze = false;
         $this->setValue($value);
         $this->setType('button');
     }
 
-    /**
-     * Freeze the element so that only its value is returned
-     *
-     * @return    void
-     */
     public function freeze()
     {
-        return false;
     }
 
 }

@@ -26,34 +26,18 @@
 class HTML_QuickForm_textarea extends HTML_QuickForm_element
 {
 
-    /**
-     * Field value
-     *
-     * @var       string
-     */
-    protected $_value = null;
+    protected ?string $_value = null;
 
     /**
-     * Class constructor
-     *
-     * @param string    Input field name attribute
-     * @param mixed     Label(s) for a field
-     * @param mixed     Either a typical HTML attribute string or an associative array
-     *
-     * @return    void
+     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
      */
-    public function __construct($elementName = null, $elementLabel = null, $attributes = null)
+    public function __construct(?string $elementName = null, ?string $elementLabel = null, $attributes = null)
     {
         parent::__construct($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = true;
         $this->_type = 'textarea';
     }
 
-    /**
-     * Returns the value of field without HTML tags (in this case, value is changed to a mask)
-     *
-     * @return    string
-     */
     public function getFrozenHtml(): string
     {
         $value = htmlspecialchars($this->getValue());
@@ -69,91 +53,41 @@ class HTML_QuickForm_textarea extends HTML_QuickForm_element
         return $html . $this->_getPersistantData();
     }
 
-    /**
-     * Returns the element name
-     *
-     * @return    string
-     */
     public function getName(): string
     {
         return $this->getAttribute('name');
     }
 
-    /**
-     * Returns the value of the form element
-     *
-     * @return    string
-     */
     public function getValue()
     {
         return $this->_value;
     }
 
-    /**
-     * Sets value for textarea element
-     *
-     * @param string $value Value for textarea element
-     *
-     * @return    void
-     */
     public function setValue($value)
     {
         $this->_value = $value;
     }
 
-    /**
-     * Sets width in cols for textarea element
-     *
-     * @param string $cols Width expressed in cols
-     *
-     * @return    void
-     */
-    public function setCols($cols)
+    public function setCols(?int $cols)
     {
         $this->updateAttributes(['cols' => $cols]);
     }
 
-    /**
-     * Sets the input field name
-     *
-     * @param string $name Input field name attribute
-     *
-     * @return    void
-     */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->updateAttributes(['name' => $name]);
     }
 
-    /**
-     * Sets height in rows for textarea element
-     *
-     * @param string $rows Height expressed in rows
-     *
-     * @return    void
-     */
-    public function setRows($rows)
+    public function setRows(?int $rows)
     {
         $this->updateAttributes(['rows' => $rows]);
     }
 
-    /**
-     * Sets wrap type for textarea element
-     *
-     * @param string $wrap Wrap type
-     *
-     * @return    void
-     */
-    public function setWrap($wrap)
+    public function setWrap(?string $wrap)
     {
         $this->updateAttributes(['wrap' => $wrap]);
     }
 
-    /**
-     * Returns the textarea element in HTML
-     *
-     * @return    string
-     */
     public function toHtml(): string
     {
         if ($this->_flagFrozen)

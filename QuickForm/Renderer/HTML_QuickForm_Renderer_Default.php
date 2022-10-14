@@ -267,8 +267,10 @@ class HTML_QuickForm_Renderer_Default extends HTML_QuickForm_Renderer
 
     /**
      * Called when visiting a hidden element
+     *
+     * @param HTML_QuickForm_hidden|\HTML_QuickForm_hiddenselect $element
      */
-    public function renderHidden(HTML_QuickForm_hidden $element)
+    public function renderHidden($element)
     {
         $this->_hiddenHtml .= $element->toHtml() . "\n";
     }

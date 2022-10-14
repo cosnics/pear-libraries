@@ -30,48 +30,33 @@ class HTML_QuickForm_hiddenselect extends HTML_QuickForm_select
 {
 
     /**
-     * Class constructor
-     *
-     * @param string    Select name attribute
-     * @param mixed     Label(s) for the select (not used)
-     * @param mixed     Data to be used to populate options
-     * @param mixed     Either a typical HTML attribute string or an associative array (not used)
-     *
-     * @return    void
+     * @param ?array $options            Data to be used to populate options
+     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
      */
-    public function __construct($elementName = null, $elementLabel = null, $options = null, $attributes = null)
+    public function __construct(
+        ?string $elementName = null, ?string $elementLabel = null, ?array $options = null, $attributes = null
+    )
     {
-        // TODO MDL-52313 Replace with the call to parent::__construct().
-        HTML_QuickForm_element::__construct($elementName, $elementLabel, $attributes);
-        $this->_persistantFreeze = true;
+        parent::__construct($elementName, $elementLabel, $options, $attributes);
+
         $this->_type = 'hiddenselect';
-        if (isset($options))
-        {
-            $this->load($options);
-        }
     }
 
     /**
      * This is essentially a hidden element and should be rendered as one
      */
-    public function accept($renderer, $required = false, $error = null)
+    public function accept(HTML_QuickForm_Renderer $renderer, bool $required = false, ?string $error = null)
     {
         $renderer->renderHidden($this);
     }
 
-    /**
-     * Returns the SELECT in HTML
-     *
-     * @return    string
-     * @throws
-     */
     public function toHtml(): string
     {
         $tabs = $this->_getTabs();
         $name = $this->getPrivateName();
         $strHtml = '';
 
-        foreach ($this->_values as $key => $val)
+        foreach ($this->_values as $val)
         {
             for ($i = 0, $optCount = count($this->_options); $i < $optCount; $i ++)
             {

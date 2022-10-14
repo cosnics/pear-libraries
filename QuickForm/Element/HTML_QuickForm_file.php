@@ -35,25 +35,15 @@ if (class_exists('HTML_QuickForm'))
 class HTML_QuickForm_file extends HTML_QuickForm_input
 {
 
-    /**
-     * Uploaded file data, from $_FILES
-     *
-     * @var array
-     */
-    public $_value = null;
+    public ?array $_value = null;
 
     /**
-     * Class constructor
-     *
-     * @param string    Input field name attribute
-     * @param string    Input field label
-     * @param mixed     (optional)Either a typical HTML attribute string
-     *                      or an associative array
-     *
+     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
      */
-    public function __construct($elementName = null, $elementLabel = null, $attributes = null)
+    public function __construct(?string $elementName = null, ?string $elementLabel = null, $attributes = null)
     {
         parent::__construct($elementName, $elementLabel, $attributes);
+
         $this->setType('file');
     }
 
@@ -64,13 +54,15 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
      *
      * @return    mixed
      */
-    protected function _findValue(&$values)
+    protected function _findValue($values)
     {
         if (empty($_FILES))
         {
             return null;
         }
+
         $elementName = $this->getName();
+
         if (isset($_FILES[$elementName]))
         {
             return $_FILES[$elementName];
@@ -80,11 +72,13 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
             $base = substr($elementName, 0, $pos);
             $idx = "['" . str_replace([']', '['], ['', "']['"], substr($elementName, $pos + 1, - 1)) . "']";
             $props = ['name', 'type', 'size', 'tmp_name', 'error'];
-            $code = "if (!isset(\$_FILES['{$base}']['name']{$idx})) {\n" . "    return null;\n" . "} else {\n" .
+            $code =
+                "if (!isset(\$_FILES['" . $base . "']['name']" . $idx . ")) {\n" . "    return null;\n" . "} else {\n" .
                 "    \$value = array();\n";
+
             foreach ($props as $prop)
             {
-                $code .= "    \$value['{$prop}'] = \$_FILES['{$base}']['{$prop}']{$idx};\n";
+                $code .= "    \$value['" . $prop . "'] = \$_FILES['" . $base . "']['" . $prop . "']" . $idx . ";\n";
             }
 
             return eval($code . "    return \$value;\n}\n");
@@ -98,12 +92,12 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
     /**
      * Checks if the given element contains an uploaded file of the filename regex
      *
-     * @param array     Uploaded file info (from $_FILES)
-     * @param string    Regular expression
+     * @param array $elementValue Uploaded file info (from $_FILES)
+     * @param string $regex       Regular expression
      *
-     * @return    bool      true if name matches regex, false otherwise
+     * @return bool true if name matches regex, false otherwise
      */
-    protected function _ruleCheckFileName($elementValue, $regex)
+    protected function _ruleCheckFileName(array $elementValue, string $regex): bool
     {
         if (!HTML_QuickForm_file::_ruleIsUploadedFile($elementValue))
         {
@@ -116,40 +110,42 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
     /**
      * Checks that the file does not exceed the max file size
      *
-     * @param array     Uploaded file info (from $_FILES)
-     * @param int       Max file size
+     * @param array $elementValue Uploaded file info (from $_FILES)
+     * @param int $maxSize        Max file size
      *
-     * @return    bool      true if filesize is lower than maxsize, false otherwise
+     * @return bool true if filesize is lower than maxsize, false otherwise
      */
-    protected function _ruleCheckMaxFileSize($elementValue, $maxSize)
+    protected function _ruleCheckMaxFileSize(array $elementValue, int $maxSize): bool
     {
         if (!empty($elementValue['error']) &&
             (UPLOAD_ERR_FORM_SIZE == $elementValue['error'] || UPLOAD_ERR_INI_SIZE == $elementValue['error']))
         {
             return false;
         }
+
         if (!HTML_QuickForm_file::_ruleIsUploadedFile($elementValue))
         {
             return true;
         }
 
-        return ($maxSize >= @filesize($elementValue['tmp_name']));
+        return ($maxSize >= filesize($elementValue['tmp_name']));
     }
 
     /**
      * Checks if the given element contains an uploaded file of the right mime type
      *
-     * @param array     Uploaded file info (from $_FILES)
-     * @param mixed     Mime Type (can be an array of allowed types)
+     * @param array $elementValue Uploaded file info (from $_FILES)
+     * @param mixed $mimeType     Mime Type (can be an array of allowed types)
      *
-     * @return    bool      true if mimetype is correct, false otherwise
+     * @return bool true if mimetype is correct, false otherwise
      */
-    protected function _ruleCheckMimeType($elementValue, $mimeType)
+    protected function _ruleCheckMimeType(array $elementValue, $mimeType): bool
     {
         if (!HTML_QuickForm_file::_ruleIsUploadedFile($elementValue))
         {
             return true;
         }
+
         if (is_array($mimeType))
         {
             return in_array($elementValue['type'], $mimeType);
@@ -161,11 +157,11 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
     /**
      * Checks if the given element contains an uploaded file
      *
-     * @param array     Uploaded file info (from $_FILES)
+     * @param array $elementValue Uploaded file info (from $_FILES)
      *
      * @return    bool      true if file has been uploaded, false otherwise
      */
-    protected function _ruleIsUploadedFile($elementValue)
+    protected static function _ruleIsUploadedFile(array $elementValue): bool
     {
         if ((isset($elementValue['error']) && $elementValue['error'] == 0) ||
             (!empty($elementValue['tmp_name']) && $elementValue['tmp_name'] != 'none'))
@@ -178,32 +174,16 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
         }
     }
 
-    /**
-     * Freeze the element so that only its value is returned
-     *
-     * @return    bool
-     */
     public function freeze()
     {
-        return false;
     }
 
-    /**
-     * Returns size of file element
-     *
-     * @return    int
-     */
-    public function getSize()
+    public function getSize(): int
     {
         return $this->getAttribute('size');
     }
 
-    /**
-     * Returns information about the uploaded file
-     *
-     * @return    array
-     */
-    public function getValue()
+    public function getValue(): array
     {
         return $this->_value;
     }
@@ -216,39 +196,39 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
      * (because of security implications) we implement file's value as a
      * read-only property with a special meaning.
      *
-     * @param mixed    Value for file element
-     *
+     * @param mixed $value Value for file element
      */
     public function setValue($value)
     {
-        return null;
     }
 
     /**
      * Checks if the element contains an uploaded file
      *
-     * @return    bool      true if file has been uploaded, false otherwise
+     * @return bool true if file has been uploaded, false otherwise
      */
-    public function isUploadedFile()
+    public function isUploadedFile(): bool
     {
-        return $this->_ruleIsUploadedFile($this->_value);
+        return self::_ruleIsUploadedFile($this->_value);
     }
 
     /**
      * Moves an uploaded file into the destination
      *
-     * @param string  Destination directory path
-     * @param string  New file name
+     * @param string $dest     Destination directory path
+     * @param string $fileName New file name
      *
-     * @return   bool    Whether the file was moved successfully
+     * @return bool Whether the file was moved successfully
      */
-    public function moveUploadedFile($dest, $fileName = '')
+    public function moveUploadedFile(string $dest, string $fileName = ''): bool
     {
         if ($dest != '' && substr($dest, - 1) != '/')
         {
             $dest .= '/';
         }
+
         $fileName = ($fileName != '') ? $fileName : basename($this->_value['name']);
+
         if (move_uploaded_file($this->_value['tmp_name'], $dest . $fileName))
         {
             return true;
@@ -262,11 +242,11 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
     /**
      * Called by HTML_QuickForm whenever form event is made on this element
      *
-     * @param string    Name of event
-     * @param mixed     event arguments
-     * @param object    calling object
+     * @param string $event  Name of event
+     * @param mixed $arg     event arguments
+     * @param object $caller calling object
      *
-     * @return    bool
+     * @throws \QuickformException
      */
     public function onQuickFormEvent(string $event, $arg, object $caller): bool
     {
@@ -275,8 +255,9 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
             case 'updateValue':
                 if ($caller->getAttribute('method') == 'get')
                 {
-                    throw new Exception('Cannot add a file upload field to a GET method form');
+                    throw new QuickformException('Cannot add a file upload field to a GET method form');
                 }
+
                 $values = [];
                 $this->_value = $this->_findValue($values);
                 $caller->updateAttributes(['enctype' => 'multipart/form-data']);
@@ -286,22 +267,15 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
                 $this->onQuickFormEvent('createElement', $arg, $caller);
 
                 return $this->onQuickFormEvent('updateValue', null, $caller);
-                break;
             case 'createElement':
-                static::__construct($arg[0], $arg[1], $arg[2], $arg[3], $arg[4]);
+                static::__construct($arg[0], $arg[1], $arg[2]);
                 break;
         }
 
         return true;
     }
 
-    /**
-     * Sets size of file element
-     *
-     * @param int    Size of file element
-     *
-     */
-    public function setSize($size)
+    public function setSize(?int $size)
     {
         $this->updateAttributes(['size' => $size]);
     }

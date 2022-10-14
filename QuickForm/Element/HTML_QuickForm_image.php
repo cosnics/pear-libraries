@@ -27,64 +27,32 @@ class HTML_QuickForm_image extends HTML_QuickForm_input
 {
 
     /**
-     * Class constructor
-     *
-     * @param string $elementName           (optional)Element name attribute
-     * @param string $src                   (optional)Image source
-     * @param mixed $attributes             (optional)Either a typical HTML attribute string
-     *                                      or an associative array
-     *
-     * @return    void
+     * @param string $src                Image source
+     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
      */
-    public function __construct($elementName = null, $src = '', $attributes = null)
+    public function __construct(?string $elementName = null, string $src = '', $attributes = null)
     {
         parent::__construct($elementName, null, $attributes);
+
         $this->setType('image');
         $this->setSource($src);
     }
 
-    /**
-     * Freeze the element so that only its value is returned
-     *
-     * @return    void
-     */
     public function freeze()
     {
-        return false;
     }
 
-    /**
-     * Sets alignment for image element
-     *
-     * @param string $align alignment for image element
-     *
-     * @return    void
-     */
-    public function setAlign($align)
+    public function setAlign(string $align)
     {
         $this->updateAttributes(['align' => $align]);
     }
 
-    /**
-     * Sets border size for image element
-     *
-     * @param string $border border for image element
-     *
-     * @return    void
-     */
-    public function setBorder($border)
+    public function setBorder(int $border)
     {
         $this->updateAttributes(['border' => $border]);
     }
 
-    /**
-     * Sets source for image element
-     *
-     * @param string $src source for image element
-     *
-     * @return    void
-     */
-    public function setSource($src)
+    public function setSource(string $src)
     {
         $this->updateAttributes(['src' => $src]);
     }
