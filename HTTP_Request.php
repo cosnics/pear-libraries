@@ -358,8 +358,12 @@ class HTTP_Request
             {
                 $postdata = implode(
                     '&', array_map(
-                        create_function('$a', 'return $a[0] . \'=\' . $a[1];'),
-                        $this->_flattenArray('', $this->_postData)
+
+                        function ($a) {
+                            return $a[0] . '=' . $a[1];
+                        }
+
+                        , $this->_flattenArray('', $this->_postData)
                     )
                 );
                 // multipart request, probably with file uploads
@@ -644,7 +648,7 @@ class HTTP_Request
     /**
      * Disconnect the socket, if connected. Only useful if using Keep-Alive.
      *
-     * @throws \RequestException
+     * @throws \PearException
      */
     public function disconnect()
     {
@@ -817,6 +821,7 @@ class HTTP_Request
      *
      * @return bool
      * @throws \RequestException
+     * @throws \PearException
      */
     public function sendRequest(bool $saveBody = true): bool
     {

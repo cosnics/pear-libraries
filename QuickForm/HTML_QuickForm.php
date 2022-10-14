@@ -137,9 +137,6 @@ class HTML_QuickForm extends HTML_Common
 
     protected string $_requiredNote = '<span style="font-size:80%; color:#ff0000;">*</span><span style="font-size:80%;"> denotes required field</span>';
 
-    /**
-     * @var HTML_QuickForm_Rule[][]
-     */
     protected array $_rules = [];
 
     protected array $_submitValues = [];
@@ -1127,7 +1124,7 @@ class HTML_QuickForm extends HTML_Common
             return '';
         }
 
-        $registry =& HTML_QuickForm_RuleRegistry::singleton();
+        $registry = HTML_QuickForm_RuleRegistry::singleton();
         $test = [];
         $js_escape = [
             "\r" => '\r',
@@ -1205,9 +1202,9 @@ class HTML_QuickForm extends HTML_Common
                                 }
                             }
                         }
-                    }
 
-                    $test[] = $registry->getValidationScript($element, $elementName, $rule);
+                        $test[] = $registry->getValidationScript($element, $elementName, $rule);
+                    }
                 }
             }
         }
@@ -1384,7 +1381,7 @@ class HTML_QuickForm extends HTML_Common
 
         if ($ruleName)
         {
-            $registry =& HTML_QuickForm_RuleRegistry::singleton();
+            $registry = HTML_QuickForm_RuleRegistry::singleton();
             $registry->registerRule($ruleName, null, $name);
         }
 
@@ -1697,7 +1694,7 @@ class HTML_QuickForm extends HTML_Common
             return false;
         }
 
-        $registry =& HTML_QuickForm_RuleRegistry::singleton();
+        $registry = HTML_QuickForm_RuleRegistry::singleton();
 
         foreach ($this->_rules as $target => $rules)
         {

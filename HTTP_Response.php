@@ -324,7 +324,7 @@ class HTTP_Response
     /**
      * Read a part of response body encoded with chunked Transfer-Encoding
      *
-     * @throws \RequestException
+     * @throws \PearException
      */
     protected function _readChunked(): string
     {
@@ -373,6 +373,7 @@ class HTTP_Response
      *                          Will be set to false for HEAD requests.
      *
      * @throws \RequestException
+     * @throws \PearException
      */
     public function process(bool $saveBody = true, bool $canHaveBody = true): bool
     {
