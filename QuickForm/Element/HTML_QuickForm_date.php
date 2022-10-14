@@ -32,10 +32,8 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
      * Options in different languages
      * Note to potential translators: to avoid encoding problems please send
      * your translations with "weird" letters encoded as HTML Unicode entities
-     *
-     * @var      array
      */
-    protected $_locale = [
+    protected array $_locale = [
         'en' => [
             'weekdays_short' => ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
             'weekdays_long' => ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
@@ -1002,10 +1000,8 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
      * 'emptyOptionValue': The value passed by the empty option.
      * 'emptyOptionText': The text displayed for the empty option.
      * 'optionIncrement': Step to increase the option values by (works for 'i' and 's')
-     *
-     * @var      array
      */
-    protected $_options = [
+    protected array $_options = [
         'language' => 'en',
         'format' => 'dMY',
         'minYear' => 2001,
@@ -1021,11 +1017,10 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
      *
      * @var      array
      */
-    protected $_wrap = ['', ''];
+    protected array $_wrap = ['', ''];
 
     /**
      * Class constructor
-     *
      *
      * @param string  Element's name
      * @param mixed   Label(s) for an element
@@ -1036,6 +1031,7 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
     {
         // TODO MDL-52313 Replace with the call to parent::__construct().
         HTML_QuickForm_element::__construct($elementName, $elementLabel, $attributes);
+
         $this->_persistantFreeze = true;
         $this->_appendName = true;
         $this->_type = 'date';
@@ -1073,9 +1069,11 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
         $separator = '';
         $locale =& $this->_locale[$this->_options['language']];
         $backslash = false;
+
         for ($i = 0, $length = strlen($this->_options['format']); $i < $length; $i ++)
         {
             $sign = $this->_options['format'][$i];
+
             if ($backslash)
             {
                 $backslash = false;
@@ -1166,7 +1164,9 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
                     {
                         $this->_wrap[0] = $separator;
                     }
+
                     $separator = '';
+
                     // Should we add an empty option to the top of the select?
                     if (!is_array($this->_options['addEmptyOption']) && $this->_options['addEmptyOption'] ||
                         is_array($this->_options['addEmptyOption']) && !empty($this->_options['addEmptyOption'][$sign]))
@@ -1225,6 +1225,7 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
         {
             return $str;
         }
+
         $trimmed = ltrim($str, '0');
 
         return strlen($trimmed) ? $trimmed : '0';
@@ -1261,6 +1262,7 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
             {
                 $value = strtotime($value);
             }
+
             // might be a unix epoch, then we fill all possible values
             $arr = explode('-', date('w-j-n-Y-g-G-i-s-a-A-W', (int) $value));
             $value = [
@@ -1286,13 +1288,15 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
         {
             $value = array_map([$this, '_trimLeadingZeros'], $value);
         }
+
         parent::setValue($value);
     }
 
-    public function toHtml()
+    public function toHtml(): string
     {
         $renderer = new HTML_QuickForm_Renderer_Default();
         $renderer->setElementTemplate('{element}');
+        
         parent::accept($renderer);
 
         return $this->_wrap[0] . $renderer->toHtml() . $this->_wrap[1];

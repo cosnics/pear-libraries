@@ -53,7 +53,7 @@ class HTML_QuickForm_textarea extends HTML_QuickForm_element
         return $html . $this->_getPersistantData();
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->getAttribute('name');
     }

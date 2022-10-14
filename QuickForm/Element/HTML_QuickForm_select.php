@@ -191,7 +191,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
         return (bool) $this->getAttribute('multiple');
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->getAttribute('name');
     }

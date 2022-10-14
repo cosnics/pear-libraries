@@ -57,7 +57,7 @@ class HTML_QuickForm_static extends HTML_QuickForm_element
         return $this->toHtml();
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->getAttribute('name');
     }

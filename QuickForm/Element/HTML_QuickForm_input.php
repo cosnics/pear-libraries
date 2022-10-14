@@ -51,7 +51,7 @@ abstract class HTML_QuickForm_input extends HTML_QuickForm_element
         }
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->getAttribute('name');
     }

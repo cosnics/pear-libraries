@@ -225,7 +225,7 @@ abstract class HTML_QuickForm_element extends HTML_Common
         $this->_label = $label;
     }
 
-    abstract public function getName(): string;
+    abstract public function getName(): ?string;
 
     public function getType(): string
     {

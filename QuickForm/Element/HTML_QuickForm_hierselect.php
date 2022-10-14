@@ -96,11 +96,14 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
     {
         // TODO MDL-52313 Replace with the call to parent::__construct().
         HTML_QuickForm_element::__construct($elementName, $elementLabel, $attributes);
+
         $this->_persistantFreeze = true;
+
         if (isset($separator))
         {
             $this->_separator = $separator;
         }
+
         $this->_type = 'hierselect';
         $this->_appendName = true;
     }
@@ -123,9 +126,11 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
         else
         {
             $items = [];
+
             foreach ($array as $key => $val)
             {
                 $item = $assoc ? "'" . $this->_escapeString($key) . "': " : '';
+
                 if (is_array($val))
                 {
                     $item .= $this->_convertArrayToJavascript($val, $assoc);
@@ -134,6 +139,7 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
                 {
                     $item .= $this->_convertScalarToJavascript($val);
                 }
+
                 $items[] = $item;
             }
         }
@@ -145,11 +151,11 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
     /**
      * Converts PHP's scalar value to its Javascript analog
      *
-     * @param mixed     PHP value to convert
+     * @param mixed $val PHP value to convert
      *
-     * @return string    Javascript representation of the value
+     * @return string Javascript representation of the value
      */
-    protected function _convertScalarToJavascript($val)
+    protected function _convertScalarToJavascript($val): string
     {
         if (is_bool($val))
         {
@@ -176,10 +182,8 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
 
     /**
      * Creates all the elements for the group
-     *
-     * @return    void
      */
-    protected function _createElements()
+    public function _createElements()
     {
         for ($i = 0; $i < $this->_nbElements; $i ++)
         {
@@ -189,12 +193,8 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
 
     /**
      * Quotes the string so that it can be used in Javascript string constants
-     *
-     * @param string
-     *
-     * @return string
      */
-    protected function _escapeString($str)
+    protected function _escapeString(string $str): string
     {
         return strtr($str, [
             "\r" => '\r',
@@ -217,6 +217,7 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
         foreach (array_keys($this->_elements) as $key)
         {
             $array = eval("return isset(\$this->_options[{$key}]{$toLoad})? \$this->_options[{$key}]{$toLoad}: null;");
+
             if (is_array($array))
             {
                 $select =& $this->_elements[$key];
@@ -251,6 +252,7 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
             // setDefaults has probably been called before this function
             // check if all elements have been created
             $totalNbElements = count($this->_options);
+
             for ($i = $this->_nbElements; $i < $totalNbElements; $i ++)
             {
                 $this->_elements[] = new HTML_QuickForm_select($i, null, [], $this->getAttributes());
@@ -277,6 +279,7 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
         else
         {
             $ret = parent::onQuickFormEvent($event, $arg, $caller);
+
             // add onreset handler to form to properly reset hierselect (see bug #2970)
             if ('addElement' == $event)
             {
@@ -362,6 +365,7 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
             // setDefaults has probably been called before this function
             // check if all elements have been created
             $totalNbElements = 2;
+
             for ($i = $this->_nbElements; $i < $totalNbElements; $i ++)
             {
                 $this->_elements[] = new HTML_QuickForm_select($i, null, [], $this->getAttributes());
@@ -386,18 +390,22 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
         // after bug #7961. Forgot that _nbElements was used in
         // _createElements() called in several places...
         $this->_nbElements = max($this->_nbElements, count($value));
+
         parent::setValue($value);
+
         $this->_setOptions();
     }
 
     public function toHtml(): string
     {
         $this->_js = '';
+
         if (!$this->_flagFrozen)
         {
             // set the onchange attribute for each element except last
             $keys = array_keys($this->_elements);
             $onChange = [];
+
             for ($i = 0; $i < count($keys) - 1; $i ++)
             {
                 $select =& $this->_elements[$keys[$i]];
@@ -537,17 +545,22 @@ var _hs_defaults = {};
 JAVASCRIPT;
                 define('HTML_QUICKFORM_HIERSELECT_EXISTS', true);
             }
+
             // option lists
             $jsParts = [];
+
             for ($i = 1; $i < $this->_nbElements; $i ++)
             {
                 $jsParts[] = $this->_convertArrayToJavascript($this->_options[$i]);
             }
+
             $this->_js .= "\n_hs_options['" . $this->_escapeString($this->getName()) . "'] = [\n" .
                 implode(",\n", $jsParts) . "\n];\n";
+
             // default value; if we don't actually have any values yet just use
             // the first option (for single selects) or empty array (for multiple)
             $values = [];
+
             foreach (array_keys($this->_elements) as $key)
             {
                 if (is_array($v = $this->_elements[$key]->getValue()))
@@ -568,11 +581,13 @@ JAVASCRIPT;
 
         $renderer = new HTML_QuickForm_Renderer_Default();
         $renderer->setElementTemplate('{element}');
+
         parent::accept($renderer);
 
         if (!empty($onChange))
         {
             $keys = array_keys($this->_elements);
+
             for ($i = 0; $i < count($keys) - 1; $i ++)
             {
                 $this->_elements[$keys[$i]]->updateAttributes(['onchange' => $onChange[$i]]);
