@@ -22,7 +22,7 @@
  */
 class HTML_QuickForm_Rule_Range extends HTML_QuickForm_Rule
 {
-    public function getValidationScript($options = null)
+    public function getValidationScript($options = null): array
     {
         switch ($this->name)
         {
@@ -48,7 +48,7 @@ class HTML_QuickForm_Rule_Range extends HTML_QuickForm_Rule
      * @access    public
      * @return    bool   true if value is valid
      */
-    public function validate($value, $options = null)
+    public function validate($value, $options = null): bool
     {
         $length = strlen($value);
         switch ($this->name)
