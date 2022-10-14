@@ -483,7 +483,7 @@ class HTML_QuickForm extends HTML_Common
 
                         if ('required' == $type || 'uploadedfile' == $type)
                         {
-                            $groupObj->_required[] = $elementName;
+                            $groupObj->addRequired($elementName);
                             $this->_required[] = $elementName;
                             $required ++;
                         }

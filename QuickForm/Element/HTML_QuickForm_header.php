@@ -20,35 +20,17 @@
  * A pseudo-element used for adding headers to form
  *
  * @author Alexey Borzov <borz_off@cs.msu.su>
- * @access public
  */
 class HTML_QuickForm_header extends HTML_QuickForm_static
 {
 
-    /**
-     * Class constructor
-     *
-     * @param string $elementName Header name
-     * @param string $text        Header text
-     *
-     * @access public
-     * @return void
-     */
-    public function __construct($elementName = null, $text = null)
+    public function __construct(?string $elementName = null, ?string $text = null)
     {
         parent::__construct($elementName, null, $text);
         $this->_type = 'header';
     }
-
-    /**
-     * Accepts a renderer
-     *
-     * @param object     An HTML_QuickForm_Renderer object
-     *
-     * @access public
-     * @return void
-     */
-    public function accept($renderer, $required = false, $error = null)
+    
+    public function accept(HTML_QuickForm_Renderer $renderer, bool $required = false, ?string $error = null)
     {
         $renderer->renderHeader($this);
     }

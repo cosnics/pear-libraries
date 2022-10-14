@@ -44,7 +44,6 @@
  * @package     HTTP_Request
  * @author      Richard Heyes <richard@phpguru.org>
  * @author      Alexey Borzov <avb@php.net>
- * @version     Release: 1.4.4
  */
 class HTTP_Response
 {

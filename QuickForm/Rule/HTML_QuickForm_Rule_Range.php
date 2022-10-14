@@ -17,8 +17,6 @@
 
 /**
  * Validates values using range comparison
- *
- * @version     1.0
  */
 class HTML_QuickForm_Rule_Range extends HTML_QuickForm_Rule
 {
@@ -36,7 +34,7 @@ class HTML_QuickForm_Rule_Range extends HTML_QuickForm_Rule
                 $test = '({jsVar}.length < ' . $options[0] . ' || {jsVar}.length > ' . $options[1] . ')';
         }
 
-        return ['', "{jsVar} != '' && {$test}"];
+        return ['', "{jsVar} != '' && " . $test];
     }
 
     /**
@@ -45,7 +43,6 @@ class HTML_QuickForm_Rule_Range extends HTML_QuickForm_Rule
      * @param string $value  Value to be checked
      * @param mixed $options Int for length, array for range
      *
-     * @access    public
      * @return    bool   true if value is valid
      */
     public function validate($value, $options = null): bool

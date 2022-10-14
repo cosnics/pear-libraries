@@ -27,17 +27,9 @@ abstract class HTML_QuickForm_input extends HTML_QuickForm_element
 {
 
     /**
-     * Class constructor
-     *
-     * @param string     Input field name attribute
-     * @param mixed      Label(s) for the input field
-     * @param mixed      Either a typical HTML attribute string or an associative array
-     *
-     * @return    void
-     * @since     1.0
-     * @access    public
+     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
      */
-    public function __construct($elementName = null, $elementLabel = null, $attributes = null)
+    public function __construct(?string $elementName = null, ?string $elementLabel = null, $attributes = null)
     {
         parent::__construct($elementName, $elementLabel, $attributes);
     }
@@ -62,8 +54,6 @@ abstract class HTML_QuickForm_input extends HTML_QuickForm_element
      * Returns the element name
      *
      * @return    string
-     * @since     1.0
-     * @access    public
      */
     public function getName(): string
     {
@@ -74,8 +64,6 @@ abstract class HTML_QuickForm_input extends HTML_QuickForm_element
      * Returns the value of the form element
      *
      * @return    string
-     * @since     1.0
-     * @access    public
      */
     public function getValue()
     {
@@ -91,8 +79,6 @@ abstract class HTML_QuickForm_input extends HTML_QuickForm_element
      *
      * @return    void
      * @throws
-     * @since     1.0
-     * @access    public
      */
     public function onQuickFormEvent(string $event, $arg, object $caller): bool
     {
@@ -125,8 +111,6 @@ abstract class HTML_QuickForm_input extends HTML_QuickForm_element
      * @param string $name Input field name attribute
      *
      * @return    void
-     * @since     1.0
-     * @access    public
      */
     public function setName($name)
     {
@@ -139,8 +123,6 @@ abstract class HTML_QuickForm_input extends HTML_QuickForm_element
      * @param string $type Element type
      *
      * @return    void
-     * @since     1.0
-     * @access    public
      */
     public function setType($type)
     {
@@ -154,8 +136,6 @@ abstract class HTML_QuickForm_input extends HTML_QuickForm_element
      * @param string $value Default value of the form element
      *
      * @return    void
-     * @since     1.0
-     * @access    public
      */
     public function setValue($value)
     {
@@ -166,8 +146,6 @@ abstract class HTML_QuickForm_input extends HTML_QuickForm_element
      * Returns the input field in HTML
      *
      * @return    string
-     * @since     1.0
-     * @access    public
      */
     public function toHtml(): string
     {

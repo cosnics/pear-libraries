@@ -22,9 +22,6 @@
  *
  * @author       Adam Daniel <adaniel1@eesus.jnj.com>
  * @author       Bertrand Mansion <bmansion@mamasam.com>
- * @version      1.1
- * @since        PHP4.04pl1
- * @access       public
  */
 class HTML_QuickForm_radio extends HTML_QuickForm_input
 {
@@ -33,10 +30,8 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
      * Radio display text
      *
      * @var       string
-     * @since     1.1
-     * @access    private
      */
-    public $_text = '';
+    protected $_text = '';
 
     /**
      * Class constructor
@@ -48,8 +43,6 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
      * @param mixed     Either a typical HTML attribute string or an associative array
      *
      * @return    void
-     * @since     1.0
-     * @access    public
      */
     public function __construct(
         $elementName = null, $elementLabel = null, $text = null, $value = null, $attributes = null
@@ -88,8 +81,6 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
      * Returns whether radio button is checked
      *
      * @return    string
-     * @since     1.0
-     * @access    public
      */
     public function getChecked()
     {
@@ -100,8 +91,6 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
      * Returns the value of field without HTML tags
      *
      * @return    string
-     * @since     1.0
-     * @access    public
      */
     public function getFrozenHtml(): string
     {
@@ -119,8 +108,6 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
      * Returns the radio text
      *
      * @return    string
-     * @since     1.1
-     * @access    public
      */
     public function getText()
     {
@@ -133,8 +120,6 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
      * @param string $text Text to display near the radio button
      *
      * @return    void
-     * @since     1.1
-     * @access    public
      */
     public function setText($text)
     {
@@ -149,8 +134,6 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
      * @param object $caller calling object
      *
      * @return    void
-     * @since     1.0
-     * @access    public
      */
     public function onQuickFormEvent(string $event, $arg, object $caller): bool
     {
@@ -200,8 +183,6 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
      * @param bool $checked Whether the field is checked or not
      *
      * @return    void
-     * @since     1.0
-     * @access    public
      */
     public function setChecked($checked)
     {
@@ -219,8 +200,6 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
      * Returns the radio element in HTML
      *
      * @return    string
-     * @since     1.0
-     * @access    public
      */
     public function toHtml(): string
     {

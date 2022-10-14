@@ -25,9 +25,6 @@
  * selected values to be passed.
  *
  * @author       Isaac Shepard <ishepard@bsiweb.com>
- * @version      1.0
- * @since        2.1
- * @access       public
  */
 class HTML_QuickForm_hiddenselect extends HTML_QuickForm_select
 {
@@ -41,8 +38,6 @@ class HTML_QuickForm_hiddenselect extends HTML_QuickForm_select
      * @param mixed     Either a typical HTML attribute string or an associative array (not used)
      *
      * @return    void
-     * @since     1.0
-     * @access    public
      */
     public function __construct($elementName = null, $elementLabel = null, $options = null, $attributes = null)
     {
@@ -57,12 +52,18 @@ class HTML_QuickForm_hiddenselect extends HTML_QuickForm_select
     }
 
     /**
+     * This is essentially a hidden element and should be rendered as one
+     */
+    public function accept($renderer, $required = false, $error = null)
+    {
+        $renderer->renderHidden($this);
+    }
+
+    /**
      * Returns the SELECT in HTML
      *
      * @return    string
      * @throws
-     * @since     1.0
-     * @access    public
      */
     public function toHtml(): string
     {
@@ -86,14 +87,6 @@ class HTML_QuickForm_hiddenselect extends HTML_QuickForm_select
         }
 
         return $strHtml;
-    }
-
-    /**
-     * This is essentially a hidden element and should be rendered as one
-     */
-    public function accept($renderer, $required = false, $error = null)
-    {
-        $renderer->renderHidden($this);
     }
 
 }

@@ -59,8 +59,8 @@ class HTML_QuickForm_Rule_Callback extends HTML_QuickForm_Rule
         if (isset($this->_data[$this->name]))
         {
             $callback = $this->_data[$this->name][0];
-            $params =
-                ($this->_BCMode[$this->name] ? "'', {jsVar}" : '{jsVar}') . (isset($options) ? ", '{$options}'" : '');
+            $params = ($this->_BCMode[$this->name] ? "'', {jsVar}" : '{jsVar}') .
+                (isset($options) ? ", '" . $options . "'" : '');
         }
         else
         {
@@ -68,7 +68,7 @@ class HTML_QuickForm_Rule_Callback extends HTML_QuickForm_Rule
             $params = '{jsVar}';
         }
 
-        return ['', "{jsVar} != '' && !{$callback}({$params})"];
+        return ['', "{jsVar} != '' && !" . $callback . '(' . $params . ')'];
     }
 
     /**
@@ -82,6 +82,7 @@ class HTML_QuickForm_Rule_Callback extends HTML_QuickForm_Rule
         if (isset($this->_data[$this->name]))
         {
             $callback = $this->_data[$this->name];
+
             if (isset($callback[1]))
             {
                 return call_user_func([$callback[1], $callback[0]], $value, $options);

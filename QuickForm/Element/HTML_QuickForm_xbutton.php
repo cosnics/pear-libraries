@@ -20,8 +20,6 @@
  * Class for HTML 4.0 <button> element
  *
  * @author  Alexey Borzov <avb@php.net>
- * @since   3.2.3
- * @access  public
  */
 class HTML_QuickForm_xbutton extends HTML_QuickForm_element
 {
@@ -29,9 +27,8 @@ class HTML_QuickForm_xbutton extends HTML_QuickForm_element
      * Contents of the <button> tag
      *
      * @var      string
-     * @access   private
      */
-    public $_content;
+    protected $_content;
 
     /**
      * Class constructor
@@ -40,7 +37,6 @@ class HTML_QuickForm_xbutton extends HTML_QuickForm_element
      * @param string  Button content (HTML to add between <button></button> tags)
      * @param mixed   Either a typical HTML attribute string or an associative array
      *
-     * @access   public
      */
     public function __construct($elementName = null, $elementContent = null, $attributes = null)
     {

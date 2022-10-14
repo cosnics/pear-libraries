@@ -22,9 +22,6 @@
  *
  * @author       Adam Daniel <adaniel1@eesus.jnj.com>
  * @author       Bertrand Mansion <bmansion@mamasam.com>
- * @version      1.1
- * @since        PHP4.04pl1
- * @access       public
  */
 class HTML_QuickForm_reset extends HTML_QuickForm_input
 {
@@ -38,8 +35,6 @@ class HTML_QuickForm_reset extends HTML_QuickForm_input
      *                                      or an associative array
      *
      * @return    void
-     * @since     1.0
-     * @access    public
      */
     public function __construct($elementName = null, $value = null, $attributes = null)
     {
@@ -51,7 +46,6 @@ class HTML_QuickForm_reset extends HTML_QuickForm_input
     /**
      * Freeze the element so that only its value is returned
      *
-     * @access    public
      * @return    void
      */
     public function freeze()

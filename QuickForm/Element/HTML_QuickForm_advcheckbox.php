@@ -31,8 +31,6 @@
  * its value.
  *
  * @author       Jason Rust <jrust@php.net>
- * @since        2.0
- * @access       public
  */
 class HTML_QuickForm_advcheckbox extends HTML_QuickForm_checkbox
 {
@@ -41,17 +39,15 @@ class HTML_QuickForm_advcheckbox extends HTML_QuickForm_checkbox
      * The default value
      *
      * @var bool
-     * @access private
      */
-    public $_currentValue = null;
+    protected $_currentValue = null;
 
     /**
      * The values passed by the hidden elment
      *
      * @var array
-     * @access private
      */
-    public $_values = null;
+    protected $_values = null;
 
     /**
      * Class constructor
@@ -64,8 +60,6 @@ class HTML_QuickForm_advcheckbox extends HTML_QuickForm_checkbox
      * @param mixed $values                 (optional)Values to pass if checked or not checked
      *
      * @return    void
-     * @since     1.0
-     * @access    public
      */
     public function __construct(
         $elementName = null, $elementLabel = null, $text = null, $attributes = null, $values = null
@@ -98,7 +92,7 @@ class HTML_QuickForm_advcheckbox extends HTML_QuickForm_checkbox
      * Unlike checkbox, this has to append a hidden input in both
      * checked and non-checked states
      */
-    public function getFrozenHtml()
+    public function getFrozenHtml(): string
     {
         return ($this->getChecked() ? '<tt>[x]</tt>' : '<tt>[ ]</tt>') . $this->_getPersistantData();
     }
@@ -109,7 +103,6 @@ class HTML_QuickForm_advcheckbox extends HTML_QuickForm_checkbox
      *
      * @param string $elementName The element name
      *
-     * @access              public
      * @return string
      * @deprecated          Deprecated since 3.2.6, this element no longer uses any javascript
      */
@@ -129,7 +122,6 @@ class HTML_QuickForm_advcheckbox extends HTML_QuickForm_checkbox
      *
      * @param string $elementName The element name to make private
      *
-     * @access              public
      * @return string
      * @deprecated          Deprecated since 3.2.6, both generated elements have the same name
      */
@@ -141,7 +133,6 @@ class HTML_QuickForm_advcheckbox extends HTML_QuickForm_checkbox
     /**
      * Returns the element's value
      *
-     * @access   public
      * @return   mixed
      */
     public function getValue()
@@ -164,8 +155,6 @@ class HTML_QuickForm_advcheckbox extends HTML_QuickForm_checkbox
      * @param object $caller calling object
      *
      * @return    void
-     * @since     1.0
-     * @access    public
      */
     public function onQuickFormEvent(string $event, $arg, object $caller): bool
     {
@@ -198,9 +187,8 @@ class HTML_QuickForm_advcheckbox extends HTML_QuickForm_checkbox
     /**
      * Sets the element's value
      *
-     * @param mixed   Element's value
+     * @param mixed $value Element's value
      *
-     * @access   public
      */
     public function setValue($value)
     {
@@ -213,7 +201,6 @@ class HTML_QuickForm_advcheckbox extends HTML_QuickForm_checkbox
      *
      * @param mixed $values The values, either a string or an array
      *
-     * @access public
      * @return void
      */
     public function setValues($values)
@@ -241,10 +228,9 @@ class HTML_QuickForm_advcheckbox extends HTML_QuickForm_checkbox
      * Returns the checkbox element in HTML
      * and the additional hidden element in HTML
      *
-     * @access    public
      * @return    string
      */
-    public function toHtml()
+    public function toHtml(): string
     {
         if ($this->_flagFrozen)
         {

@@ -62,28 +62,34 @@ class HTML_QuickForm_Rule_Compare extends HTML_QuickForm_Rule
     public function getValidationScript($operator = null): array
     {
         $operator = $this->_findOperator($operator);
+
         if ('==' != $operator && '!=' != $operator)
         {
-            $check = "!(Number({jsVar}[0]) {$operator} Number({jsVar}[1]))";
+            $check = '!(Number({jsVar}[0]) ' . $operator . ' Number({jsVar}[1]))';
         }
         else
         {
-            $check = "!({jsVar}[0] {$operator} {jsVar}[1])";
+            $check = '!({jsVar}[0] ' . $operator . ' {jsVar}[1])';
         }
 
-        return ['', "'' != {jsVar}[0] && {$check}"];
+        return ['', "'' != {jsVar}[0] && " . $check];
     }
 
     public function validate($values, $operator = null): bool
     {
         $operator = $this->_findOperator($operator);
+
         if ('==' != $operator && '!=' != $operator)
         {
-            $compareFn = create_function('$a, $b', 'return floatval($a) ' . $operator . ' floatval($b);');
+            $compareFn = function ($a, $b) use ($operator) {
+                return floatval($a) . $operator . floatval($b);
+            };
         }
         else
         {
-            $compareFn = create_function('$a, $b', 'return $a ' . $operator . ' $b;');
+            $compareFn = function ($a, $b) use ($operator) {
+                return $a . $operator . $b;
+            };
         }
 
         return $compareFn($values[0], $values[1]);

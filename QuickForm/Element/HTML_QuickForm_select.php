@@ -22,9 +22,6 @@
  *
  * @author       Adam Daniel <adaniel1@eesus.jnj.com>
  * @author       Bertrand Mansion <bmansion@mamasam.com>
- * @version      1.0
- * @since        PHP4.04pl1
- * @access       public
  */
 class HTML_QuickForm_select extends HTML_QuickForm_element
 {
@@ -33,19 +30,15 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      * Contains the select options
      *
      * @var       array
-     * @since     1.0
-     * @access    private
      */
-    public $_options = [];
+    protected $_options = [];
 
     /**
      * Default values of the SELECT
      *
      * @var       string
-     * @since     1.0
-     * @access    private
      */
-    public $_values = null;
+    protected $_values = null;
 
     /**
      * Class constructor
@@ -56,8 +49,6 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      * @param mixed     Either a typical HTML attribute string or an associative array
      *
      * @return    void
-     * @since     1.0
-     * @access    public
      */
     public function __construct($elementName = null, $elementLabel = null, $options = null, $attributes = null)
     {
@@ -79,8 +70,6 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      *                                  or an associative array
      *
      * @return    void
-     * @since     1.0
-     * @access    public
      */
     public function addOption($text, $value, $attributes = null)
     {
@@ -157,8 +146,6 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      * Returns the value of field without HTML tags
      *
      * @return    string
-     * @since     1.0
-     * @access    public
      */
     public function getFrozenHtml(): string
     {
@@ -210,8 +197,6 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      * Returns the select mutiple attribute
      *
      * @return    bool    true if multiple select, false otherwise
-     * @since     1.2
-     * @access    public
      */
     public function getMultiple()
     {
@@ -222,8 +207,6 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      * Returns the element name
      *
      * @return    string
-     * @since     1.0
-     * @access    public
      */
     public function getName(): string
     {
@@ -234,8 +217,6 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      * Returns the element name (possibly with brackets appended)
      *
      * @return    string
-     * @since     1.0
-     * @access    public
      */
     public function getPrivateName()
     {
@@ -253,8 +234,6 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      * Returns an array of the selected values
      *
      * @return    array of selected values
-     * @since     1.0
-     * @access    public
      */
     public function getSelected()
     {
@@ -265,8 +244,6 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      * Returns the select field size
      *
      * @return    int
-     * @since     1.0
-     * @access    public
      */
     public function getSize()
     {
@@ -277,8 +254,6 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      * Returns an array of the selected values
      *
      * @return    array of selected values
-     * @since     1.0
-     * @access    public
      */
     public function getValue()
     {
@@ -302,8 +277,6 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      *
      * @return    PEAR_Error on error or true
      * @throws    PEAR_Error
-     * @since     1.1
-     * @access    public
      */
     public function load(&$options, $param1 = null, $param2 = null, $param3 = null, $param4 = null)
     {
@@ -323,8 +296,6 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      *
      * @return    PEAR_Error on error or true
      * @throws    PEAR_Error
-     * @since     1.0
-     * @access    public
      */
     public function loadArray($arr, $values = null)
     {
@@ -379,8 +350,6 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      * @param bool $multiple Whether the select supports multi-selections
      *
      * @return    void
-     * @since     1.2
-     * @access    public
      */
     public function setMultiple($multiple)
     {
@@ -400,8 +369,6 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      * @param string $name Input field name attribute
      *
      * @return    void
-     * @since     1.0
-     * @access    public
      */
     public function setName($name)
     {
@@ -414,8 +381,6 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      * @param mixed $values Array or comma delimited string of selected values
      *
      * @return    void
-     * @since     1.0
-     * @access    public
      */
     public function setSelected($values)
     {
@@ -439,8 +404,6 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      * @param int $size Size of select  field
      *
      * @return    void
-     * @since     1.0
-     * @access    public
      */
     public function setSize($size)
     {
@@ -453,8 +416,6 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      * @param mixed $values Array or comma delimited string of selected values
      *
      * @return    void
-     * @since     1.0
-     * @access    public
      */
     public function setValue($value)
     {
@@ -465,8 +426,6 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      * Returns the SELECT in HTML
      *
      * @return    string
-     * @since     1.0
-     * @access    public
      */
     public function toHtml(): string
     {

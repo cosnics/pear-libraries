@@ -22,9 +22,6 @@
  *
  * @author       Adam Daniel <adaniel1@eesus.jnj.com>
  * @author       Bertrand Mansion <bmansion@mamasam.com>
- * @version      1.1
- * @since        PHP4.04pl1
- * @access       public
  */
 class HTML_QuickForm_checkbox extends HTML_QuickForm_input
 {
@@ -33,10 +30,8 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
      * Checkbox display text
      *
      * @var       string
-     * @since     1.1
-     * @access    private
      */
-    var $_text = '';
+    protected $_text = '';
 
     /**
      * Class constructor
@@ -48,8 +43,6 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
      *                                      or an associative array
      *
      * @return    void
-     * @since     1.0
-     * @access    public
      */
     public function __construct($elementName = null, $elementLabel = null, $text = '', $attributes = null)
     {
@@ -61,72 +54,35 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
     }
 
     /**
-     * Sets whether a checkbox is checked
-     *
-     * @param bool $checked Whether the field is checked or not
-     *
-     * @return    void
-     * @since     1.0
-     * @access    public
+     * Return true if the checkbox is checked, null if it is not checked (getValue() returns false)
      */
-    function setChecked($checked)
+    public function exportValue(array &$submitValues, bool $assoc = false)
     {
-        if (!$checked)
+        $value = $this->_findValue($submitValues);
+        if (null === $value)
         {
-            $this->removeAttribute('checked');
+            $value = $this->getChecked() ? true : null;
         }
-        else
-        {
-            $this->updateAttributes(['checked' => 'checked']);
-        }
+
+        return $this->_prepareValue($value, $assoc);
     }
 
     /**
      * Returns whether a checkbox is checked
      *
      * @return    bool
-     * @since     1.0
-     * @access    public
      */
-    function getChecked()
+    public function getChecked()
     {
         return (bool) $this->getAttribute('checked');
-    }
-
-    /**
-     * Returns the checkbox element in HTML
-     *
-     * @return    string
-     * @since     1.0
-     * @access    public
-     */
-    function toHtml(): string
-    {
-        $this->_generateId(); // Seems to be necessary when this is used in a group.
-        if (0 == strlen($this->_text))
-        {
-            $label = '';
-        }
-        elseif ($this->_flagFrozen)
-        {
-            $label = $this->_text;
-        }
-        else
-        {
-            $label = '<label for="' . $this->getAttribute('id') . '">' . $this->_text . '</label>';
-        }
-
-        return HTML_QuickForm_input::toHtml() . $label;
     }
 
     /**
      * Returns the value of field without HTML tags
      *
      * @return    string
-     * @since     1.0
-     * @access    public
      */
-    function getFrozenHtml(): string
+    public function getFrozenHtml(): string
     {
         if ($this->getChecked())
         {
@@ -139,53 +95,33 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
     }
 
     /**
-     * Sets the checkbox text
-     *
-     * @param string $text
-     *
-     * @return    void
-     * @since     1.1
-     * @access    public
-     */
-    function setText($text)
-    {
-        $this->_text = $text;
-    }
-
-    /**
      * Returns the checkbox text
      *
      * @return    string
-     * @since     1.1
-     * @access    public
      */
-    function getText()
+    public function getText()
     {
         return $this->_text;
     }
 
     /**
-     * Sets the value of the form element
+     * Sets the checkbox text
      *
-     * @param string $value Default value of the form element
+     * @param string $text
      *
      * @return    void
-     * @since     1.0
-     * @access    public
      */
-    function setValue($value)
+    public function setText($text)
     {
-        return $this->setChecked($value);
+        $this->_text = $text;
     }
 
     /**
      * Returns the value of the form element
      *
      * @return    bool
-     * @since     1.0
-     * @access    public
      */
-    function getValue()
+    public function getValue()
     {
         return $this->getChecked();
     }
@@ -198,8 +134,6 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
      * @param object $caller calling object
      *
      * @return    void
-     * @since     1.0
-     * @access    public
      */
     public function onQuickFormEvent(string $event, $arg, object $caller): bool
     {
@@ -238,17 +172,58 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
     }
 
     /**
-     * Return true if the checkbox is checked, null if it is not checked (getValue() returns false)
+     * Sets whether a checkbox is checked
+     *
+     * @param bool $checked Whether the field is checked or not
+     *
+     * @return    void
      */
-    function exportValue(&$submitValues, $assoc = false)
+    public function setChecked($checked)
     {
-        $value = $this->_findValue($submitValues);
-        if (null === $value)
+        if (!$checked)
         {
-            $value = $this->getChecked() ? true : null;
+            $this->removeAttribute('checked');
+        }
+        else
+        {
+            $this->updateAttributes(['checked' => 'checked']);
+        }
+    }
+
+    /**
+     * Sets the value of the form element
+     *
+     * @param string $value Default value of the form element
+     *
+     * @return    void
+     */
+    public function setValue($value)
+    {
+        return $this->setChecked($value);
+    }
+
+    /**
+     * Returns the checkbox element in HTML
+     *
+     * @return    string
+     */
+    public function toHtml(): string
+    {
+        $this->_generateId(); // Seems to be necessary when this is used in a group.
+        if (0 == strlen($this->_text))
+        {
+            $label = '';
+        }
+        elseif ($this->_flagFrozen)
+        {
+            $label = $this->_text;
+        }
+        else
+        {
+            $label = '<label for="' . $this->getAttribute('id') . '">' . $this->_text . '</label>';
         }
 
-        return $this->_prepareValue($value, $assoc);
+        return HTML_QuickForm_input::toHtml() . $label;
     }
 
 }

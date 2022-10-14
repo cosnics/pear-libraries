@@ -40,7 +40,7 @@ class HTML_QuickForm_Rule_Email extends HTML_QuickForm_Rule
             if ($checkDomain && function_exists('checkdnsrr'))
             {
                 $tokens = explode('@', $email);
-                if (checkdnsrr($tokens[1], 'MX') || checkdnsrr($tokens[1], 'A'))
+                if (checkdnsrr($tokens[1]) || checkdnsrr($tokens[1], 'A'))
                 {
                     return true;
                 }

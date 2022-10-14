@@ -22,148 +22,50 @@
  *
  * @author       Adam Daniel <adaniel1@eesus.jnj.com>
  * @author       Bertrand Mansion <bmansion@mamasam.com>
- * @version      1.0
- * @since        PHP4.04pl1
- * @access       public
  */
 class HTML_QuickForm_link extends HTML_QuickForm_static
 {
-
     /**
-     * Link display text
-     *
-     * @var       string
-     * @since     1.0
-     * @access    private
-     */
-    public $_text = '';
-
-    /**
-     * Class constructor
-     *
-     * @param string $elementLabel          (optional)Link label
-     * @param string $href                  (optional)Link href
-     * @param string $text                  (optional)Link display text
-     * @param mixed $attributes             (optional)Either a typical HTML attribute string
-     *                                      or an associative array
-     *
-     * @return    void
-     * @throws
-     * @since     1.0
-     * @access    public
+     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
      */
     public function __construct(
-        $elementName = null, $elementLabel = null, $href = null, $text = null, $attributes = null
+        ?string $elementName = null, ?string $elementLabel = null, ?string $href = null, ?string $text = null,
+        $attributes = null
     )
     {
-        // TODO MDL-52313 Replace with the call to parent::__construct().
-        HTML_QuickForm_element::__construct($elementName, $elementLabel, $attributes);
+        parent::__construct($elementName, $elementLabel, $text, $attributes);
+
         $this->_persistantFreeze = false;
         $this->_type = 'link';
         $this->setHref($href);
-        $this->_text = $text;
-    }
-
-    /**
-     * Sets the input field name
-     *
-     * @param string $name Input field name attribute
-     *
-     * @return    void
-     * @throws
-     * @since     1.0
-     * @access    public
-     */
-    public function setName($name)
-    {
-        $this->updateAttributes(['name' => $name]);
-    }
-
-    /**
-     * Returns the element name
-     *
-     * @return    string
-     * @throws
-     * @since     1.0
-     * @access    public
-     */
-    public function getName(): string
-    {
-        return $this->getAttribute('name');
-    }
-
-    /**
-     * Sets value for textarea element
-     *
-     * @param string $value Value for password element
-     *
-     * @return    void
-     * @throws
-     * @since     1.0
-     * @access    public
-     */
-    public function setValue($value)
-    {
-        return;
-    }
-
-    /**
-     * Returns the value of the form element
-     *
-     * @return    void
-     * @throws
-     * @since     1.0
-     * @access    public
-     */
-    public function getValue()
-    {
-        return;
-    }
-
-    /**
-     * Sets the links href
-     *
-     * @param string $href
-     *
-     * @return    void
-     * @throws
-     * @since     1.0
-     * @access    public
-     */
-    public function setHref($href)
-    {
-        $this->updateAttributes(['href' => $href]);
-    }
-
-    /**
-     * Returns the textarea element in HTML
-     *
-     * @return    string
-     * @throws
-     * @since     1.0
-     * @access    public
-     */
-    public function toHtml(): string
-    {
-        $tabs = $this->_getTabs();
-        $html = "$tabs<a" . $this->_getAttrString($this->_attributes) . '>';
-        $html .= $this->_text;
-        $html .= '</a>';
-
-        return $html;
     }
 
     /**
      * Returns the value of field without HTML tags (in this case, value is changed to a mask)
-     *
-     * @return    string
-     * @throws
-     * @since     1.0
-     * @access    public
      */
     public function getFrozenHtml(): string
     {
-        return;
+        return '';
+    }
+
+    public function setHref(?string $href = null)
+    {
+        $this->updateAttributes(['href' => $href]);
+    }
+
+    public function setValue($value)
+    {
+    }
+
+    public function toHtml(): string
+    {
+        $tabs = $this->_getTabs();
+
+        $html = $tabs . '<a' . $this->_getAttrString($this->_attributes) . '>';
+        $html .= $this->_text;
+        $html .= '</a>';
+
+        return $html;
     }
 
 }

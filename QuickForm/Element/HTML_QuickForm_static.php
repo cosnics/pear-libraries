@@ -21,31 +21,21 @@
  * HTML class for static data
  *
  * @author       Wojciech Gdela <eltehaem@poczta.onet.pl>
- * @access       public
  */
 class HTML_QuickForm_static extends HTML_QuickForm_element
 {
 
-    /**
-     * Display text
-     *
-     * @var       string
-     * @access    private
-     */
-    var $_text = null;
+    protected ?string $_text = null;
 
     /**
-     * Class constructor
-     *
-     * @param string $elementLabel (optional)Label
-     * @param string $text         (optional)Display text
-     *
-     * @access    public
-     * @return    void
+     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
      */
-    public function __construct($elementName = null, $elementLabel = null, $text = null)
+    public function __construct(
+        ?string $elementName = null, ?string $elementLabel = null, ?string $text = null, $attributes = null
+    )
     {
-        parent::__construct($elementName, $elementLabel);
+        parent::__construct($elementName, $elementLabel, $attributes);
+
         $this->_persistantFreeze = false;
         $this->_type = 'static';
         $this->_text = $text;
@@ -54,44 +44,34 @@ class HTML_QuickForm_static extends HTML_QuickForm_element
     /**
      * We override this here because we don't want any values from static elements
      */
-    function exportValue($submitValues, $assoc = false)
+    public function exportValue(array &$submitValues, bool $assoc = false)
     {
         return null;
     }
 
     /**
      * Returns the value of field without HTML tags
-     *
-     * @access    public
-     * @return    string
      */
-    function getFrozenHtml(): string
+    public function getFrozenHtml(): string
     {
         return $this->toHtml();
     }
 
-    /**
-     * Returns the element name
-     *
-     * @access    public
-     * @return    string
-     */
-    function getName(): string
+    public function getName(): string
     {
         return $this->getAttribute('name');
+    }
+
+    public function getValue()
+    {
+        return null;
     }
 
     /**
      * Called by HTML_QuickForm whenever form event is made on this element
      *
-     * @param string $event  Name of event
-     * @param mixed $arg     event arguments
+     * @param mixed $arg event arguments
      * @param object $caller calling object
-     *
-     * @return    void
-     * @throws
-     * @since     1.0
-     * @access    public
      */
     public function onQuickFormEvent(string $event, $arg, object $caller): bool
     {
@@ -116,59 +96,30 @@ class HTML_QuickForm_static extends HTML_QuickForm_element
         return true;
     }
 
-    /**
-     * Sets the element name
-     *
-     * @param string $name Element name
-     *
-     * @access    public
-     * @return    void
-     */
-    function setName($name)
+    public function setName(string $name)
     {
         $this->updateAttributes(['name' => $name]);
     }
 
-    /**
-     * Sets the text
-     *
-     * @param string $text
-     *
-     * @access    public
-     * @return    void
-     */
-    function setText($text)
+    public function setText(?string $text = null)
     {
         $this->_text = $text;
     }
 
     /**
      * Sets the text (uses the standard setValue call to emulate a form element.
-     *
-     * @param string $text
-     *
-     * @access    public
-     * @return    void
      */
-    function setValue($text)
+    public function setValue($text)
     {
         $this->setText($text);
     }
 
     /**
      * Returns the static text element in HTML
-     *
-     * @access    public
-     * @return    string
      */
-    function toHtml(): string
+    public function toHtml(): string
     {
         return $this->_getTabs() . $this->_text;
-    }
-
-    public function getValue()
-    {
-        return null;
     }
 }
 

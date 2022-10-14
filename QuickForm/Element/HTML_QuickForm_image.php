@@ -22,9 +22,6 @@
  *
  * @author       Adam Daniel <adaniel1@eesus.jnj.com>
  * @author       Bertrand Mansion <bmansion@mamasam.com>
- * @version      1.0
- * @since        PHP4.04pl1
- * @access       public
  */
 class HTML_QuickForm_image extends HTML_QuickForm_input
 {
@@ -38,8 +35,6 @@ class HTML_QuickForm_image extends HTML_QuickForm_input
      *                                      or an associative array
      *
      * @return    void
-     * @since     1.0
-     * @access    public
      */
     public function __construct($elementName = null, $src = '', $attributes = null)
     {
@@ -49,31 +44,13 @@ class HTML_QuickForm_image extends HTML_QuickForm_input
     }
 
     /**
-     * Sets source for image element
-     *
-     * @param string $src source for image element
+     * Freeze the element so that only its value is returned
      *
      * @return    void
-     * @since     1.0
-     * @access    public
      */
-    public function setSource($src)
+    public function freeze()
     {
-        $this->updateAttributes(['src' => $src]);
-    }
-
-    /**
-     * Sets border size for image element
-     *
-     * @param string $border border for image element
-     *
-     * @return    void
-     * @since     1.0
-     * @access    public
-     */
-    public function setBorder($border)
-    {
-        $this->updateAttributes(['border' => $border]);
+        return false;
     }
 
     /**
@@ -82,8 +59,6 @@ class HTML_QuickForm_image extends HTML_QuickForm_input
      * @param string $align alignment for image element
      *
      * @return    void
-     * @since     1.0
-     * @access    public
      */
     public function setAlign($align)
     {
@@ -91,14 +66,27 @@ class HTML_QuickForm_image extends HTML_QuickForm_input
     }
 
     /**
-     * Freeze the element so that only its value is returned
+     * Sets border size for image element
      *
-     * @access    public
+     * @param string $border border for image element
+     *
      * @return    void
      */
-    public function freeze()
+    public function setBorder($border)
     {
-        return false;
+        $this->updateAttributes(['border' => $border]);
+    }
+
+    /**
+     * Sets source for image element
+     *
+     * @param string $src source for image element
+     *
+     * @return    void
+     */
+    public function setSource($src)
+    {
+        $this->updateAttributes(['src' => $src]);
     }
 
 }

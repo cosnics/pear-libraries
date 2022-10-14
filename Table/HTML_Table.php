@@ -46,7 +46,6 @@
  * @author     Adam Daniel <adaniel1@eesus.jnj.com>
  * @author     Bertrand Mansion <bmansion@mamasam.com>
  * @licensehttp://www.opensource.org/licenses/bsd-license.php New BSD License
- * @versionCVS : $Id$
  * @link       http://pear.php.net/package/HTML_Table
  */
 class HTML_Table extends HTML_Common

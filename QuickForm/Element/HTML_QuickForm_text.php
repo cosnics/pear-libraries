@@ -22,9 +22,6 @@
  *
  * @author       Adam Daniel <adaniel1@eesus.jnj.com>
  * @author       Bertrand Mansion <bmansion@mamasam.com>
- * @version      1.0
- * @since        PHP4.04pl1
- * @access       public
  */
 class HTML_QuickForm_text extends HTML_QuickForm_input
 {
@@ -38,8 +35,6 @@ class HTML_QuickForm_text extends HTML_QuickForm_input
      *                                      or an associative array
      *
      * @return    void
-     * @since     1.0
-     * @access    public
      */
     public function __construct($elementName = null, $elementLabel = null, $attributes = null)
     {
@@ -54,8 +49,6 @@ class HTML_QuickForm_text extends HTML_QuickForm_input
      * @param string $maxlength Maximum length of text field
      *
      * @return    void
-     * @since     1.3
-     * @access    public
      */
     public function setMaxlength($maxlength)
     {
@@ -68,8 +61,6 @@ class HTML_QuickForm_text extends HTML_QuickForm_input
      * @param string $size Size of text field
      *
      * @return    void
-     * @since     1.3
-     * @access    public
      */
     public function setSize($size)
     {

@@ -22,9 +22,6 @@
  *
  * @author       Adam Daniel <adaniel1@eesus.jnj.com>
  * @author       Bertrand Mansion <bmansion@mamasam.com>
- * @version      1.1
- * @since        PHP4.04pl1
- * @access       public
  */
 class HTML_QuickForm_password extends HTML_QuickForm_input
 {
@@ -39,8 +36,6 @@ class HTML_QuickForm_password extends HTML_QuickForm_input
      *
      * @return    void
      * @throws
-     * @since     1.0
-     * @access    public
      */
     public function __construct($elementName = null, $elementLabel = null, $attributes = null)
     {
@@ -53,8 +48,6 @@ class HTML_QuickForm_password extends HTML_QuickForm_input
      *
      * @return    string
      * @throws
-     * @since     1.0
-     * @access    public
      */
     public function getFrozenHtml(): string
     {
@@ -69,8 +62,6 @@ class HTML_QuickForm_password extends HTML_QuickForm_input
      * @param string $maxlength Maximum length of password field
      *
      * @return    void
-     * @since     1.0
-     * @access    public
      */
     public function setMaxlength($maxlength)
     {
@@ -83,8 +74,6 @@ class HTML_QuickForm_password extends HTML_QuickForm_input
      * @param string $size Size of password field
      *
      * @return    void
-     * @since     1.0
-     * @access    public
      */
     public function setSize($size)
     {

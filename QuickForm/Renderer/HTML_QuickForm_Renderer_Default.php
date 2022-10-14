@@ -117,9 +117,9 @@ class HTML_QuickForm_Renderer_Default extends HTML_QuickForm_Renderer
             foreach ($label as $key => $text)
             {
                 $key = is_int($key) ? $key + 2 : $key;
-                $html = str_replace("{label_{$key}}", $text, $html);
-                $html = str_replace("<!-- BEGIN label_{$key} -->", '', $html);
-                $html = str_replace("<!-- END label_{$key} -->", '', $html);
+                $html = str_replace('{label_' . $key . '}', $text, $html);
+                $html = str_replace('<!-- BEGIN label_' . $key . ' -->', '', $html);
+                $html = str_replace('<!-- END label_' . $key . ' -->', '', $html);
             }
         }
 
@@ -145,6 +145,8 @@ class HTML_QuickForm_Renderer_Default extends HTML_QuickForm_Renderer
 
     /**
      * Called when visiting a form, after processing all form elements
+     *
+     * @throws \QuickformException
      */
     public function finishForm(HTML_QuickForm $form)
     {
@@ -153,8 +155,10 @@ class HTML_QuickForm_Renderer_Default extends HTML_QuickForm_Renderer
         {
             $this->_html .= str_replace('{requiredNote}', $form->getRequiredNote(), $this->_requiredNoteTemplate);
         }
+
         // add form attributes and content
         $html = str_replace('{attributes}', $form->getAttributes(true), $this->_formTemplate);
+
         if (strpos($this->_formTemplate, '{hidden}'))
         {
             $html = str_replace('{hidden}', $this->_hiddenHtml, $html);
@@ -163,8 +167,10 @@ class HTML_QuickForm_Renderer_Default extends HTML_QuickForm_Renderer
         {
             $this->_html .= $this->_hiddenHtml;
         }
+
         $this->_hiddenHtml = '';
         $this->_html = str_replace('{content}', $this->_html, $html);
+
         // add a validation script
         if ('' != ($script = $form->getValidationScript()))
         {
@@ -177,11 +183,13 @@ class HTML_QuickForm_Renderer_Default extends HTML_QuickForm_Renderer
      */
     public function finishGroup(HTML_QuickForm_group $group)
     {
-        $separator = $group->_separator;
+        $separator = $group->getSeparator();
+
         if (is_array($separator))
         {
             $count = count($separator);
             $html = '';
+
             for ($i = 0; $i < count($this->_groupElements); $i ++)
             {
                 $html .= (0 == $i ? '' : $separator[($i - 1) % $count]) . $this->_groupElements[$i];
@@ -193,12 +201,15 @@ class HTML_QuickForm_Renderer_Default extends HTML_QuickForm_Renderer
             {
                 $separator = '&nbsp;';
             }
+
             $html = implode((string) $separator, $this->_groupElements);
         }
+
         if (!empty($this->_groupWrap))
         {
             $html = str_replace('{content}', $html, $this->_groupWrap);
         }
+
         $this->_html .= str_replace('{element}', $html, $this->_groupTemplate);
         $this->_inGroup = false;
     }
@@ -216,6 +227,7 @@ class HTML_QuickForm_Renderer_Default extends HTML_QuickForm_Renderer
         elseif (!empty($this->_groupElementTemplate))
         {
             $html = str_replace('{label}', $element->getLabel(), $this->_groupElementTemplate);
+
             if ($required)
             {
                 $html = str_replace('<!-- BEGIN required -->', '', $html);
@@ -227,6 +239,7 @@ class HTML_QuickForm_Renderer_Default extends HTML_QuickForm_Renderer
                     "/([ \t\n\r]*)?<!-- BEGIN required -->(\s|\S)*<!-- END required -->([ \t\n\r]*)?/iU", '', $html
                 );
             }
+
             $this->_groupElements[] = str_replace('{element}', $element->toHtml(), $html);
         }
         else
@@ -241,6 +254,7 @@ class HTML_QuickForm_Renderer_Default extends HTML_QuickForm_Renderer
     public function renderHeader(HTML_QuickForm_header $header)
     {
         $name = $header->getName();
+
         if (!empty($name) && isset($this->_templates[$name]))
         {
             $this->_html .= str_replace('{header}', $header->toHtml(), $this->_templates[$name]);

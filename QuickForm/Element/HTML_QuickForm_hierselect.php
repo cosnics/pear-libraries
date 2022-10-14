@@ -26,9 +26,6 @@
  *
  * @author       Herim Vasquez <vasquezh@iro.umontreal.ca>
  * @author       Bertrand Mansion <bmansion@mamasam.com>
- * @version      1.0
- * @since        PHP4.04pl1
- * @access       public
  */
 class HTML_QuickForm_hierselect extends HTML_QuickForm_group
 {
@@ -37,17 +34,15 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
      * The javascript used to set and change the options
      *
      * @var       string
-     * @access    private
      */
-    public $_js = '';
+    protected $_js = '';
 
     /**
      * Number of select elements on this group
      *
      * @var       int
-     * @access    private
      */
-    public $_nbElements = 0;
+    protected $_nbElements = 0;
 
     /**
      * Options for all the select elements
@@ -82,9 +77,8 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
      * $sel->setOptions(array($select1, $select2, $select3));
      *
      * @var       array
-     * @access    private
      */
-    public $_options = [];
+    protected $_options = [];
 
     /**
      * Class constructor
@@ -96,7 +90,6 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
      * @param mixed $separator              (optional)Use a string for one separator,
      *                                      use an array to alternate the separators.
      *
-     * @access    public
      * @return    void
      */
     public function __construct($elementName = null, $elementLabel = null, $attributes = null, $separator = null)
@@ -115,15 +108,13 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
     /**
      * Converts PHP array to its Javascript analog
      *
-     * @access private
-     *
      * @param array     PHP array to convert
      * @param bool      Generate Javascript object literal (default, works like PHP's associative array) or array
      *                           literal
      *
      * @return string    Javascript representation of the value
      */
-    public function _convertArrayToJavascript($array, $assoc = true)
+    protected function _convertArrayToJavascript($array, $assoc = true)
     {
         if (!is_array($array))
         {
@@ -154,13 +145,11 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
     /**
      * Converts PHP's scalar value to its Javascript analog
      *
-     * @access private
-     *
      * @param mixed     PHP value to convert
      *
      * @return string    Javascript representation of the value
      */
-    public function _convertScalarToJavascript($val)
+    protected function _convertScalarToJavascript($val)
     {
         if (is_bool($val))
         {
@@ -188,10 +177,9 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
     /**
      * Creates all the elements for the group
      *
-     * @access    private
      * @return    void
      */
-    public function _createElements()
+    protected function _createElements()
     {
         for ($i = 0; $i < $this->_nbElements; $i ++)
         {
@@ -202,13 +190,11 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
     /**
      * Quotes the string so that it can be used in Javascript string constants
      *
-     * @access private
-     *
      * @param string
      *
      * @return string
      */
-    public function _escapeString($str)
+    protected function _escapeString($str)
     {
         return strtr($str, [
             "\r" => '\r',
@@ -223,10 +209,9 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
     /**
      * Sets the options for each select element
      *
-     * @access    private
      * @return    void
      */
-    public function _setOptions()
+    protected function _setOptions()
     {
         $toLoad = '';
         foreach (array_keys($this->_elements) as $key)
@@ -250,7 +235,6 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
      *
      * @param array $options Array of options defining each element
      *
-     * @access    public
      * @return    void
      */
     public function setOptions($options)
@@ -341,7 +325,6 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
      *
      * @param array $array Options for the first select element
      *
-     * @access              public
      * @return    void
      * @deprecated          Deprecated since release 3.2.2
      */
@@ -362,7 +345,6 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
      *
      * @param array $array Options for the second select element
      *
-     * @access              public
      * @return    void
      * @deprecated          Deprecated since release 3.2.2
      */
@@ -396,7 +378,6 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
      * @param array $value            An array of 2 or more values, for the first,
      *                                the second, the third etc. select
      *
-     * @access    public
      * @return    void
      */
     public function setValue($value)

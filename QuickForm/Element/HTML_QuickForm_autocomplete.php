@@ -38,20 +38,18 @@ class HTML_QuickForm_autocomplete extends HTML_QuickForm_text
 {
 
     /**
-     * Options for the autocomplete input text element
-     *
-     * @var       array
-     * @access    private
-     */
-    public $_options = [];
-
-    /**
      * "One-time" javascript (containing functions), see bug #4611
      *
      * @var     string
-     * @access  private
      */
     public $_js = '';
+
+    /**
+     * Options for the autocomplete input text element
+     *
+     * @var       array
+     */
+    protected $_options = [];
 
     /**
      * Class constructor
@@ -62,7 +60,6 @@ class HTML_QuickForm_autocomplete extends HTML_QuickForm_text
      * @param mixed $attributes             (optional)Either a typical HTML attribute string
      *                                      or an associative array. Date format is passed along the attributes.
      *
-     * @access    public
      * @return    void
      */
     public function __construct($elementName = null, $elementLabel = null, $options = null, $attributes = null)
@@ -81,7 +78,6 @@ class HTML_QuickForm_autocomplete extends HTML_QuickForm_text
      *
      * @param array $options Array of options for the autocomplete input text element
      *
-     * @access    public
      * @return    void
      */
     public function setOptions($options)
@@ -92,7 +88,6 @@ class HTML_QuickForm_autocomplete extends HTML_QuickForm_text
     /**
      * Returns Html for the autocomplete input text element
      *
-     * @access      public
      * @return      string
      */
     public function toHtml(): string
