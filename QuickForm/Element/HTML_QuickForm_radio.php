@@ -26,7 +26,7 @@
 class HTML_QuickForm_radio extends HTML_QuickForm_input
 {
 
-    protected string $_text = '';
+    protected ?string $_text = null;
 
     /**
      * @param ?string $text              Text to display near the radio
