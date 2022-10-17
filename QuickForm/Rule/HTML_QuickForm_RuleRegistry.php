@@ -206,14 +206,14 @@ class HTML_QuickForm_RuleRegistry
      * validate() method.
      *
      * @param string $ruleName                   Name of validation rule
-     * @param string $type                       Either: 'regex', 'function' or null
+     * @param ?string $type                       Either: 'regex', 'function' or null
      * @param string|\HTML_QuickForm_Rule $data1 Name of function, regular expression or
      *                                           HTML_QuickForm_Rule object class name
      * @param ?string $data2                     Object parent of above function or HTML_QuickForm_Rule file path
      *
      * @return    void
      */
-    public function registerRule(string $ruleName, string $type, $data1, ?string $data2 = null)
+    public function registerRule(string $ruleName, ?string $type, $data1, ?string $data2 = null)
     {
         $type = strtolower($type);
 

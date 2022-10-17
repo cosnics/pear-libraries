@@ -1450,13 +1450,13 @@ class HTML_QuickForm extends HTML_Common
      * Registers a new validation rule
      *
      * @param string $ruleName Name of validation rule
-     * @param string $type     Either: 'regex', 'function' or 'rule' for an HTML_QuickForm_Rule object
+     * @param ?string $type     Either: 'regex', 'function' or 'rule' for an HTML_QuickForm_Rule object
      * @param string $data1    Name of function, regular expression or HTML_QuickForm_Rule classname
      * @param ?string $data2   Object parent of above function or HTML_QuickForm_Rule file path
      *
      * @return    void
      */
-    public static function registerRule(string $ruleName, string $type, string $data1, ?string $data2 = null)
+    public static function registerRule(string $ruleName, ?string $type, string $data1, ?string $data2 = null)
     {
         $registry = HTML_QuickForm_RuleRegistry::singleton();
         $registry->registerRule($ruleName, $type, $data1, $data2);
