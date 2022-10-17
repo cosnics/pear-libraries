@@ -870,6 +870,16 @@ class HTML_QuickForm extends HTML_Common
         return true;
     }
 
+    public function getConstantValues(): array
+    {
+        return $this->_constantValues;
+    }
+
+    public function getDefaultValues(): array
+    {
+        return $this->_defaultValues;
+    }
+
     /**
      * @throws QuickformException
      */

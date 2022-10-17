@@ -98,26 +98,29 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
     /**
      * Called by HTML_QuickForm whenever form event is made on this element
      *
-     * @param string $event  Name of event
-     * @param mixed $arg     event arguments
-     * @param object $caller calling object
+     * @param string $event          Name of event
+     * @param mixed $arg             event arguments
+     * @param ?HTML_QuickForm $caller calling object
      */
-    public function onQuickFormEvent(string $event, $arg, object $caller): bool
+    public function onQuickFormEvent(string $event, $arg, ?HTML_QuickForm $caller = null): bool
     {
         switch ($event)
         {
             case 'updateValue':
                 // constant values override both default and submitted ones
                 // default values are overriden by submitted
-                $value = $this->_findValue($caller->_constantValues);
+                $value = $this->_findValue($caller->getConstantValues());
+
                 if (null === $value)
                 {
-                    $value = $this->_findValue($caller->_submitValues);
+                    $value = $this->_findValue($caller->getSubmitValues());
+
                     if (null === $value)
                     {
-                        $value = $this->_findValue($caller->_defaultValues);
+                        $value = $this->_findValue($caller->getDefaultValues());
                     }
                 }
+
                 if ($value == $this->getValue())
                 {
                     $this->setChecked(true);

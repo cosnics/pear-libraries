@@ -448,11 +448,11 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
     /**
      * Called by HTML_QuickForm whenever form event is made on this element
      *
-     * @param string $event  Name of event
-     * @param mixed $arg     event arguments
-     * @param object $caller calling object
+     * @param string $event          Name of event
+     * @param mixed $arg             event arguments
+     * @param ?HTML_QuickForm $caller calling object
      */
-    public function onQuickFormEvent(string $event, $arg, object $caller): bool
+    public function onQuickFormEvent(string $event, $arg, ?HTML_QuickForm $caller = null): bool
     {
         switch ($event)
         {
@@ -516,7 +516,7 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
 
                 if (null !== $v)
                 {
-                    $this->_elements[$key]->onQuickFormEvent('setGroupValue', $v, $this);
+                    $this->_elements[$key]->onQuickFormEvent('setGroupValue', $v);
                 }
             }
             else
@@ -528,12 +528,12 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
                 {
                     if (isset($value[$index]))
                     {
-                        $this->_elements[$key]->onQuickFormEvent('setGroupValue', $value[$index], $this);
+                        $this->_elements[$key]->onQuickFormEvent('setGroupValue', $value[$index]);
                     }
                 }
                 elseif (isset($value))
                 {
-                    $this->_elements[$key]->onQuickFormEvent('setGroupValue', $value, $this);
+                    $this->_elements[$key]->onQuickFormEvent('setGroupValue', $value);
                 }
             }
         }

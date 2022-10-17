@@ -74,7 +74,14 @@ class HTML_QuickForm_xbutton extends HTML_QuickForm_element
         return $this->getAttribute('value');
     }
 
-    public function onQuickFormEvent(string $event, $arg, object $caller): bool
+    /**
+     * Called by HTML_QuickForm whenever form event is made on this element
+     *
+     * @param string $event          Name of event
+     * @param mixed $arg             event arguments
+     * @param ?HTML_QuickForm $caller calling object
+     */
+    public function onQuickFormEvent(string $event, $arg, ?HTML_QuickForm $caller = null): bool
     {
         if ('updateValue' != $event)
         {
@@ -82,11 +89,13 @@ class HTML_QuickForm_xbutton extends HTML_QuickForm_element
         }
         else
         {
-            $value = $this->_findValue($caller->_constantValues);
+            $value = $this->_findValue($caller->getConstantValues());
+
             if (null === $value)
             {
-                $value = $this->_findValue($caller->_defaultValues);
+                $value = $this->_findValue($caller->getDefaultValues());
             }
+
             if (null !== $value)
             {
                 $this->setValue($value);
