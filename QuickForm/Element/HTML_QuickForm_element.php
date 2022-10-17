@@ -251,12 +251,8 @@ abstract class HTML_QuickForm_element extends HTML_Common
         switch ($event)
         {
             case 'createElement':
-
                 $class = new ReflectionClass($this);
-
                 $parameters = $class->getConstructor()->getParameters();
-
-                var_dump($arg);
 
                 foreach ($parameters as $key => $parameter)
                 {
@@ -264,9 +260,6 @@ abstract class HTML_QuickForm_element extends HTML_Common
                         ($parameter->isDefaultValueAvailable() ? $parameter->getDefaultValue() : null) :
                         $arg[$key];
                 }
-
-                var_dump($arg);
-
 
                 static::__construct($arg[0], $arg[1], $arg[2], $arg[3], $arg[4]);
                 break;

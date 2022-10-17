@@ -268,21 +268,14 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
 
                 return $this->onQuickFormEvent('updateValue', null, $caller);
             case 'createElement':
-
                 $class = new ReflectionClass($this);
-
                 $parameters = $class->getConstructor()->getParameters();
-
-                var_dump($arg);
 
                 foreach ($parameters as $key => $parameter)
                 {
                     $arg[$key] = is_null($arg[$key]) ?
-                        ($parameter->isDefaultValueAvailable() ? $parameter->getDefaultValue() : null) :
-                        $arg[$key];
+                        ($parameter->isDefaultValueAvailable() ? $parameter->getDefaultValue() : null) : $arg[$key];
                 }
-
-                var_dump($arg);
 
                 static::__construct($arg[0], $arg[1], $arg[2]);
                 break;
