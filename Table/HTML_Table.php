@@ -267,12 +267,12 @@ class HTML_Table extends HTML_Common
     /**
      * Sets the autoFill value
      *
-     * @param bool $fill Whether autoFill should be enabled or not
-     * @param ?int $body The index of the body to set. Pass null to set for all bodies.
+     * @param string $fill Whether autoFill should be enabled or not
+     * @param ?int $body   The index of the body to set. Pass null to set for all bodies.
      *
      * @throws \TableException
      */
-    public function setAutoFill(bool $fill, ?int $body = null)
+    public function setAutoFill(string $fill, ?int $body = null)
     {
         if (!is_null($body))
         {

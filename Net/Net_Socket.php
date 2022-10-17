@@ -128,7 +128,7 @@ class Net_Socket
         $errno = 0;
         $errstr = '';
 
-        $old_track_errors = ini_set('track_errors', 1);
+        $old_track_errors = ini_set('track_errors', '1');
 
         if ($timeout <= 0)
         {
@@ -321,7 +321,7 @@ class Net_Socket
         }
 
         $this->blocking = $mode;
-        stream_set_blocking($this->fp, (int) $this->blocking);
+        stream_set_blocking($this->fp, $this->blocking);
 
         return true;
     }

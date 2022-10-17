@@ -178,9 +178,9 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
     {
     }
 
-    public function getSize(): int
+    public function getSize(): ?int
     {
-        return $this->getAttribute('size');
+        return $this->getAttribute('size') ? (int) $this->getAttribute('size') : null;
     }
 
     public function getValue(): array

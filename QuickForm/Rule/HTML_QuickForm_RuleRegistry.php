@@ -40,11 +40,11 @@ class HTML_QuickForm_RuleRegistry
         if (is_a($element, 'html_quickform_group'))
         {
             $value = "  _qfGroups['" . $elementName . "'] = {";
-            $elements =& $element->getElements();
+            $elements = $element->getElements();
             for ($i = 0, $count = count($elements); $i < $count; $i ++)
             {
-                $append = (($elements[$i]->getType() == 'select' || $element->getType() == 'autocomplete') &&
-                    $elements[$i]->getMultiple()) ? '[]' : '';
+                $append = (($elements[$i] instanceof HTML_QuickForm_select ||
+                        $element instanceof HTML_QuickForm_autocomplete) && $elements[$i]->getMultiple()) ? '[]' : '';
                 $value .= "'" . $element->getElementName($i) . $append . "': true" . ($i < $count - 1 ? ', ' : '');
             }
             $value .= "};\n" . '  value' . $jsIndex . " = new Array();\n" . "  var valueIdx = 0;\n" .
@@ -206,7 +206,7 @@ class HTML_QuickForm_RuleRegistry
      * validate() method.
      *
      * @param string $ruleName                   Name of validation rule
-     * @param ?string $type                       Either: 'regex', 'function' or null
+     * @param ?string $type                      Either: 'regex', 'function' or null
      * @param string|\HTML_QuickForm_Rule $data1 Name of function, regular expression or
      *                                           HTML_QuickForm_Rule object class name
      * @param ?string $data2                     Object parent of above function or HTML_QuickForm_Rule file path

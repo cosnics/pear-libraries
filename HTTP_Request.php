@@ -103,7 +103,7 @@ class HTTP_Request
 
     protected bool $_allowRedirects;
 
-    protected string $_body;
+    protected ?string $_body;
 
     /**
      * A list of methods that MUST NOT have a request body, per RFC 2616
@@ -129,19 +129,19 @@ class HTTP_Request
      */
     protected string $_method;
 
-    protected string $_pass;
+    protected ?string $_pass;
 
     protected ?array $_postData;
 
     protected array $_postFiles = [];
 
-    protected string $_proxy_host;
+    protected ?string $_proxy_host;
 
-    protected string $_proxy_pass;
+    protected ?string $_proxy_pass;
 
     protected ?int $_proxy_port;
 
-    protected string $_proxy_user;
+    protected ?string $_proxy_user;
 
     /**
      * Timeout for reading from socket (array(seconds, microseconds))
@@ -181,7 +181,7 @@ class HTTP_Request
      */
     protected bool $_useBrackets = true;
 
-    protected string $_user;
+    protected ?string $_user;
 
     /**
      * @param array $params Associative array of parameters which can have the following keys:
@@ -847,7 +847,7 @@ class HTTP_Request
 
         // magic quotes may fuck up file uploads and chunked response processing
         $magicQuotes = ini_get('magic_quotes_runtime');
-        ini_set('magic_quotes_runtime', false);
+        ini_set('magic_quotes_runtime', 'false');
 
         // RFC 2068, section 19.7.1: A client MUST NOT send the Keep-Alive
         // connection token to a proxy server...

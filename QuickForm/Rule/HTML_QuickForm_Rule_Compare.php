@@ -92,6 +92,6 @@ class HTML_QuickForm_Rule_Compare extends HTML_QuickForm_Rule
             };
         }
 
-        return $compareFn($values[0], $values[1]);
+        return (bool) $compareFn($values[0], $values[1]);
     }
 }

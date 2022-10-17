@@ -55,7 +55,7 @@ class HTTP_Response
      */
     public int $_chunkLength = 0;
 
-    public string $_code;
+    public int $_code;
 
     /**
      * Cookies set in response

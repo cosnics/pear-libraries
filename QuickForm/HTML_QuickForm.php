@@ -231,12 +231,12 @@ class HTML_QuickForm extends HTML_Common
     /**
      * Recursively apply a filter function
      *
-     * @param string $filter
+     * @param callable $filter
      * @param mixed $value
      *
      * @return mixed
      */
-    protected function _recursiveFilter(string $filter, $value)
+    protected function _recursiveFilter(callable $filter, $value)
     {
         if (is_array($value))
         {
@@ -622,12 +622,12 @@ class HTML_QuickForm extends HTML_Common
     /**
      * Applies a data filter for the given field(s)
      *
-     * @param mixed $element Form element name or array of such names
-     * @param mixed $filter  Callback, either function name or array(&$object, 'method')
+     * @param mixed $element   Form element name or array of such names
+     * @param callable $filter Callback, either function name or array(&$object, 'method')
      *
      * @throws \QuickformException
      */
-    public function applyFilter($element, $filter)
+    public function applyFilter($element, callable $filter)
     {
         if (!is_callable($filter))
         {

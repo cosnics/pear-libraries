@@ -142,7 +142,7 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
         }
         elseif (is_int($val) || is_double($val))
         {
-            return $val;
+            return (string) $val;
         }
         elseif (is_string($val))
         {
@@ -166,7 +166,7 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
     {
         for ($i = 0; $i < $this->_nbElements; $i ++)
         {
-            $this->_elements[] = new HTML_QuickForm_select($i, null, [], $this->getAttributes());
+            $this->_elements[] = new HTML_QuickForm_select((string) $i, null, [], $this->getAttributes());
         }
     }
 
@@ -240,7 +240,7 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
 
             for ($i = $this->_nbElements; $i < $totalNbElements; $i ++)
             {
-                $this->_elements[] = new HTML_QuickForm_select($i, null, [], $this->getAttributes());
+                $this->_elements[] = new HTML_QuickForm_select((string) $i, null, [], $this->getAttributes());
                 $this->_nbElements ++;
             }
         }
@@ -263,8 +263,8 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
     /**
      * Called by HTML_QuickForm whenever form event is made on this element
      *
-     * @param string $event          Name of event
-     * @param mixed $arg             event arguments
+     * @param string $event           Name of event
+     * @param mixed $arg              event arguments
      * @param ?HTML_QuickForm $caller calling object
      */
     public function onQuickFormEvent(string $event, $arg, ?HTML_QuickForm $caller = null): bool
