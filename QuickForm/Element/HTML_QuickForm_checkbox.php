@@ -26,14 +26,14 @@
 class HTML_QuickForm_checkbox extends HTML_QuickForm_input
 {
 
-    protected ?string $_text = '';
+    protected string $_text = '';
 
     /**
-     * @param ?string $text              Checkbox display text
+     * @param string $text              Checkbox display text
      * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
      */
     public function __construct(
-        ?string $elementName = null, ?string $elementLabel = null, ?string $text = '', $attributes = null
+        ?string $elementName = null, ?string $elementLabel = null, string $text = '', $attributes = null
     )
     {
         parent::__construct($elementName, $elementLabel, $attributes);
@@ -75,12 +75,12 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
         }
     }
 
-    public function getText(): ?string
+    public function getText(): string
     {
         return $this->_text;
     }
 
-    public function setText(?string $text)
+    public function setText(string $text)
     {
         $this->_text = $text;
     }
