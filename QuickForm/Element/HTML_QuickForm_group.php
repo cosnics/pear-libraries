@@ -34,7 +34,7 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
     /**
      * @var \HTML_QuickForm_element[]
      */
-    protected array $_elements = [];
+    protected ?array $_elements = [];
 
     protected ?string $_name = '';
 
