@@ -196,6 +196,16 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
         return $this->getAttribute('name');
     }
 
+    public function getOptions(): array
+    {
+        return $this->_options;
+    }
+
+    public function setOptions(array $options)
+    {
+        $this->_options = $options;
+    }
+
     /**
      * Returns the element name (possibly with brackets appended)
      */
@@ -232,6 +242,11 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
         return $this->_values;
     }
 
+    public function hasOptions(): bool
+    {
+        return !empty($this->getOptions()[0]);
+    }
+
     /**
      * Loads options from different types of data sources
      * This method is a simulated overloaded method.  The arguments, other than the
@@ -255,7 +270,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      * @param array $arr             Associative array of options
      * @param ?array|?string $values (optional) Array or comma delimited string of selected values
      */
-    public function loadArray(array $arr, $values = null)
+    public function loadArray(array $arr, $values = null): bool
     {
         if (isset($values))
         {

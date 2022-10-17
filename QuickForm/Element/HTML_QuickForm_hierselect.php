@@ -32,17 +32,13 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
 
     /**
      * The javascript used to set and change the options
-     *
-     * @var       string
      */
-    protected $_js = '';
+    protected string $_js = '';
 
     /**
      * Number of select elements on this group
-     *
-     * @var       int
      */
-    protected $_nbElements = 0;
+    protected int $_nbElements = 0;
 
     /**
      * Options for all the select elements
@@ -63,7 +59,6 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
      * // If only need two selects
      * //     - and using the depracated functions
      * $sel =& $form->addElement('hierselect', 'cds', 'Choose CD:');
-     * $sel->setMainOptions($select1);
      * $sel->setSecOptions($select2);
      * //     - and using the new setOptions function
      * $sel =& $form->addElement('hierselect', 'cds', 'Choose CD:');
@@ -75,49 +70,33 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
      * // You can now use
      * $sel =& $form->addElement('hierselect', 'cds', 'Choose CD:');
      * $sel->setOptions(array($select1, $select2, $select3));
-     *
-     * @var       array
      */
-    protected $_options = [];
+    protected array $_options = [];
 
     /**
-     * Class constructor
-     *
-     * @param string $elementName           (optional)Input field name attribute
-     * @param string $elementLabel          (optional)Input field label in form
      * @param mixed $attributes             (optional)Either a typical HTML attribute string
      *                                      or an associative array. Date format is passed along the attributes.
      * @param mixed $separator              (optional)Use a string for one separator,
      *                                      use an array to alternate the separators.
-     *
-     * @return    void
      */
     public function __construct($elementName = null, $elementLabel = null, $attributes = null, $separator = null)
     {
-        // TODO MDL-52313 Replace with the call to parent::__construct().
-        HTML_QuickForm_element::__construct($elementName, $elementLabel, $attributes);
+        parent::__construct($elementName, $elementLabel, null, $separator, true, $attributes);
 
         $this->_persistantFreeze = true;
-
-        if (isset($separator))
-        {
-            $this->_separator = $separator;
-        }
-
         $this->_type = 'hierselect';
-        $this->_appendName = true;
     }
 
     /**
      * Converts PHP array to its Javascript analog
      *
-     * @param array     PHP array to convert
-     * @param bool      Generate Javascript object literal (default, works like PHP's associative array) or array
-     *                           literal
+     * @param mixed $array       PHP array to convert
+     * @param bool $assoc        Generate Javascript object literal (default, works like PHP's associative array) or
+     *                           array literal
      *
-     * @return string    Javascript representation of the value
+     * @return string Javascript representation of the value
      */
-    protected function _convertArrayToJavascript($array, $assoc = true)
+    protected function _convertArrayToJavascript($array, bool $assoc = true): string
     {
         if (!is_array($array))
         {
@@ -208,24 +187,30 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
 
     /**
      * Sets the options for each select element
-     *
-     * @return    void
      */
     protected function _setOptions()
     {
         $toLoad = '';
+
         foreach (array_keys($this->_elements) as $key)
         {
-            $array = eval("return isset(\$this->_options[{$key}]{$toLoad})? \$this->_options[{$key}]{$toLoad}: null;");
+            $variableName = '$this->_options[' . $key . ']' . $toLoad;
+            $stringToEvaluate = 'return isset(' . $$variableName . ') ? ' . $$variableName . ' : null;';
+
+            $array = eval($stringToEvaluate);
 
             if (is_array($array))
             {
-                $select =& $this->_elements[$key];
-                $select->_options = [];
-                $select->loadArray($array);
+                $select = $this->_elements[$key];
 
-                $value = is_array($v = $select->getValue()) ? $v[0] : key($array);
-                $toLoad .= '[\'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $value) . '\']';
+                if ($select instanceof HTML_QuickForm_select)
+                {
+                    $select->setOptions([]);
+                    $select->loadArray($array);
+
+                    $value = is_array($v = $select->getValue()) ? $v[0] : key($array);
+                    $toLoad .= '[\'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $value) . '\']';
+                }
             }
         }
     }
@@ -238,7 +223,7 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
      *
      * @return    void
      */
-    public function setOptions($options)
+    public function setOptions(array $options)
     {
         $this->_options = $options;
 
@@ -263,7 +248,14 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
         $this->_setOptions();
     }
 
-    public function accept($renderer, $required = false, $error = null)
+    /**
+     * Accepts a renderer
+     *
+     * @param HTML_QuickForm_Renderer $renderer An HTML_QuickForm_Renderer object
+     * @param bool $required                    Whether an element is required
+     * @param ?string $error                    An error message associated with an element
+     */
+    public function accept(HTML_QuickForm_Renderer $renderer, bool $required = false, ?string $error = null)
     {
         $renderer->renderElement($this, $required, $error);
     }
@@ -284,6 +276,7 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
             if ('addElement' == $event)
             {
                 $onReset = $caller->getAttribute('onreset');
+
                 if (strlen($onReset))
                 {
                     if (strpos($onReset, '_hs_setupOnReset'))
@@ -302,7 +295,7 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
                     {
                         $caller->updateAttributes(
                             [
-                                'onreset' => "var temp = function() { {$onReset} } ; if (!temp()) { return false; } ; if (typeof _hs_setupOnReset != 'undefined') { return _hs_setupOnReset(this, ['" .
+                                'onreset' => "var temp = function() { $onReset } ; if (!temp()) { return false; } ; if (typeof _hs_setupOnReset != 'undefined') { return _hs_setupOnReset(this, ['" .
                                     $this->_escapeString($this->getName()) . "']); } "
                             ]
                         );
@@ -324,65 +317,10 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
     }
 
     /**
-     * Sets the options for the first select element. Deprecated. setOptions() should be used.
-     *
-     * @param array $array Options for the first select element
-     *
-     * @return    void
-     * @deprecated          Deprecated since release 3.2.2
-     */
-    public function setMainOptions($array)
-    {
-        $this->_options[0] = $array;
-
-        if (empty($this->_elements))
-        {
-            $this->_nbElements = 2;
-            $this->_createElements();
-        }
-    }
-
-    /**
-     * Sets the options for the second select element. Deprecated. setOptions() should be used.
-     * The main _options array is initialized and the _setOptions function is called.
-     *
-     * @param array $array Options for the second select element
-     *
-     * @return    void
-     * @deprecated          Deprecated since release 3.2.2
-     */
-    public function setSecOptions($array)
-    {
-        $this->_options[1] = $array;
-
-        if (empty($this->_elements))
-        {
-            $this->_nbElements = 2;
-            $this->_createElements();
-        }
-        else
-        {
-            // setDefaults has probably been called before this function
-            // check if all elements have been created
-            $totalNbElements = 2;
-
-            for ($i = $this->_nbElements; $i < $totalNbElements; $i ++)
-            {
-                $this->_elements[] = new HTML_QuickForm_select($i, null, [], $this->getAttributes());
-                $this->_nbElements ++;
-            }
-        }
-
-        $this->_setOptions();
-    }
-
-    /**
      * Sets values for group's elements
      *
      * @param array $value            An array of 2 or more values, for the first,
      *                                the second, the third etc. select
-     *
-     * @return    void
      */
     public function setValue($value)
     {
@@ -563,16 +501,17 @@ JAVASCRIPT;
 
             foreach (array_keys($this->_elements) as $key)
             {
-                if (is_array($v = $this->_elements[$key]->getValue()))
+                $element = $this->_elements[$key];
+
+                if (is_array($v = $element->getValue()))
                 {
                     $values[] = count($v) > 1 ? $v : $v[0];
                 }
-                else
+                elseif ($element instanceof HTML_QuickForm_select)
                 {
                     // XXX: accessing the supposedly private _options array
-                    $values[] =
-                        $this->_elements[$key]->getMultiple() || empty($this->_elements[$key]->_options[0]) ? [] :
-                            $this->_elements[$key]->_options[0]['attr']['value'];
+                    $values[] = ($element->getMultiple() || !$element->hasOptions()) ? [] :
+                        $element->getOptions()[0]['attr']['value'];
                 }
             }
             $this->_js .= "_hs_defaults['" . $this->_escapeString($this->getName()) . "'] = " .

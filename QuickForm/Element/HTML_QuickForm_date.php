@@ -1014,26 +1014,19 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
 
     /**
      * These complement separators, they are appended to the resultant HTML
-     *
-     * @var      array
      */
     protected array $_wrap = ['', ''];
 
     /**
-     * Class constructor
-     *
-     * @param string  Element's name
-     * @param mixed   Label(s) for an element
-     * @param array   Options to control the element's display
-     * @param mixed   Either a typical HTML attribute string or an associative array
+     * @param array $options                      Options to control the element's display
+     * @param ?array|?string $attributes          Associative array of tag attributes or HTML attributes name="value"
+     *                                            pairs
      */
     public function __construct($elementName = null, $elementLabel = null, $options = [], $attributes = null)
     {
-        // TODO MDL-52313 Replace with the call to parent::__construct().
-        HTML_QuickForm_element::__construct($elementName, $elementLabel, $attributes);
+        parent::__construct($elementName, $elementLabel, null, null, true, $attributes);
 
         $this->_persistantFreeze = true;
-        $this->_appendName = true;
         $this->_type = 'date';
 
         // http://pear.php.net/bugs/bug.php?id=18171
@@ -1052,7 +1045,7 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
                 {
                     if (is_array($value) && is_array($this->_options[$name]))
                     {
-                        $this->_options[$name] = @array_merge($this->_options[$name], $value);
+                        $this->_options[$name] = array_merge($this->_options[$name], $value);
                     }
                     else
                     {
@@ -1067,7 +1060,7 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
     {
         $this->_separator = $this->_elements = [];
         $separator = '';
-        $locale =& $this->_locale[$this->_options['language']];
+        $locale = $this->_locale[$this->_options['language']];
         $backslash = false;
 
         for ($i = 0, $length = strlen($this->_options['format']); $i < $length; $i ++)
@@ -1082,6 +1075,7 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
             else
             {
                 $loadSelect = true;
+
                 switch ($sign)
                 {
                     case 'D':
@@ -1099,6 +1093,7 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
                         array_unshift($options, '');
                         unset($options[0]);
                         break;
+                    case 'h':
                     case 'm':
                         $options = $this->_createOptionList(1, 12);
                         break;
@@ -1118,14 +1113,17 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
                             $this->_options['minYear'], $this->_options['maxYear'],
                             $this->_options['minYear'] > $this->_options['maxYear'] ? - 1 : 1
                         );
-                        array_walk($options, create_function('&$v,$k', '$v = substr($v,-2);'));
-                        break;
-                    case 'h':
-                        $options = $this->_createOptionList(1, 12);
+
+                        array_walk($options, function (&$v, $k) {
+                            return $v = substr($v, - 2);
+                        });
                         break;
                     case 'g':
                         $options = $this->_createOptionList(1, 12);
-                        array_walk($options, create_function('&$v,$k', '$v = intval($v);'));
+
+                        array_walk($options, function (&$v, $k) {
+                            return $v = intval($v);
+                        });
                         break;
                     case 'H':
                         $options = $this->_createOptionList(0, 23);
@@ -1154,7 +1152,7 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
                         $loadSelect = false;
                 }
 
-                if ($loadSelect)
+                if ($loadSelect && isset($options))
                 {
                     if (0 < count($this->_elements))
                     {
@@ -1186,23 +1184,23 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
                                 [$this->_options['emptyOptionValue'] => $this->_options['emptyOptionText']] + $options;
                         }
                     }
+
                     $this->_elements[] = new HTML_QuickForm_select($sign, null, $options, $this->getAttributes());
                 }
             }
         }
+
         $this->_wrap[1] = $separator . ($backslash ? '\\' : '');
     }
 
     /**
      * Creates an option list containing the numbers from the start number to the end, inclusive
      *
-     * @param int     The start number
-     * @param int     The end number
-     * @param int     Increment by this value
-     *
-     * @return   array   An array of numeric options.
+     * @param int $start The start number
+     * @param int $end   The end number
+     * @param int $step  Increment by this value
      */
-    protected function _createOptionList($start, $end, $step = 1)
+    protected function _createOptionList(int $start, int $end, int $step = 1): array
     {
         for ($i = $start, $options = []; $start > $end ? $i >= $end : $i <= $end; $i += $step)
         {
@@ -1214,12 +1212,8 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
 
     /**
      * Trims leading zeros from the (numeric) string
-     *
-     * @param string  A numeric string, possibly with leading zeros
-     *
-     * @return   string  String with leading zeros removed
      */
-    public function _trimLeadingZeros($str)
+    public function _trimLeadingZeros(string $str): string
     {
         if (0 == strcmp($str, $this->_options['emptyOptionValue']))
         {
@@ -1231,7 +1225,14 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
         return strlen($trimmed) ? $trimmed : '0';
     }
 
-    public function accept($renderer, $required = false, $error = null)
+    /**
+     * Accepts a renderer
+     *
+     * @param HTML_QuickForm_Renderer $renderer An HTML_QuickForm_Renderer object
+     * @param bool $required                    Whether a group is required
+     * @param ?string $error                    An error message associated with a group
+     */
+    public function accept(HTML_QuickForm_Renderer $renderer, bool $required = false, ?string $error = null)
     {
         $renderer->renderElement($this, $required, $error);
     }
@@ -1296,7 +1297,7 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
     {
         $renderer = new HTML_QuickForm_Renderer_Default();
         $renderer->setElementTemplate('{element}');
-        
+
         parent::accept($renderer);
 
         return $this->_wrap[0] . $renderer->toHtml() . $this->_wrap[1];

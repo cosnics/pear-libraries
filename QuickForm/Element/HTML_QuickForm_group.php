@@ -59,13 +59,16 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
      * @param bool $appendName                    (optional)whether to change elements' names to
      *                                            the form $groupName[$elementName] or leave
      *                                            them as is.
+     * @param ?array|?string $attributes          Associative array of tag attributes or HTML attributes name="value"
+     *                                            pairs
      */
     public function __construct(
         ?string $elementName = null, ?string $elementLabel = null, ?array $elements = null, $separator = null,
-        bool $appendName = true
+        bool $appendName = true, $attributes = null
     )
     {
-        parent::__construct($elementName, $elementLabel);
+        parent::__construct($elementName, $elementLabel, $attributes);
+
         $this->_type = 'group';
 
         if (isset($elements))
