@@ -296,7 +296,7 @@ class HTML_QuickForm extends HTML_Common
         {
             $element = $this->_elements[$key];
             $elementName = $element->getName();
-            $required = ($this->isElementRequired($elementName) && !$element->isFrozen());
+            $required = ($elementName && $this->isElementRequired($elementName) && !$element->isFrozen());
             $error = $this->getElementError($elementName);
             $element->accept($renderer, $required, $error);
         }
@@ -386,7 +386,7 @@ class HTML_QuickForm extends HTML_Common
     /**
      * @param \HTML_QuickForm_element[] $elements array of elements composing the group
      * @param ?string $name                       (optional)group name
-     * @param ?string $groupLabel                  (optional)group label
+     * @param ?string $groupLabel                 (optional)group label
      * @param ?string $separator                  (optional)string to separate elements
      * @param bool $appendName                    (optional)specify whether the group name should be
      *                                            used in the form element name ex: group[element]
@@ -1450,7 +1450,7 @@ class HTML_QuickForm extends HTML_Common
      * Registers a new validation rule
      *
      * @param string $ruleName Name of validation rule
-     * @param ?string $type     Either: 'regex', 'function' or 'rule' for an HTML_QuickForm_Rule object
+     * @param ?string $type    Either: 'regex', 'function' or 'rule' for an HTML_QuickForm_Rule object
      * @param string $data1    Name of function, regular expression or HTML_QuickForm_Rule classname
      * @param ?string $data2   Object parent of above function or HTML_QuickForm_Rule file path
      *
