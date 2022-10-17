@@ -27,10 +27,10 @@ class HTML_QuickForm_hidden extends HTML_QuickForm_input
 {
 
     /**
-     * @param ?string $value             (optional)Input field value
+     * @param string $value              (optional)Input field value
      * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
      */
-    public function __construct(?string $elementName = null, ?string $value = '', $attributes = null)
+    public function __construct(?string $elementName = null, string $value = '', $attributes = null)
     {
         parent::__construct($elementName, null, $attributes);
         $this->setType('hidden');
