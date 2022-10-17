@@ -386,7 +386,7 @@ class HTML_QuickForm extends HTML_Common
     /**
      * @param \HTML_QuickForm_element[] $elements array of elements composing the group
      * @param ?string $name                       (optional)group name
-     * @param string $groupLabel                  (optional)group label
+     * @param ?string $groupLabel                  (optional)group label
      * @param ?string $separator                  (optional)string to separate elements
      * @param bool $appendName                    (optional)specify whether the group name should be
      *                                            used in the form element name ex: group[element]
@@ -394,7 +394,7 @@ class HTML_QuickForm extends HTML_Common
      * @throws   QuickformException
      */
     public function addGroup(
-        array $elements, ?string $name = null, string $groupLabel = '', ?string $separator = null,
+        array $elements, ?string $name = null, ?string $groupLabel = '', ?string $separator = null,
         bool $appendName = true
     ): HTML_QuickForm_group
     {
