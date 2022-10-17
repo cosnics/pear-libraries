@@ -26,14 +26,14 @@
 class HTML_QuickForm_checkbox extends HTML_QuickForm_input
 {
 
-    protected string $_text = '';
+    protected ?string $_text = '';
 
     /**
-     * @param string $text               Checkbox display text
+     * @param ?string $text              Checkbox display text
      * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
      */
     public function __construct(
-        ?string $elementName = null, ?string $elementLabel = null, string $text = '', $attributes = null
+        ?string $elementName = null, ?string $elementLabel = null, ?string $text = '', $attributes = null
     )
     {
         parent::__construct($elementName, $elementLabel, $attributes);
@@ -75,12 +75,12 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
         }
     }
 
-    public function getText(): string
+    public function getText(): ?string
     {
         return $this->_text;
     }
 
-    public function setText(string $text)
+    public function setText(?string $text)
     {
         $this->_text = $text;
     }
@@ -93,8 +93,8 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
     /**
      * Called by HTML_QuickForm whenever form event is made on this element
      *
-     * @param string $event          Name of event
-     * @param mixed $arg             event arguments
+     * @param string $event           Name of event
+     * @param mixed $arg              event arguments
      * @param ?HTML_QuickForm $caller calling object
      */
     public function onQuickFormEvent(string $event, $arg, ?HTML_QuickForm $caller = null): bool
@@ -155,7 +155,7 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
     public function toHtml(): string
     {
         $this->_generateId(); // Seems to be necessary when this is used in a group.
-        
+
         if (0 == strlen($this->_text))
         {
             $label = '';
