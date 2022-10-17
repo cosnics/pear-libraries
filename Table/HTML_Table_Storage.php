@@ -140,7 +140,7 @@ class HTML_Table_Storage extends HTML_Common
     /**
      * Tells if the parameter is an array of attribute arrays/strings
      */
-    protected function _isAttributesArray(array $attributes): bool
+    protected function _isAttributesArray($attributes): bool
     {
         if (isset($attributes[0]))
         {
