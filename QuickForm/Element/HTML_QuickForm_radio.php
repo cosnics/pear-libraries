@@ -98,8 +98,8 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
     /**
      * Called by HTML_QuickForm whenever form event is made on this element
      *
-     * @param string $event          Name of event
-     * @param mixed $arg             event arguments
+     * @param string $event           Name of event
+     * @param mixed $arg              event arguments
      * @param ?HTML_QuickForm $caller calling object
      */
     public function onQuickFormEvent(string $event, $arg, ?HTML_QuickForm $caller = null): bool

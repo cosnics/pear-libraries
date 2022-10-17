@@ -218,14 +218,6 @@ class HTML_QuickForm extends HTML_Common
         $className = $GLOBALS['HTML_QUICKFORM_ELEMENT_TYPES'][$type];
         $elementObject = new $className(); //Moodle: PHP 5.3 compatibility
 
-        for ($i = 0; $i < 5; $i ++)
-        {
-            if (!isset($args[$i]))
-            {
-                $args[$i] = null;
-            }
-        }
-
         $err = $elementObject->onQuickFormEvent($event, $args, $this);
 
         if ($err !== true)

@@ -251,6 +251,23 @@ abstract class HTML_QuickForm_element extends HTML_Common
         switch ($event)
         {
             case 'createElement':
+
+                //                $class = new ReflectionClass($this);
+                //
+                //                var_dump(get_class($this));
+                //
+                //                if (get_class($this) == 'Chamilo\Libraries\Format\Form\Element\HTML_QuickForm_toggle')
+                //                {
+                //                    foreach ($class->getConstructor()->getParameters() as $parameter)
+                //                    {
+                //                        var_dump(
+                //                            $parameter->getName(), $parameter->allowsNull(),
+                //                            $parameter->isDefaultValueAvailable() ? $parameter->getDefaultValue() : "None"
+                //                        );
+                //                    }
+                //                }
+
+
                 static::__construct($arg[0], $arg[1], $arg[2], $arg[3], $arg[4]);
                 break;
             case 'addElement':
