@@ -296,8 +296,18 @@ class HTML_QuickForm extends HTML_Common
         {
             $element = $this->_elements[$key];
             $elementName = $element->getName();
-            $required = ($elementName && $this->isElementRequired($elementName) && !$element->isFrozen());
-            $error = $this->getElementError($elementName);
+
+            if ($elementName)
+            {
+                $required = ($this->isElementRequired($elementName) && !$element->isFrozen());
+                $error = $this->getElementError($elementName);
+            }
+            else
+            {
+                $required = null;
+                $error = null;
+            }
+
             $element->accept($renderer, $required, $error);
         }
 
