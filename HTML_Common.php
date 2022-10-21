@@ -66,6 +66,11 @@ abstract class HTML_Common
         {
             foreach ($attributes as $key => $value)
             {
+                if (is_array($value))
+                {
+                    $value = implode(' ', $value);
+                }
+
                 $strAttr .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT) . '"';
             }
         }
@@ -79,44 +84,11 @@ abstract class HTML_Common
     }
 
     /**
-     * Sets the line end style to Windows, Mac, Unix or a custom string.
-     *
-     * @param string $style "win", "mac", "unix" or custom string.
-     */
-    public function setLineEnd(string $style)
-    {
-        switch ($style)
-        {
-            case 'win':
-                $this->_lineEnd = "\15\12";
-                break;
-            case 'unix':
-                $this->_lineEnd = "\12";
-                break;
-            case 'mac':
-                $this->_lineEnd = "\15";
-                break;
-            default:
-                $this->_lineEnd = $style;
-        }
-    }
-
-    /**
      * Returns a string containing the unit for indenting HTML
      */
     protected function _getTab(): string
     {
         return $this->_tab;
-    }
-
-    /**
-     * Sets the string used to indent HTML
-     *
-     * @param string $string String used to indent ("\11", "\t", '  ', etc.).
-     */
-    public function setTab(string $string)
-    {
-        $this->_tab = $string;
     }
 
     /**
@@ -241,32 +213,14 @@ abstract class HTML_Common
         }
     }
 
-    /**
-     * @param array|string $attributes Either a typical HTML attribute string or an associative array
-     */
-    public function setAttributes($attributes)
-    {
-        $this->_attributes = $this->_parseAttributes($attributes);
-    }
-
     public function getComment(): string
     {
         return $this->_comment;
     }
 
-    public function setComment(string $comment)
-    {
-        $this->_comment = $comment;
-    }
-
     public function getTabOffset(): int
     {
         return $this->_tabOffset;
-    }
-
-    public function setTabOffset(int $offset)
-    {
-        $this->_tabOffset = $offset;
     }
 
     public function removeAttribute(string $attr)
@@ -284,6 +238,57 @@ abstract class HTML_Common
         }
 
         $this->_attributes[$name] = $value;
+    }
+
+    /**
+     * @param array|string $attributes Either a typical HTML attribute string or an associative array
+     */
+    public function setAttributes($attributes)
+    {
+        $this->_attributes = $this->_parseAttributes($attributes);
+    }
+
+    public function setComment(string $comment)
+    {
+        $this->_comment = $comment;
+    }
+
+    /**
+     * Sets the line end style to Windows, Mac, Unix or a custom string.
+     *
+     * @param string $style "win", "mac", "unix" or custom string.
+     */
+    public function setLineEnd(string $style)
+    {
+        switch ($style)
+        {
+            case 'win':
+                $this->_lineEnd = "\15\12";
+                break;
+            case 'unix':
+                $this->_lineEnd = "\12";
+                break;
+            case 'mac':
+                $this->_lineEnd = "\15";
+                break;
+            default:
+                $this->_lineEnd = $style;
+        }
+    }
+
+    /**
+     * Sets the string used to indent HTML
+     *
+     * @param string $string String used to indent ("\11", "\t", '  ', etc.).
+     */
+    public function setTab(string $string)
+    {
+        $this->_tab = $string;
+    }
+
+    public function setTabOffset(int $offset)
+    {
+        $this->_tabOffset = $offset;
     }
 
     abstract public function toHtml(): string;
