@@ -73,7 +73,7 @@ abstract class HTML_QuickForm_element extends HTML_Common
         elseif (strpos($elementName, '['))
         {
             $myVar = "['" . str_replace([']', '['], ['', "']['"], $elementName) . "']";
-            $stringToEvaluate = 'return (isset(' . $values . $myVar . ')) ? ' . $values . $myVar . ' : null;';
+            $stringToEvaluate = 'return (isset($values' . $myVar . ')) ? $values' . $myVar . ' : null;';
 
             return eval($stringToEvaluate);
         }
