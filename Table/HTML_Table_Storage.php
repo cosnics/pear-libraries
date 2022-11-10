@@ -787,6 +787,12 @@ class HTML_Table_Storage extends HTML_Common
 
         $attributes = $this->_parseAttributes($attributes);
         $this->_adjustEnds($row, $col, 'updateCellAttributes', $attributes);
+
+        if(!isset($this->_structure[$row][$col]['attr']))
+        {
+            $this->_structure[$row][$col]['attr'] = [];
+        }
+
         $this->_updateAttrArray($this->_structure[$row][$col]['attr'], $attributes);
         $this->_updateSpanGrid($row, $col);
     }
