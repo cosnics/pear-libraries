@@ -135,7 +135,7 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
         return true;
     }
 
-    public function setChecked(bool $checked)
+    public function setChecked(?bool $checked)
     {
         if (!$checked)
         {
