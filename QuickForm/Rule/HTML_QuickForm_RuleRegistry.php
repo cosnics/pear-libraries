@@ -240,13 +240,13 @@ class HTML_QuickForm_RuleRegistry
         elseif (is_object($data1))
         {
             // An instance of HTML_QuickForm_Rule
-            $this->_rules[strtolower(get_class($data1))] = $data1;
-            $GLOBALS['_HTML_QuickForm_registered_rules'][$ruleName] = strtolower(get_class($data1));
+            $this->_rules[get_class($data1)] = $data1;
+            $GLOBALS['_HTML_QuickForm_registered_rules'][$ruleName] = get_class($data1);
         }
         else
         {
             // Rule class name
-            $GLOBALS['_HTML_QuickForm_registered_rules'][$ruleName] = strtolower($data1);
+            $GLOBALS['_HTML_QuickForm_registered_rules'][$ruleName] = $data1;
         }
     }
 
