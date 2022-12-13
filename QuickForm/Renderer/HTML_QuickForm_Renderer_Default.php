@@ -54,7 +54,7 @@ class HTML_QuickForm_Renderer_Default extends HTML_QuickForm_Renderer
 
     protected string $_hiddenHtml = '';
 
-    protected string $_html;
+    protected string $_html = '';
 
     /**
      * True if we are inside a group
