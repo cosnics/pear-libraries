@@ -557,10 +557,5 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
             $this->_elements[$key]->unfreeze();
         }
     }
-    
-    public function getElements() 
-    {
-        return $this->_elements;
-    }
 
 }
