@@ -1049,10 +1049,6 @@ class HTML_QuickForm extends HTML_Common
                 }
             }
         }
-        elseif ('file' == $this->getElementType($elementName))
-        {
-            return $this->getElementValue($elementName);
-        }
         elseif (false !== ($pos = strpos($elementName, '[')))
         {
             $base = substr($elementName, 0, $pos);
@@ -1085,6 +1081,10 @@ class HTML_QuickForm extends HTML_Common
                     $value = null === $value ? $fileValue : HTML_QuickForm::arrayMerge($value, $fileValue);
                 }
             }
+        }
+        elseif ('file' == $this->getElementType($elementName))
+        {
+            return $this->getElementValue($elementName);
         }
 
         // This is only supposed to work for groups with appendName = false
