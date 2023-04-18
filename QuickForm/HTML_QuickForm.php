@@ -435,7 +435,7 @@ class HTML_QuickForm extends HTML_Common
      * @throws   QuickformException
      */
     public function addGroupRule(
-        string $group, $arg1, string $type = '', mixed $format = null, int $howmany = 0,
+        string $group, $arg1, string $type = '', $format = null, int $howmany = 0,
         string $validation = 'server', bool $reset = false
     )
     {
@@ -557,7 +557,7 @@ class HTML_QuickForm extends HTML_Common
      * @throws   QuickformException
      */
     public function addRule(
-        $element, string $message, string $type, mixed $format = null, string $validation = 'server',
+        $element, string $message, string $type, $format = null, string $validation = 'server',
         bool $reset = false, bool $force = false
     )
     {
