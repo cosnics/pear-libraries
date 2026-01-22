@@ -4,3 +4,7 @@
 /.idea/pear-libraries.iml
 /.idea/workspace.xml
 .fleet/settings.json
+.idea/php.xml
+.idea/laravel-idea.xml
+.idea/copilot.data.migration.ask2agent.xml
+.idea/php.xml

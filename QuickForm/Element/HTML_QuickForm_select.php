@@ -87,6 +87,20 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
         $this->_options[] = ['text' => $text, 'attr' => $attributes];
     }
 
+    public function disableOption(string $text, string $value)
+    {
+        foreach($this->_options as $identifier => $option)
+        {
+            if($option['text'] == $text && $option['attr']['value'] == $value)
+            {
+                $option['attr']['disabled'] = true;
+
+                $this->_options[$identifier] = $option;
+                break;
+            }
+        }
+    }
+
     /**
      * We check the options and return only the values that _could_ have been
      * selected. We also return a scalar value if select is not "multiple"
