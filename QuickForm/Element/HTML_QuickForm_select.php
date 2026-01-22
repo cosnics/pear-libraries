@@ -36,7 +36,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
     protected $_values = null;
 
     /**
-     * @param array $options             Data to be used to populate options
+     * @param array $options Data to be used to populate options
      * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
      */
     public function __construct(
@@ -87,11 +87,11 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
         $this->_options[] = ['text' => $text, 'attr' => $attributes];
     }
 
-    public function disableOption(string $text, string $value)
+    public function disableOptionByValue(string $value)
     {
-        foreach($this->_options as $identifier => $option)
+        foreach ($this->_options as $identifier => $option)
         {
-            if($option['text'] == $text && $option['attr']['value'] == $value)
+            if ($option['attr']['value'] == $value)
             {
                 $option['attr']['disabled'] = true;
 
@@ -271,7 +271,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      * passed in order to loadQuery.
      *
      * @param array $options Options source currently supports assoc array or DB_result
-     * @param mixed $param1  (optional) See function detail
+     * @param mixed $param1 (optional) See function detail
      */
     public function load(array $options, $param1 = null)
     {
@@ -281,7 +281,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
     /**
      * Loads the options from an associative array
      *
-     * @param array $arr             Associative array of options
+     * @param array $arr Associative array of options
      * @param ?array|?string $values (optional) Array or comma delimited string of selected values
      */
     public function loadArray(array $arr, $values = null): bool
@@ -303,8 +303,8 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
     /**
      * Called by HTML_QuickForm whenever form event is made on this element
      *
-     * @param string $event          Name of event
-     * @param mixed $arg             event arguments
+     * @param string $event Name of event
+     * @param mixed $arg event arguments
      * @param ?HTML_QuickForm $caller calling object
      */
     public function onQuickFormEvent(string $event, $arg, ?HTML_QuickForm $caller = null): bool
