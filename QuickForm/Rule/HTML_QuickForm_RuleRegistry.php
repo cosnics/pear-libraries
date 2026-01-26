@@ -25,9 +25,9 @@ class HTML_QuickForm_RuleRegistry
      * Returns JavaScript to get and to reset the element's value
      *
      * @param HTML_QuickForm_element $element element being processed
-     * @param string $elementName             element's name
-     * @param bool $reset                     whether to generate JavaScript to reset the value
-     * @param ?int $index                     value's index in the array (only used for multielement rules)
+     * @param string $elementName element's name
+     * @param bool $reset whether to generate JavaScript to reset the value
+     * @param ?int $index value's index in the array (only used for multielement rules)
      *
      * @return array     first item is value javascript, second is reset
      */
@@ -132,15 +132,14 @@ class HTML_QuickForm_RuleRegistry
         return [$value, $tmp_reset];
     }
 
-    public function getRule(string $ruleName): HTML_QuickForm_Rule
+    public function getRule(string $class): HTML_QuickForm_Rule
     {
-        $class = $GLOBALS['_HTML_QuickForm_registered_rules'][$ruleName];
-
         if (!isset($this->_rules[$class]))
         {
             $this->_rules[$class] = new $class();
         }
-        $this->_rules[$class]->setName($ruleName);
+        
+        $this->_rules[$class]->setName($class);
 
         return $this->_rules[$class];
     }
@@ -148,9 +147,9 @@ class HTML_QuickForm_RuleRegistry
     /**
      * Returns the validation test in javascript code
      *
-     * @param mixed $element      Element(s) the rule applies to
+     * @param mixed $element Element(s) the rule applies to
      * @param string $elementName Element name, in case $element is not array
-     * @param array $ruleData     Rule data
+     * @param array $ruleData Rule data
      */
     public function getValidationScript($element, string $elementName, array $ruleData): string
     {
@@ -205,49 +204,12 @@ class HTML_QuickForm_RuleRegistry
      * You can also register an HTML_QuickForm_Rule subclass with its own
      * validate() method.
      *
-     * @param string $ruleName                   Name of validation rule
-     * @param ?string $type                      Either: 'regex', 'function' or null
-     * @param string|\HTML_QuickForm_Rule $data1 Name of function, regular expression or
-     *                                           HTML_QuickForm_Rule object class name
-     * @param ?string $data2                     Object parent of above function or HTML_QuickForm_Rule file path
-     *
-     * @return    void
+     * @param class-string $class HTML_QuickForm_Rule classname
      */
-    public function registerRule(string $ruleName, ?string $type, $data1, ?string $data2 = null)
+    public function registerRule(object|string $class): void
     {
-        $type = strtolower($type);
-
-        if ($type == 'regex')
-        {
-            /**
-             * @var \HTML_QuickForm_Rule_Regex $rule
-             */
-            $rule = $this->getRule('regex');
-            $rule->addData($ruleName, $data1);
-            $GLOBALS['_HTML_QuickForm_registered_rules'][$ruleName] =
-                $GLOBALS['_HTML_QuickForm_registered_rules']['regex'];
-        }
-        elseif ($type == 'function' || $type == 'callback')
-        {
-            /**
-             * @var \HTML_QuickForm_Rule_Callback $rule
-             */
-            $rule = $this->getRule('callback');
-            $rule->addData($ruleName, $data1, $data2, 'function' == $type);
-            $GLOBALS['_HTML_QuickForm_registered_rules'][$ruleName] =
-                $GLOBALS['_HTML_QuickForm_registered_rules']['callback'];
-        }
-        elseif (is_object($data1))
-        {
-            // An instance of HTML_QuickForm_Rule
-            $this->_rules[get_class($data1)] = $data1;
-            $GLOBALS['_HTML_QuickForm_registered_rules'][$ruleName] = get_class($data1);
-        }
-        else
-        {
-            // Rule class name
-            $GLOBALS['_HTML_QuickForm_registered_rules'][$ruleName] = $data1;
-        }
+        // Rule class name
+        $GLOBALS['_HTML_QuickForm_registered_rules'][] = $class;
     }
 
     /**
@@ -269,11 +231,11 @@ class HTML_QuickForm_RuleRegistry
     /**
      * Performs validation on the given values
      *
-     * @param string $ruleName              Name of the rule to be used
-     * @param mixed $values                 Can be a scalar or an array of values
+     * @param string $ruleName Name of the rule to be used
+     * @param mixed $values Can be a scalar or an array of values
      *                                      to be validated
-     * @param mixed $options                Options used by the rule
-     * @param mixed $multiple               Whether to validate an array of values altogether
+     * @param mixed $options Options used by the rule
+     * @param mixed $multiple Whether to validate an array of values altogether
      *
      * @return bool|int true if no error found, int of valid values (when an array of values is given) or false if
      *                     error

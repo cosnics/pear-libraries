@@ -166,7 +166,7 @@ class HTML_QuickForm extends HTML_Common
         if ($trackSubmit)
         {
             unset($this->_submitValues['_qf__' . $formName]);
-            $this->addElement('hidden', '_qf__' . $formName, null);
+            $this->addElement(HTML_QuickForm_hidden::class, '_qf__' . $formName, null);
         }
 
         if (preg_match('/^([0-9]+)([a-zA-Z]*)$/', ini_get('upload_max_filesize'), $matches))
@@ -561,7 +561,7 @@ class HTML_QuickForm extends HTML_Common
                     if (!$this->elementExists($el))
                     {
                         throw new QuickformException(
-                            "Element '$el' does not exist in HTML_QuickForm::addRule()", 'HTML_QuickForm_Error'
+                            "Element '$el' does not exist in HTML_QuickForm::addRule()", 501
                         );
                     }
                 }
@@ -586,7 +586,7 @@ class HTML_QuickForm extends HTML_Common
             $dependent = null;
         }
 
-        if ($type == 'required' || $type == 'uploadedfile')
+        if ($type == HTML_QuickForm_Rule_Required::class)
         {
             $this->_required[] = $element;
         }
@@ -977,7 +977,7 @@ class HTML_QuickForm extends HTML_Common
         }
         if (!$this->elementExists('MAX_FILE_SIZE'))
         {
-            $this->addElement('hidden', 'MAX_FILE_SIZE', $this->_maxFileSize);
+            $this->addElement(HTML_QuickForm_hidden::class, 'MAX_FILE_SIZE', $this->_maxFileSize);
         }
         else
         {
@@ -1438,17 +1438,14 @@ class HTML_QuickForm extends HTML_Common
     /**
      * Registers a new validation rule
      *
-     * @param string $ruleName Name of validation rule
-     * @param ?string $type Either: 'regex', 'function' or 'rule' for an HTML_QuickForm_Rule object
-     * @param string $data1 Name of function, regular expression or HTML_QuickForm_Rule classname
-     * @param ?string $data2 Object parent of above function or HTML_QuickForm_Rule file path
+     * @param string $class HTML_QuickForm_Rule classname
      *
      * @return    void
      */
-    public static function registerRule(string $ruleName, ?string $type, string $data1, ?string $data2 = null)
+    public static function registerRule(string $class)
     {
         $registry = HTML_QuickForm_RuleRegistry::singleton();
-        $registry->registerRule($ruleName, $type, $data1, $data2);
+        $registry->registerRule($class);
     }
 
     /**
@@ -1633,7 +1630,7 @@ class HTML_QuickForm extends HTML_Common
     {
         if (!is_null($in_data))
         {
-            $this->addElement('html', $in_data);
+            $this->addElement(HTML_QuickForm_html::class, $in_data);
         }
 
         $renderer = $this->defaultRenderer();
