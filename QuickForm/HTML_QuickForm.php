@@ -299,11 +299,13 @@ class HTML_QuickForm extends HTML_Common
      * method accepts variable number of parameters, their meaning
      * and count depending on $element
      *
-     * @param HTML_QuickForm_element|string $element element object or type of element to add (text, textarea, file...)
+     * @template tElementClass
+     * @param HTML_QuickForm_element|class-string<tElementClass> $element
      *
+     * @return HTML_QuickForm_element|tElementClass
      * @throws   QuickformException
      */
-    public function addElement($element): HTML_QuickForm_element
+    public function addElement(HTML_QuickForm_element|string $element): HTML_QuickForm_element
     {
         if ($element instanceof HTML_QuickForm_element)
         {
@@ -324,7 +326,7 @@ class HTML_QuickForm extends HTML_Common
     /**
      * @throws \QuickformException
      */
-    protected function addElementToForm(HTML_QuickForm_element $elementObject)
+    protected function addElementToForm(HTML_QuickForm_element $elementObject): void
     {
         $elementName = $elementObject->getName();
 
@@ -698,8 +700,10 @@ class HTML_QuickForm extends HTML_Common
      * This method accepts variable number of parameters, their
      * meaning and count depending on $elementType
      *
-     * @param string $elementType type of element to add (text, textarea, file...)
+     * @template tElementClass
+     * @param class-string<tElementClass> $elementType
      *
+     * @return tElementClass|HTML_QuickForm_element
      * @throws    QuickformException
      */
     public function createElement(string $elementType): HTML_QuickForm_element
