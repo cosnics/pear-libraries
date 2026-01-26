@@ -452,7 +452,7 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
      * @param mixed $arg             event arguments
      * @param ?HTML_QuickForm $caller calling object
      */
-    public function onQuickFormEvent(string $event, $arg, ?HTML_QuickForm $caller = null): bool
+    public function onQuickFormEvent(string $event, mixed $arg, ?HTML_QuickForm $caller = null): bool
     {
         switch ($event)
         {

@@ -138,7 +138,7 @@ class HTML_QuickForm_RuleRegistry
         {
             $this->_rules[$class] = new $class();
         }
-        
+
         $this->_rules[$class]->setName($class);
 
         return $this->_rules[$class];
@@ -151,7 +151,7 @@ class HTML_QuickForm_RuleRegistry
      * @param string $elementName Element name, in case $element is not array
      * @param array $ruleData Rule data
      */
-    public function getValidationScript($element, string $elementName, array $ruleData): string
+    public function getValidationScript(mixed $element, string $elementName, array $ruleData): string
     {
         $reset = (isset($ruleData['reset'])) ? $ruleData['reset'] : false;
         $rule = $this->getRule($ruleData['type']);
@@ -234,13 +234,13 @@ class HTML_QuickForm_RuleRegistry
      * @param string $ruleName Name of the rule to be used
      * @param mixed $values Can be a scalar or an array of values
      *                                      to be validated
-     * @param mixed $options Options used by the rule
-     * @param mixed $multiple Whether to validate an array of values altogether
+     * @param mixed|null $options Options used by the rule
+     * @param false|mixed $multiple Whether to validate an array of values altogether
      *
      * @return bool|int true if no error found, int of valid values (when an array of values is given) or false if
      *                     error
      */
-    public function validate(string $ruleName, $values, $options = null, $multiple = false)
+    public function validate(string $ruleName, mixed $values, mixed $options = null, mixed $multiple = false): bool|int
     {
         $rule = $this->getRule($ruleName);
 

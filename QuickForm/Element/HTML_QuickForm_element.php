@@ -36,10 +36,9 @@ abstract class HTML_QuickForm_element extends HTML_Common
 
     protected string $_type = '';
 
-    /**
-     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
-     */
-    public function __construct(?string $elementName = null, ?string $elementLabel = null, $attributes = null)
+    public function __construct(
+        ?string $elementName = null, ?string $elementLabel = null, null|array|string $attributes = null
+    )
     {
         parent::__construct($attributes);
 
@@ -87,7 +86,7 @@ abstract class HTML_QuickForm_element extends HTML_Common
      * Automatically generates and assigns an 'id' attribute for the element. Currently used to ensure that labels work
      * on radio buttons and checkboxes. Per idea of Alexander Radivanovich.
      */
-    protected function _generateId()
+    protected function _generateId(): void
     {
         static $idx = 1;
 
@@ -112,7 +111,7 @@ abstract class HTML_QuickForm_element extends HTML_Common
 
             if (isset($id))
             {
-                // Id of persistant input is different then the actual input.
+                // Id of persistant input is different from the actual input.
                 $id = ['id' => $id . '_persistant'];
             }
             else
@@ -132,13 +131,8 @@ abstract class HTML_QuickForm_element extends HTML_Common
 
     /**
      * Used by exportValue() to prepare the value for returning
-     *
-     * @param mixed $value the value found in exportValue()
-     * @param bool $assoc  whether to return the value as associative array
-     *
-     * @return mixed
      */
-    protected function _prepareValue($value, bool $assoc)
+    protected function _prepareValue(mixed $value, bool $assoc): mixed
     {
         if (null === $value)
         {
@@ -172,10 +166,10 @@ abstract class HTML_QuickForm_element extends HTML_Common
      * Accepts a renderer
      *
      * @param HTML_QuickForm_Renderer $renderer An HTML_QuickForm_Renderer object
-     * @param bool $required                    Whether an element is required
-     * @param ?string $error                    An error message associated with an element
+     * @param bool $required Whether an element is required
+     * @param ?string $error An error message associated with an element
      */
-    public function accept(HTML_QuickForm_Renderer $renderer, bool $required = false, ?string $error = null)
+    public function accept(HTML_QuickForm_Renderer $renderer, bool $required = false, ?string $error = null): void
     {
         $renderer->renderElement($this, $required, $error);
     }
@@ -184,9 +178,9 @@ abstract class HTML_QuickForm_element extends HTML_Common
      * Returns a 'safe' element's value
      *
      * @param array $submitValues array of submitted values to search
-     * @param bool $assoc         whether to return the value as associative array
+     * @param bool $assoc whether to return the value as associative array
      */
-    public function exportValue(array &$submitValues, bool $assoc = false)
+    public function exportValue(array &$submitValues, bool $assoc = false): mixed
     {
         $value = $this->_findValue($submitValues);
         if (null === $value)
@@ -200,7 +194,7 @@ abstract class HTML_QuickForm_element extends HTML_Common
     /**
      * Freeze the element so that only its value is returned
      */
-    public function freeze()
+    public function freeze(): void
     {
         $this->_flagFrozen = true;
     }
@@ -220,7 +214,7 @@ abstract class HTML_QuickForm_element extends HTML_Common
         return $this->_label;
     }
 
-    public function setLabel(string $label)
+    public function setLabel(string $label): void
     {
         $this->_label = $label;
     }
@@ -232,7 +226,7 @@ abstract class HTML_QuickForm_element extends HTML_Common
         return $this->_type;
     }
 
-    abstract public function getValue();
+    abstract public function getValue(): mixed;
 
     public function isFrozen(): bool
     {
@@ -241,12 +235,8 @@ abstract class HTML_QuickForm_element extends HTML_Common
 
     /**
      * Called by HTML_QuickForm whenever form event is made on this element
-     *
-     * @param string $event          Name of event
-     * @param mixed $arg             event arguments
-     * @param ?HTML_QuickForm $caller calling object
      */
-    public function onQuickFormEvent(string $event, $arg, ?HTML_QuickForm $caller = null): bool
+    public function onQuickFormEvent(string $event, mixed $arg, ?HTML_QuickForm $caller = null): bool
     {
         switch ($event)
         {
@@ -257,8 +247,7 @@ abstract class HTML_QuickForm_element extends HTML_Common
                 foreach ($parameters as $key => $parameter)
                 {
                     $arg[$key] = is_null($arg[$key]) ?
-                        ($parameter->isDefaultValueAvailable() ? $parameter->getDefaultValue() : null) :
-                        $arg[$key];
+                        ($parameter->isDefaultValueAvailable() ? $parameter->getDefaultValue() : null) : $arg[$key];
                 }
 
                 static::__construct($arg[0], $arg[1], $arg[2], $arg[3], $arg[4]);
@@ -299,17 +288,17 @@ abstract class HTML_QuickForm_element extends HTML_Common
      * Sets wether an element value should be kept in an hidden field
      * when the element is frozen or not
      */
-    public function setPersistantFreeze(bool $persistant = false)
+    public function setPersistantFreeze(bool $persistant = false): void
     {
         $this->_persistantFreeze = $persistant;
     }
 
-    abstract public function setValue($value);
+    abstract public function setValue($value): void;
 
     /**
      * Unfreezes the element so that it becomes editable
      */
-    public function unfreeze()
+    public function unfreeze(): void
     {
         $this->_flagFrozen = false;
     }

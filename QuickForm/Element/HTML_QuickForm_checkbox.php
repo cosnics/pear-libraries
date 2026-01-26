@@ -28,12 +28,9 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
 
     protected string $_text = '';
 
-    /**
-     * @param string $text              Checkbox display text
-     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
-     */
     public function __construct(
-        ?string $elementName = null, ?string $elementLabel = null, string $text = '', $attributes = null
+        ?string $elementName = null, ?string $elementLabel = null, string $text = '',
+        null|array|string $attributes = null
     )
     {
         parent::__construct($elementName, $elementLabel, $attributes);
@@ -47,7 +44,7 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
     /**
      * Return true if the checkbox is checked, null if it is not checked (getValue() returns false)
      */
-    public function exportValue(array &$submitValues, bool $assoc = false)
+    public function exportValue(array &$submitValues, bool $assoc = false): mixed
     {
         $value = $this->_findValue($submitValues);
         if (null === $value)
@@ -80,12 +77,12 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
         return $this->_text;
     }
 
-    public function setText(string $text)
+    public function setText(string $text): void
     {
         $this->_text = $text;
     }
 
-    public function getValue()
+    public function getValue(): bool
     {
         return $this->getChecked();
     }
@@ -93,11 +90,11 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
     /**
      * Called by HTML_QuickForm whenever form event is made on this element
      *
-     * @param string $event           Name of event
-     * @param mixed $arg              event arguments
+     * @param string $event Name of event
+     * @param mixed $arg event arguments
      * @param ?HTML_QuickForm $caller calling object
      */
-    public function onQuickFormEvent(string $event, $arg, ?HTML_QuickForm $caller = null): bool
+    public function onQuickFormEvent(string $event, mixed $arg, ?HTML_QuickForm $caller = null): bool
     {
         switch ($event)
         {
@@ -135,7 +132,7 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
         return true;
     }
 
-    public function setChecked(?bool $checked)
+    public function setChecked(?bool $checked): void
     {
         if (!$checked)
         {
@@ -147,7 +144,7 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
         }
     }
 
-    public function setValue($value)
+    public function setValue($value): void
     {
         $this->setChecked($value);
     }

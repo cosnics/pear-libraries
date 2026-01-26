@@ -28,10 +28,9 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
 
     public ?array $_value = null;
 
-    /**
-     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
-     */
-    public function __construct(?string $elementName = null, ?string $elementLabel = null, $attributes = null)
+    public function __construct(
+        ?string $elementName = null, ?string $elementLabel = null, null|array|string $attributes = null
+    )
     {
         parent::__construct($elementName, $elementLabel, $attributes);
 
@@ -42,10 +41,8 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
      * Tries to find the element value from the values array
      * Needs to be redefined here as $_FILES is populated differently from
      * other arrays when element name is of the form foo[bar]
-     *
-     * @return    mixed
      */
-    protected function _findValue($values)
+    protected function _findValue($values): mixed
     {
         if (empty($_FILES))
         {
@@ -84,7 +81,7 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
      * Checks if the given element contains an uploaded file of the filename regex
      *
      * @param array $elementValue Uploaded file info (from $_FILES)
-     * @param string $regex       Regular expression
+     * @param string $regex Regular expression
      *
      * @return bool true if name matches regex, false otherwise
      */
@@ -102,7 +99,7 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
      * Checks that the file does not exceed the max file size
      *
      * @param array $elementValue Uploaded file info (from $_FILES)
-     * @param int $maxSize        Max file size
+     * @param int $maxSize Max file size
      *
      * @return bool true if filesize is lower than maxsize, false otherwise
      */
@@ -122,15 +119,7 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
         return ($maxSize >= filesize($elementValue['tmp_name']));
     }
 
-    /**
-     * Checks if the given element contains an uploaded file of the right mime type
-     *
-     * @param array $elementValue Uploaded file info (from $_FILES)
-     * @param mixed $mimeType     Mime Type (can be an array of allowed types)
-     *
-     * @return bool true if mimetype is correct, false otherwise
-     */
-    protected function _ruleCheckMimeType(array $elementValue, $mimeType): bool
+    protected function _ruleCheckMimeType(array $elementValue, array|string $mimeType): bool
     {
         if (!HTML_QuickForm_file::_ruleIsUploadedFile($elementValue))
         {
@@ -165,7 +154,7 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
         }
     }
 
-    public function freeze()
+    public function freeze(): void
     {
     }
 
@@ -189,7 +178,7 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
      *
      * @param mixed $value Value for file element
      */
-    public function setValue($value)
+    public function setValue($value): void
     {
     }
 
@@ -206,14 +195,14 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
     /**
      * Moves an uploaded file into the destination
      *
-     * @param string $dest     Destination directory path
+     * @param string $dest Destination directory path
      * @param string $fileName New file name
      *
      * @return bool Whether the file was moved successfully
      */
     public function moveUploadedFile(string $dest, string $fileName = ''): bool
     {
-        if ($dest != '' && substr($dest, - 1) != '/')
+        if ($dest != '' && !str_ends_with($dest, '/'))
         {
             $dest .= '/';
         }
@@ -233,13 +222,13 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
     /**
      * Called by HTML_QuickForm whenever form event is made on this element
      *
-     * @param string $event           Name of event
-     * @param mixed $arg              event arguments
+     * @param string $event Name of event
+     * @param mixed $arg event arguments
      * @param ?HTML_QuickForm $caller calling object
      *
      * @throws \QuickformException
      */
-    public function onQuickFormEvent(string $event, $arg, ?HTML_QuickForm $caller = null): bool
+    public function onQuickFormEvent(string $event, mixed $arg, ?HTML_QuickForm $caller = null): bool
     {
         switch ($event)
         {
@@ -275,7 +264,7 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
         return true;
     }
 
-    public function setSize(?int $size)
+    public function setSize(?int $size): void
     {
         $this->updateAttributes(['size' => $size]);
     }

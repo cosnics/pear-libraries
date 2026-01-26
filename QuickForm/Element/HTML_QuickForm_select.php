@@ -30,17 +30,12 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
 
     /**
      * Default values of the SELECT
-     *
-     * @var ?string|?array
      */
-    protected $_values = null;
+    protected string|array|null $_values = null;
 
-    /**
-     * @param array $options Data to be used to populate options
-     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
-     */
     public function __construct(
-        ?string $elementName = null, ?string $elementLabel = null, array $options = [], $attributes = null
+        ?string $elementName = null, ?string $elementLabel = null, array $options = [],
+        null|array|string $attributes = null
     )
     {
         parent::__construct($elementName, $elementLabel, $attributes);
@@ -56,10 +51,8 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
 
     /**
      * Adds a new OPTION to the SELECT
-     *
-     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
      */
-    public function addOption(string $text, string $value, $attributes = null)
+    public function addOption(string $text, string $value, null|array|string $attributes = null): void
     {
         if (null === $attributes)
         {
@@ -87,7 +80,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
         $this->_options[] = ['text' => $text, 'attr' => $attributes];
     }
 
-    public function disableOptionByValue(string $value)
+    public function disableOptionByValue(string $value): void
     {
         foreach ($this->_options as $identifier => $option)
         {
@@ -105,7 +98,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      * We check the options and return only the values that _could_ have been
      * selected. We also return a scalar value if select is not "multiple"
      */
-    public function exportValue(array &$submitValues, bool $assoc = false)
+    public function exportValue(array &$submitValues, bool $assoc = false): mixed
     {
         $value = $this->_findValue($submitValues);
 
@@ -215,7 +208,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
         return $this->_options;
     }
 
-    public function setOptions(array $options)
+    public function setOptions(array $options): void
     {
         $this->_options = $options;
     }
@@ -235,10 +228,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
         }
     }
 
-    /**
-     * @return ?string|?array
-     */
-    public function getSelected()
+    public function getSelected(): array|string|null
     {
         return $this->_values;
     }
@@ -248,10 +238,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
         return $this->getAttribute('size');
     }
 
-    /**
-     * @return ?string|?array
-     */
-    public function getValue()
+    public function getValue(): string|array|null
     {
         return $this->_values;
     }
@@ -271,9 +258,9 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      * passed in order to loadQuery.
      *
      * @param array $options Options source currently supports assoc array or DB_result
-     * @param mixed $param1 (optional) See function detail
+     * @param mixed|null $param1 (optional) See function detail
      */
-    public function load(array $options, $param1 = null)
+    public function load(array $options, mixed $param1 = null): void
     {
         $this->loadArray($options, $param1);
     }
@@ -284,7 +271,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      * @param array $arr Associative array of options
      * @param ?array|?string $values (optional) Array or comma delimited string of selected values
      */
-    public function loadArray(array $arr, $values = null): bool
+    public function loadArray(array $arr, array|string|null $values = null): bool
     {
         if (isset($values))
         {
@@ -307,7 +294,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      * @param mixed $arg event arguments
      * @param ?HTML_QuickForm $caller calling object
      */
-    public function onQuickFormEvent(string $event, $arg, ?HTML_QuickForm $caller = null): bool
+    public function onQuickFormEvent(string $event, mixed $arg, ?HTML_QuickForm $caller = null): bool
     {
         if ('updateValue' == $event)
         {
@@ -338,7 +325,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
         }
     }
 
-    public function setMultiple(bool $multiple)
+    public function setMultiple(bool $multiple): void
     {
         if ($multiple)
         {
@@ -350,7 +337,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
         }
     }
 
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->updateAttributes(['name' => $name]);
     }
@@ -360,7 +347,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      *
      * @param array|string $values Array or comma delimited string of selected values
      */
-    public function setSelected($values)
+    public function setSelected(array|string $values): void
     {
         if (is_string($values) && $this->getMultiple())
         {
@@ -377,7 +364,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
         }
     }
 
-    public function setSize(?int $size)
+    public function setSize(?int $size): void
     {
         $this->updateAttributes(['size' => $size]);
     }
@@ -387,7 +374,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element
      *
      * @param array|string $value Array or comma delimited string of selected values
      */
-    public function setValue($value)
+    public function setValue($value): void
     {
         $this->setSelected($value);
     }

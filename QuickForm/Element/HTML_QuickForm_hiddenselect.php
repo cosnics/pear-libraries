@@ -30,7 +30,7 @@ class HTML_QuickForm_hiddenselect extends HTML_QuickForm_select
 {
 
     /**
-     * @param ?array $options            Data to be used to populate options
+     * @param ?array $options Data to be used to populate options
      * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
      */
     public function __construct(
@@ -42,10 +42,7 @@ class HTML_QuickForm_hiddenselect extends HTML_QuickForm_select
         $this->_type = 'hiddenselect';
     }
 
-    /**
-     * This is essentially a hidden element and should be rendered as one
-     */
-    public function accept(HTML_QuickForm_Renderer $renderer, bool $required = false, ?string $error = null)
+    public function accept(HTML_QuickForm_Renderer $renderer, bool $required = false, ?string $error = null): void
     {
         $renderer->renderHidden($this);
     }

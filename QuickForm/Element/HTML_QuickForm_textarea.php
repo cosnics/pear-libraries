@@ -28,10 +28,9 @@ class HTML_QuickForm_textarea extends HTML_QuickForm_element
 
     protected ?string $_value = null;
 
-    /**
-     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
-     */
-    public function __construct(?string $elementName = null, ?string $elementLabel = null, $attributes = null)
+    public function __construct(
+        ?string $elementName = null, ?string $elementLabel = null, null|array|string $attributes = null
+    )
     {
         parent::__construct($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = true;
@@ -58,32 +57,32 @@ class HTML_QuickForm_textarea extends HTML_QuickForm_element
         return $this->getAttribute('name');
     }
 
-    public function getValue()
+    public function getValue(): ?string
     {
         return $this->_value;
     }
 
-    public function setValue($value)
+    public function setValue($value): void
     {
         $this->_value = $value;
     }
 
-    public function setCols(?int $cols)
+    public function setCols(?int $cols): void
     {
         $this->updateAttributes(['cols' => $cols]);
     }
 
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->updateAttributes(['name' => $name]);
     }
 
-    public function setRows(?int $rows)
+    public function setRows(?int $rows): void
     {
         $this->updateAttributes(['rows' => $rows]);
     }
 
-    public function setWrap(?string $wrap)
+    public function setWrap(?string $wrap): void
     {
         $this->updateAttributes(['wrap' => $wrap]);
     }

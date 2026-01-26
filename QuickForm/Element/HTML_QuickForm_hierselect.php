@@ -74,9 +74,9 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
     protected array $_options = [];
 
     /**
-     * @param mixed $attributes             (optional)Either a typical HTML attribute string
+     * @param mixed $attributes (optional)Either a typical HTML attribute string
      *                                      or an associative array. Date format is passed along the attributes.
-     * @param mixed $separator              (optional)Use a string for one separator,
+     * @param mixed $separator (optional)Use a string for one separator,
      *                                      use an array to alternate the separators.
      */
     public function __construct($elementName = null, $elementLabel = null, $attributes = null, $separator = null)
@@ -90,13 +90,13 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
     /**
      * Converts PHP array to its Javascript analog
      *
-     * @param mixed $array       PHP array to convert
-     * @param bool $assoc        Generate Javascript object literal (default, works like PHP's associative array) or
+     * @param mixed $array PHP array to convert
+     * @param bool $assoc Generate Javascript object literal (default, works like PHP's associative array) or
      *                           array literal
      *
      * @return string Javascript representation of the value
      */
-    protected function _convertArrayToJavascript($array, bool $assoc = true): string
+    protected function _convertArrayToJavascript(mixed $array, bool $assoc = true): string
     {
         if (!is_array($array))
         {
@@ -134,7 +134,7 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
      *
      * @return string Javascript representation of the value
      */
-    protected function _convertScalarToJavascript($val): string
+    protected function _convertScalarToJavascript(mixed $val): string
     {
         if (is_bool($val))
         {
@@ -162,7 +162,7 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
     /**
      * Creates all the elements for the group
      */
-    public function _createElements()
+    public function _createElements(): void
     {
         for ($i = 0; $i < $this->_nbElements; $i ++)
         {
@@ -188,7 +188,7 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
     /**
      * Sets the options for each select element
      */
-    protected function _setOptions()
+    protected function _setOptions(): void
     {
         $toLoad = '';
 
@@ -223,7 +223,7 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
      *
      * @return    void
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): void
     {
         $this->_options = $options;
 
@@ -252,10 +252,10 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
      * Accepts a renderer
      *
      * @param HTML_QuickForm_Renderer $renderer An HTML_QuickForm_Renderer object
-     * @param bool $required                    Whether an element is required
-     * @param ?string $error                    An error message associated with an element
+     * @param bool $required Whether an element is required
+     * @param ?string $error An error message associated with an element
      */
-    public function accept(HTML_QuickForm_Renderer $renderer, bool $required = false, ?string $error = null)
+    public function accept(HTML_QuickForm_Renderer $renderer, bool $required = false, ?string $error = null): void
     {
         $renderer->renderElement($this, $required, $error);
     }
@@ -263,11 +263,11 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
     /**
      * Called by HTML_QuickForm whenever form event is made on this element
      *
-     * @param string $event           Name of event
-     * @param mixed $arg              event arguments
+     * @param string $event Name of event
+     * @param mixed $arg event arguments
      * @param ?HTML_QuickForm $caller calling object
      */
-    public function onQuickFormEvent(string $event, $arg, ?HTML_QuickForm $caller = null): bool
+    public function onQuickFormEvent(string $event, mixed $arg, ?HTML_QuickForm $caller = null): bool
     {
         if ('updateValue' == $event)
         {
@@ -326,10 +326,10 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
     /**
      * Sets values for group's elements
      *
-     * @param array $value            An array of 2 or more values, for the first,
+     * @param array $value An array of 2 or more values, for the first,
      *                                the second, the third etc. select
      */
-    public function setValue($value)
+    public function setValue($value): void
     {
         // fix for bug #6766. Hope this doesn't break anything more
         // after bug #7961. Forgot that _nbElements was used in

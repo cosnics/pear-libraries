@@ -26,10 +26,9 @@
 abstract class HTML_QuickForm_input extends HTML_QuickForm_element
 {
 
-    /**
-     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
-     */
-    public function __construct(?string $elementName = null, ?string $elementLabel = null, $attributes = null)
+    public function __construct(
+        ?string $elementName = null, ?string $elementLabel = null, null|array|string $attributes = null
+    )
     {
         parent::__construct($elementName, $elementLabel, $attributes);
     }
@@ -37,7 +36,7 @@ abstract class HTML_QuickForm_input extends HTML_QuickForm_element
     /**
      * We don't need values from button-type elements (except submit) and files
      */
-    public function exportValue(array &$submitValues, bool $assoc = false)
+    public function exportValue(array &$submitValues, bool $assoc = false): mixed
     {
         $type = $this->getType();
 
@@ -56,7 +55,7 @@ abstract class HTML_QuickForm_input extends HTML_QuickForm_element
         return $this->getAttribute('name');
     }
 
-    public function getValue()
+    public function getValue(): mixed
     {
         return $this->getAttribute('value');
     }
@@ -64,11 +63,11 @@ abstract class HTML_QuickForm_input extends HTML_QuickForm_element
     /**
      * Called by HTML_QuickForm whenever form event is made on this element
      *
-     * @param string $event          Name of event
-     * @param mixed $arg             event arguments
+     * @param string $event Name of event
+     * @param mixed $arg event arguments
      * @param ?HTML_QuickForm $caller calling object
      */
-    public function onQuickFormEvent(string $event, $arg, ?HTML_QuickForm $caller = null): bool
+    public function onQuickFormEvent(string $event, mixed $arg, ?HTML_QuickForm $caller = null): bool
     {
         // do not use submit values for button-type elements
         $type = $this->getType();
@@ -96,18 +95,18 @@ abstract class HTML_QuickForm_input extends HTML_QuickForm_element
         return true;
     }
 
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->updateAttributes(['name' => $name]);
     }
 
-    public function setType(string $type)
+    public function setType(string $type): void
     {
         $this->_type = $type;
         $this->updateAttributes(['type' => $type]);
     }
 
-    public function setValue($value)
+    public function setValue($value): void
     {
         $this->updateAttributes(['value' => $value]);
     }

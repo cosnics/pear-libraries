@@ -30,9 +30,9 @@ abstract class HTML_Common
     protected int $_tabOffset = 0;
 
     /**
-     * @param ?array|?string $attributes Associative array or name="value" pairs
+     * @param null|string|array $attributes Associative array or name="value" pairs
      */
-    public function __construct($attributes = null, int $tabOffset = 0)
+    public function __construct(null|string|array $attributes = null, int $tabOffset = 0)
     {
         $this->setAttributes($attributes);
         $this->setTabOffset($tabOffset);
@@ -55,10 +55,8 @@ abstract class HTML_Common
 
     /**
      * Returns an HTML formatted attribute string
-     *
-     * @param array|string $attributes
      */
-    protected function _getAttrString($attributes): string
+    protected function _getAttrString(array|string $attributes): string
     {
         $strAttr = '';
 
@@ -83,12 +81,40 @@ abstract class HTML_Common
         return $this->_lineEnd;
     }
 
+    public function setLineEnd(string $style): void
+    {
+        switch ($style)
+        {
+            case 'win':
+                $this->_lineEnd = "\15\12";
+                break;
+            case 'unix':
+                $this->_lineEnd = "\12";
+                break;
+            case 'mac':
+                $this->_lineEnd = "\15";
+                break;
+            default:
+                $this->_lineEnd = $style;
+        }
+    }
+
     /**
      * Returns a string containing the unit for indenting HTML
      */
     protected function _getTab(): string
     {
         return $this->_tab;
+    }
+
+    /**
+     * Sets the string used to indent HTML
+     *
+     * @param string $string String used to indent ("\11", "\t", '  ', etc.).
+     */
+    public function setTab(string $string): void
+    {
+        $this->_tab = $string;
     }
 
     /**
@@ -101,10 +127,8 @@ abstract class HTML_Common
 
     /**
      * Returns a valid atrributes array from either a string or array
-     *
-     * @param array|string $attributes Either a typical HTML attribute string or an associative array
      */
-    protected function _parseAttributes($attributes): array
+    protected function _parseAttributes(array|string $attributes): array
     {
         if (is_array($attributes))
         {
@@ -147,7 +171,7 @@ abstract class HTML_Common
                     }
                     else
                     {
-                        if (substr($value, 0, 1) == "\"" || substr($value, 0, 1) == "'")
+                        if (str_starts_with($value, "\"") || str_starts_with($value, "'"))
                         {
                             $value = substr($value, 1, - 1);
                         }
@@ -163,7 +187,7 @@ abstract class HTML_Common
         return [];
     }
 
-    protected function _removeAttr(string $attr, array $attributes)
+    protected function _removeAttr(string $attr, array $attributes): void
     {
         $attr = strtolower($attr);
 
@@ -179,7 +203,7 @@ abstract class HTML_Common
      * @param array $attr1 Original attributes array
      * @param array $attr2 New attributes array
      */
-    protected function _updateAttrArray(array &$attr1, array $attr2)
+    protected function _updateAttrArray(array &$attr1, array $attr2): void
     {
         foreach ($attr2 as $key => $value)
         {
@@ -198,10 +222,7 @@ abstract class HTML_Common
         return null;
     }
 
-    /**
-     * @return array|string
-     */
-    public function getAttributes(bool $asString = false)
+    public function getAttributes(bool $asString = false): array|string
     {
         if ($asString)
         {
@@ -213,9 +234,19 @@ abstract class HTML_Common
         }
     }
 
+    public function setAttributes(array|string $attributes): void
+    {
+        $this->_attributes = $this->_parseAttributes($attributes);
+    }
+
     public function getComment(): string
     {
         return $this->_comment;
+    }
+
+    public function setComment(string $comment): void
+    {
+        $this->_comment = $comment;
     }
 
     public function getTabOffset(): int
@@ -223,12 +254,17 @@ abstract class HTML_Common
         return $this->_tabOffset;
     }
 
-    public function removeAttribute(string $attr)
+    public function setTabOffset(int $offset): void
+    {
+        $this->_tabOffset = $offset;
+    }
+
+    public function removeAttribute(string $attr): void
     {
         $this->_removeAttr($attr, $this->_attributes);
     }
 
-    public function setAttribute(string $name, ?string $value = null)
+    public function setAttribute(string $name, ?string $value = null): void
     {
         $name = strtolower($name);
 
@@ -240,65 +276,9 @@ abstract class HTML_Common
         $this->_attributes[$name] = $value;
     }
 
-    /**
-     * @param array|string $attributes Either a typical HTML attribute string or an associative array
-     */
-    public function setAttributes($attributes)
-    {
-        $this->_attributes = $this->_parseAttributes($attributes);
-    }
-
-    public function setComment(string $comment)
-    {
-        $this->_comment = $comment;
-    }
-
-    /**
-     * Sets the line end style to Windows, Mac, Unix or a custom string.
-     *
-     * @param string $style "win", "mac", "unix" or custom string.
-     */
-    public function setLineEnd(string $style)
-    {
-        switch ($style)
-        {
-            case 'win':
-                $this->_lineEnd = "\15\12";
-                break;
-            case 'unix':
-                $this->_lineEnd = "\12";
-                break;
-            case 'mac':
-                $this->_lineEnd = "\15";
-                break;
-            default:
-                $this->_lineEnd = $style;
-        }
-    }
-
-    /**
-     * Sets the string used to indent HTML
-     *
-     * @param string $string String used to indent ("\11", "\t", '  ', etc.).
-     */
-    public function setTab(string $string)
-    {
-        $this->_tab = $string;
-    }
-
-    public function setTabOffset(int $offset)
-    {
-        $this->_tabOffset = $offset;
-    }
-
     abstract public function toHtml(): string;
 
-    /**
-     * Updates the passed attributes without changing the other existing attributes
-     *
-     * @param mixed $attributes Either a typical HTML attribute string or an associative array
-     */
-    public function updateAttributes($attributes)
+    public function updateAttributes(string|array $attributes): void
     {
         $this->_updateAttrArray($this->_attributes, $this->_parseAttributes($attributes));
     }

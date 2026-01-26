@@ -26,11 +26,7 @@
 class HTML_QuickForm_image extends HTML_QuickForm_input
 {
 
-    /**
-     * @param string $src                Image source
-     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
-     */
-    public function __construct(?string $elementName = null, string $src = '', $attributes = null)
+    public function __construct(?string $elementName = null, string $src = '', null|array|string $attributes = null)
     {
         parent::__construct($elementName, null, $attributes);
 
@@ -38,21 +34,21 @@ class HTML_QuickForm_image extends HTML_QuickForm_input
         $this->setSource($src);
     }
 
-    public function freeze()
+    public function freeze(): void
     {
     }
 
-    public function setAlign(string $align)
+    public function setAlign(string $align): void
     {
         $this->updateAttributes(['align' => $align]);
     }
 
-    public function setBorder(int $border)
+    public function setBorder(int $border): void
     {
         $this->updateAttributes(['border' => $border]);
     }
 
-    public function setSource(string $src)
+    public function setSource(string $src): void
     {
         $this->updateAttributes(['src' => $src]);
     }

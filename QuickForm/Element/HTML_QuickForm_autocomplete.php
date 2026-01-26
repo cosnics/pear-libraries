@@ -47,15 +47,9 @@ class HTML_QuickForm_autocomplete extends HTML_QuickForm_text
      */
     protected array $_options = [];
 
-    /**
-     * @param array $options             Autocomplete options
-     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs.
-     *                                   Date format is passed along the attributes.
-     *
-     * @return    void
-     */
     public function __construct(
-        ?string $elementName = null, ?string $elementLabel = null, array $options = [], $attributes = null
+        ?string $elementName = null, ?string $elementLabel = null, array $options = [],
+        null|array|string $attributes = null
     )
     {
         parent::__construct($elementName, $elementLabel, $attributes);
@@ -69,7 +63,7 @@ class HTML_QuickForm_autocomplete extends HTML_QuickForm_text
         }
     }
 
-    public function setOptions(array $options)
+    public function setOptions(array $options): void
     {
         $this->_options = array_values($options);
     }

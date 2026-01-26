@@ -27,16 +27,14 @@ class HTML_QuickForm_Rule
     /**
      * Returns the javascript test (the test should return true if the value is INVALID)
      *
-     * @param ?mixed $options Options for the rule
-     *
      * @return array first element is code to setup validation, second is the check itself
      */
-    public function getValidationScript($options = null): array
+    public function getValidationScript(mixed $options = null): array
     {
         return ['', ''];
     }
 
-    public function setName($ruleName)
+    public function setName($ruleName): void
     {
         $this->name = $ruleName;
     }

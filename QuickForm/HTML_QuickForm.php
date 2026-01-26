@@ -742,7 +742,7 @@ class HTML_QuickForm extends HTML_Common
      * @return mixed
      * @throws \QuickformException
      */
-    public function exportValue(string $element)
+    public function exportValue(string $element): mixed
     {
         if (!isset($this->_elementIndex[$element]))
         {

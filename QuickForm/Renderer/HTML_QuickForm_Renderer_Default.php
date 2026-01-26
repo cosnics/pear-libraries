@@ -64,7 +64,7 @@ class HTML_QuickForm_Renderer_Default extends HTML_QuickForm_Renderer
     protected string $_requiredNoteTemplate = "\n\t<tr>\n\t\t<td></td>\n\t<td align=\"left\" valign=\"top\">{requiredNote}</td>\n\t</tr>";
 
     /**
-     * Array containing the templates for customised elements
+     * Array containing the templates for customized elements
      */
     protected array $_templates = [];
 
@@ -135,7 +135,7 @@ class HTML_QuickForm_Renderer_Default extends HTML_QuickForm_Renderer
      * Clears all the HTML out of the templates that surround notes, elements, etc. Useful when you want to use
      * addData() to create a completely custom form look
      */
-    public function clearAllTemplates()
+    public function clearAllTemplates(): void
     {
         $this->setElementTemplate('{element}');
         $this->setFormTemplate("\n\t<form{attributes}>{content}\n\t</form>\n");
@@ -148,7 +148,7 @@ class HTML_QuickForm_Renderer_Default extends HTML_QuickForm_Renderer
      *
      * @throws \QuickformException
      */
-    public function finishForm(HTML_QuickForm $form)
+    public function finishForm(HTML_QuickForm $form): void
     {
         // add a required note, if one is needed
         if ($form->hasRequirements() && !$form->isFrozen())
@@ -181,7 +181,7 @@ class HTML_QuickForm_Renderer_Default extends HTML_QuickForm_Renderer
     /**
      * Called when visiting a group, after processing all group elements
      */
-    public function finishGroup(HTML_QuickForm_group $group)
+    public function finishGroup(HTML_QuickForm_group $group): void
     {
         $separator = $group->getSeparator();
 
@@ -217,7 +217,7 @@ class HTML_QuickForm_Renderer_Default extends HTML_QuickForm_Renderer
     /**
      * Called when visiting an element
      */
-    public function renderElement(HTML_QuickForm_element $element, bool $required, ?string $error = null)
+    public function renderElement(HTML_QuickForm_element $element, bool $required, ?string $error = null): void
     {
         if (!$this->_inGroup)
         {
@@ -251,7 +251,7 @@ class HTML_QuickForm_Renderer_Default extends HTML_QuickForm_Renderer
     /**
      * Called when visiting a header element
      */
-    public function renderHeader(HTML_QuickForm_header $header)
+    public function renderHeader(HTML_QuickForm_header $header): void
     {
         $name = $header->getName();
 
@@ -270,7 +270,7 @@ class HTML_QuickForm_Renderer_Default extends HTML_QuickForm_Renderer
      *
      * @param HTML_QuickForm_hidden|\HTML_QuickForm_hiddenselect $element
      */
-    public function renderHidden($element)
+    public function renderHidden(HTML_QuickForm_hidden|HTML_QuickForm_hiddenselect $element): void
     {
         $this->_hiddenHtml .= $element->toHtml() . "\n";
     }
@@ -279,12 +279,12 @@ class HTML_QuickForm_Renderer_Default extends HTML_QuickForm_Renderer
      * Called when visiting a raw HTML/text pseudo-element
      * Seems that this should not be used when using a template-based renderer
      */
-    public function renderHtml(HTML_QuickForm_html $data)
+    public function renderHtml(HTML_QuickForm_html $data): void
     {
         $this->_html .= $data->toHtml();
     }
 
-    public function setElementTemplate(string $html, ?string $element = null)
+    public function setElementTemplate(string $html, ?string $element = null): void
     {
         if (is_null($element))
         {
@@ -296,12 +296,12 @@ class HTML_QuickForm_Renderer_Default extends HTML_QuickForm_Renderer
         }
     }
 
-    public function setFormTemplate(string $html)
+    public function setFormTemplate(string $html): void
     {
         $this->_formTemplate = $html;
     }
 
-    public function setGroupElementTemplate(string $html, string $group)
+    public function setGroupElementTemplate(string $html, string $group): void
     {
         $this->_groupTemplates[$group] = $html;
     }
@@ -310,17 +310,17 @@ class HTML_QuickForm_Renderer_Default extends HTML_QuickForm_Renderer
      * Sets template for a group wrapper. This template is contained within a group-as-element template set via
      * setTemplate() and contains group's element templates, set via setGroupElementTemplate()
      */
-    public function setGroupTemplate(string $html, string $group)
+    public function setGroupTemplate(string $html, string $group): void
     {
         $this->_groupWraps[$group] = $html;
     }
 
-    public function setHeaderTemplate(string $html)
+    public function setHeaderTemplate(string $html): void
     {
         $this->_headerTemplate = $html;
     }
 
-    public function setRequiredNoteTemplate(string $html)
+    public function setRequiredNoteTemplate(string $html): void
     {
         $this->_requiredNoteTemplate = $html;
     }
@@ -328,7 +328,7 @@ class HTML_QuickForm_Renderer_Default extends HTML_QuickForm_Renderer
     /**
      * Called when visiting a form, before processing any form elements
      */
-    public function startForm(HTML_QuickForm $form)
+    public function startForm(HTML_QuickForm $form): void
     {
         $this->_html = '';
         $this->_hiddenHtml = '';
@@ -337,7 +337,7 @@ class HTML_QuickForm_Renderer_Default extends HTML_QuickForm_Renderer
     /**
      * Called when visiting a group, before processing any group elements
      */
-    public function startGroup(HTML_QuickForm_group $group, bool $required, ?string $error = null)
+    public function startGroup(HTML_QuickForm_group $group, bool $required, ?string $error = null): void
     {
         $name = $group->getName();
         $this->_groupTemplate = $this->_prepareTemplate($name, $group->getLabel(), $required, $error);

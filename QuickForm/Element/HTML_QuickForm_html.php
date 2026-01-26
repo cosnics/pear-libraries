@@ -26,11 +26,6 @@
 class HTML_QuickForm_html extends HTML_QuickForm_static
 {
 
-    /**
-     * Class constructor
-     *
-     * @param ?string $text raw HTML to add
-     */
     public function __construct(?string $text = null)
     {
         parent::__construct(null, null, $text);
@@ -38,15 +33,12 @@ class HTML_QuickForm_html extends HTML_QuickForm_static
         $this->_type = 'html';
     }
 
-    /**
-     * @param HTML_QuickForm_Renderer $renderer An HTML_QuickForm_Renderer object
-     */
-    public function accept(HTML_QuickForm_Renderer $renderer, bool $required = false, ?string $error = null)
+    public function accept(HTML_QuickForm_Renderer $renderer, bool $required = false, ?string $error = null): void
     {
         $renderer->renderHtml($this);
     }
 
-    public function getValue()
+    public function getValue(): null
     {
         return null;
     }

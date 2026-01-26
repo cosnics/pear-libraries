@@ -26,10 +26,9 @@
 class HTML_QuickForm_password extends HTML_QuickForm_input
 {
 
-    /**
-     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
-     */
-    public function __construct(?string $elementName = null, ?string $elementLabel = null, $attributes = null)
+    public function __construct(
+        ?string $elementName = null, ?string $elementLabel = null, null|array|string $attributes = null
+    )
     {
         parent::__construct($elementName, $elementLabel, $attributes);
 
@@ -43,12 +42,12 @@ class HTML_QuickForm_password extends HTML_QuickForm_input
         return ('' != $value ? '**********' : '&nbsp;') . $this->_getPersistantData();
     }
 
-    public function setMaxlength(?int $maxlength)
+    public function setMaxlength(?int $maxlength): void
     {
         $this->updateAttributes(['maxlength' => $maxlength]);
     }
 
-    public function setSize(?int $size)
+    public function setSize(?int $size): void
     {
         $this->updateAttributes(['size' => $size]);
     }

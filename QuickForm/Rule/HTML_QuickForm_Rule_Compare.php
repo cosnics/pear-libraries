@@ -59,17 +59,17 @@ class HTML_QuickForm_Rule_Compare extends HTML_QuickForm_Rule
         }
     }
 
-    public function getValidationScript($operator = null): array
+    public function getValidationScript(mixed $options = null): array
     {
-        $operator = $this->_findOperator($operator);
+        $options = $this->_findOperator($options);
 
-        if ('==' != $operator && '!=' != $operator)
+        if ('==' != $options && '!=' != $options)
         {
-            $check = '!(Number({jsVar}[0]) ' . $operator . ' Number({jsVar}[1]))';
+            $check = '!(Number({jsVar}[0]) ' . $options . ' Number({jsVar}[1]))';
         }
         else
         {
-            $check = '!({jsVar}[0] ' . $operator . ' {jsVar}[1])';
+            $check = '!({jsVar}[0] ' . $options . ' {jsVar}[1])';
         }
 
         return ['', "'' != {jsVar}[0] && " . $check];

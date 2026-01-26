@@ -26,11 +26,8 @@
 class HTML_QuickForm_button extends HTML_QuickForm_input
 {
 
-    /**
-     * @param ?string $value             Input field value
-     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
-     */
-    public function __construct(?string $elementName = null, ?string $value = null, $attributes = null)
+    public function __construct(?string $elementName = null, ?string $value = null, null|array|string $attributes = null
+    )
     {
         parent::__construct($elementName, null, $attributes);
 
@@ -39,7 +36,7 @@ class HTML_QuickForm_button extends HTML_QuickForm_input
         $this->setType('button');
     }
 
-    public function freeze()
+    public function freeze(): void
     {
     }
 

@@ -28,14 +28,9 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
 
     protected ?string $_text = null;
 
-    /**
-     * @param ?string $text              Text to display near the radio
-     * @param ?string $value             Input field value
-     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
-     */
     public function __construct(
         ?string $elementName = null, ?string $elementLabel = null, ?string $text = null, ?string $value = null,
-        $attributes = null
+        null|array|string $attributes = null
     )
     {
         parent::__construct($elementName, $elementLabel, $attributes);
@@ -53,7 +48,7 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
     /**
      * Returns the value attribute if the radio is checked, null if it is not
      */
-    public function exportValue(array &$submitValues, bool $assoc = false)
+    public function exportValue(array &$submitValues, bool $assoc = false): mixed
     {
         $value = $this->_findValue($submitValues);
         if (null === $value)
@@ -90,7 +85,7 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
         return $this->_text;
     }
 
-    public function setText(?string $text)
+    public function setText(?string $text): void
     {
         $this->_text = $text;
     }
@@ -98,11 +93,11 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
     /**
      * Called by HTML_QuickForm whenever form event is made on this element
      *
-     * @param string $event           Name of event
-     * @param mixed $arg              event arguments
+     * @param string $event Name of event
+     * @param mixed $arg event arguments
      * @param ?HTML_QuickForm $caller calling object
      */
-    public function onQuickFormEvent(string $event, $arg, ?HTML_QuickForm $caller = null): bool
+    public function onQuickFormEvent(string $event, mixed $arg, ?HTML_QuickForm $caller = null): bool
     {
         switch ($event)
         {
@@ -147,7 +142,7 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
         return true;
     }
 
-    public function setChecked(bool $checked)
+    public function setChecked(bool $checked): void
     {
         if (!$checked)
         {

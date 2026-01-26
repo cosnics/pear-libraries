@@ -29,13 +29,13 @@ class HTML_QuickForm_header extends HTML_QuickForm_static
         parent::__construct($elementName, null, $text);
         $this->_type = 'header';
     }
-    
-    public function accept(HTML_QuickForm_Renderer $renderer, bool $required = false, ?string $error = null)
+
+    public function accept(HTML_QuickForm_Renderer $renderer, bool $required = false, ?string $error = null): void
     {
         $renderer->renderHeader($this);
     }
 
-    public function getValue()
+    public function getValue(): null
     {
         return null;
     }

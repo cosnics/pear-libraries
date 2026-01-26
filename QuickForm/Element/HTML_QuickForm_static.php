@@ -27,11 +27,9 @@ class HTML_QuickForm_static extends HTML_QuickForm_element
 
     protected ?string $_text = null;
 
-    /**
-     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
-     */
     public function __construct(
-        ?string $elementName = null, ?string $elementLabel = null, ?string $text = null, $attributes = null
+        ?string $elementName = null, ?string $elementLabel = null, ?string $text = null,
+        null|array|string $attributes = null
     )
     {
         parent::__construct($elementName, $elementLabel, $attributes);
@@ -44,7 +42,7 @@ class HTML_QuickForm_static extends HTML_QuickForm_element
     /**
      * We override this here because we don't want any values from static elements
      */
-    public function exportValue(array &$submitValues, bool $assoc = false)
+    public function exportValue(array &$submitValues, bool $assoc = false): null
     {
         return null;
     }
@@ -62,7 +60,7 @@ class HTML_QuickForm_static extends HTML_QuickForm_element
         return $this->getAttribute('name');
     }
 
-    public function getValue()
+    public function getValue(): null
     {
         return null;
     }
@@ -70,11 +68,11 @@ class HTML_QuickForm_static extends HTML_QuickForm_element
     /**
      * Called by HTML_QuickForm whenever form event is made on this element
      *
-     * @param string $event          Name of event
-     * @param mixed $arg             event arguments
+     * @param string $event Name of event
+     * @param mixed $arg event arguments
      * @param ?HTML_QuickForm $caller calling object
      */
-    public function onQuickFormEvent(string $event, $arg, ?HTML_QuickForm $caller = null): bool
+    public function onQuickFormEvent(string $event, mixed $arg, ?HTML_QuickForm $caller = null): bool
     {
         switch ($event)
         {
@@ -99,12 +97,12 @@ class HTML_QuickForm_static extends HTML_QuickForm_element
         return true;
     }
 
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->updateAttributes(['name' => $name]);
     }
 
-    public function setText(?string $text = null)
+    public function setText(?string $text = null): void
     {
         $this->_text = $text;
     }
@@ -112,9 +110,9 @@ class HTML_QuickForm_static extends HTML_QuickForm_element
     /**
      * Sets the text (uses the standard setValue call to emulate a form element.
      */
-    public function setValue($text)
+    public function setValue($value): void
     {
-        $this->setText($text);
+        $this->setText($value);
     }
 
     public function toHtml(): string

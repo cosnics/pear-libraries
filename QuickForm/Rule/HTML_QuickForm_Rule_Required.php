@@ -20,7 +20,7 @@
  */
 class HTML_QuickForm_Rule_Required extends HTML_QuickForm_Rule
 {
-    public function getValidationScript($options = null): array
+    public function getValidationScript(mixed $options = null): array
     {
         return ['', "{jsVar} == ''"];
     }

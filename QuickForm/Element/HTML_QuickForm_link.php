@@ -25,12 +25,9 @@
  */
 class HTML_QuickForm_link extends HTML_QuickForm_static
 {
-    /**
-     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
-     */
     public function __construct(
         ?string $elementName = null, ?string $elementLabel = null, ?string $href = null, ?string $text = null,
-        $attributes = null
+        null|array|string $attributes = null
     )
     {
         parent::__construct($elementName, $elementLabel, $text, $attributes);
@@ -40,20 +37,17 @@ class HTML_QuickForm_link extends HTML_QuickForm_static
         $this->setHref($href);
     }
 
-    /**
-     * Returns the value of field without HTML tags (in this case, value is changed to a mask)
-     */
     public function getFrozenHtml(): string
     {
         return '';
     }
 
-    public function setHref(?string $href = null)
+    public function setHref(?string $href = null): void
     {
         $this->updateAttributes(['href' => $href]);
     }
 
-    public function setValue($value)
+    public function setValue($value): void
     {
     }
 

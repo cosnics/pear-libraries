@@ -978,7 +978,7 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
      * Currently known options are
      * 'language': date language
      * 'format': Format of the date, based on PHP's date() function.
-     *     The following characters are recognised in format string:
+     *     The following characters are recognized in format string:
      *       D => Short names of days
      *       l => Long names of days
      *       d => Day numbers
@@ -1018,8 +1018,8 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
     protected array $_wrap = ['', ''];
 
     /**
-     * @param array $options                      Options to control the element's display
-     * @param ?array|?string $attributes          Associative array of tag attributes or HTML attributes name="value"
+     * @param array $options Options to control the element's display
+     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value"
      *                                            pairs
      */
     public function __construct($elementName = null, $elementLabel = null, $options = [], $attributes = null)
@@ -1056,7 +1056,7 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
         }
     }
 
-    public function _createElements()
+    public function _createElements(): void
     {
         $this->_separator = $this->_elements = [];
         $separator = '';
@@ -1114,14 +1114,14 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
                             $this->_options['minYear'] > $this->_options['maxYear'] ? - 1 : 1
                         );
 
-                        array_walk($options, function (&$v, $k) {
+                        array_walk($options, function (&$v) {
                             return $v = substr($v, - 2);
                         });
                         break;
                     case 'g':
                         $options = $this->_createOptionList(1, 12);
 
-                        array_walk($options, function (&$v, $k) {
+                        array_walk($options, function (&$v) {
                             return $v = intval($v);
                         });
                         break;
@@ -1197,8 +1197,8 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
      * Creates an option list containing the numbers from the start number to the end, inclusive
      *
      * @param int $start The start number
-     * @param int $end   The end number
-     * @param int $step  Increment by this value
+     * @param int $end The end number
+     * @param int $step Increment by this value
      */
     protected function _createOptionList(int $start, int $end, int $step = 1): array
     {
@@ -1229,10 +1229,10 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
      * Accepts a renderer
      *
      * @param HTML_QuickForm_Renderer $renderer An HTML_QuickForm_Renderer object
-     * @param bool $required                    Whether a group is required
-     * @param ?string $error                    An error message associated with a group
+     * @param bool $required Whether a group is required
+     * @param ?string $error An error message associated with a group
      */
-    public function accept(HTML_QuickForm_Renderer $renderer, bool $required = false, ?string $error = null)
+    public function accept(HTML_QuickForm_Renderer $renderer, bool $required = false, ?string $error = null): void
     {
         $renderer->renderElement($this, $required, $error);
     }
@@ -1240,11 +1240,11 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
     /**
      * Called by HTML_QuickForm whenever form event is made on this element
      *
-     * @param string $event          Name of event
-     * @param mixed $arg             event arguments
+     * @param string $event Name of event
+     * @param mixed $arg event arguments
      * @param ?HTML_QuickForm $caller calling object
      */
-    public function onQuickFormEvent(string $event, $arg, ?HTML_QuickForm $caller = null): bool
+    public function onQuickFormEvent(string $event, mixed $arg, ?HTML_QuickForm $caller = null): bool
     {
         if ('updateValue' == $event)
         {
@@ -1258,7 +1258,7 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
         }
     }
 
-    public function setValue($value)
+    public function setValue($value): void
     {
         if (empty($value))
         {

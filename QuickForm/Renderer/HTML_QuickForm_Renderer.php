@@ -25,42 +25,42 @@ abstract class HTML_QuickForm_Renderer
     /**
      * Called when visiting a form, after processing all form elements
      */
-    abstract public function finishForm(HTML_QuickForm $form);
+    abstract public function finishForm(HTML_QuickForm $form): void;
 
     /**
      * Called when visiting a group, after processing all group elements
      */
-    abstract public function finishGroup(HTML_QuickForm_group $group);
+    abstract public function finishGroup(HTML_QuickForm_group $group): void;
 
     /**
      * Called when visiting an element
      */
-    abstract public function renderElement(HTML_QuickForm_element $element, bool $required, ?string $error = null);
+    abstract public function renderElement(HTML_QuickForm_element $element, bool $required, ?string $error = null
+    ): void;
 
     /**
      * Called when visiting a header element
      */
-    abstract public function renderHeader(HTML_QuickForm_header $header);
+    abstract public function renderHeader(HTML_QuickForm_header $header): void;
 
     /**
      * Called when visiting a hidden element
-     * @param HTML_QuickForm_hidden|\HTML_QuickForm_hiddenselect $element
      */
-    abstract public function renderHidden($element);
+    abstract public function renderHidden(HTML_QuickForm_hidden|HTML_QuickForm_hiddenselect $element): void;
 
     /**
      * Called when visiting a raw HTML/text pseudo-element
      * Seems that this should not be used when using a template-based renderer
      */
-    abstract public function renderHtml(HTML_QuickForm_html $data);
+    abstract public function renderHtml(HTML_QuickForm_html $data): void;
 
     /**
      * Called when visiting a form, before processing any form elements
      */
-    abstract public function startForm(HTML_QuickForm $form);
+    abstract public function startForm(HTML_QuickForm $form): void;
 
     /**
      * Called when visiting a group, before processing any group elements
      */
-    abstract public function startGroup(HTML_QuickForm_group $group, bool $required, ?string $error = null);
+    abstract public function startGroup(HTML_QuickForm_group $group, bool $required, ?string $error = null): void;
 }
