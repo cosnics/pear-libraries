@@ -222,7 +222,7 @@ abstract class HTML_Common
         return null;
     }
 
-    public function getAttributes(bool $asString = false): array|string
+    public function getAttributes(bool $asString = false): array|string|null
     {
         if ($asString)
         {
@@ -234,7 +234,7 @@ abstract class HTML_Common
         }
     }
 
-    public function setAttributes(array|string $attributes): void
+    public function setAttributes(null|array|string $attributes): void
     {
         $this->_attributes = $this->_parseAttributes($attributes);
     }
