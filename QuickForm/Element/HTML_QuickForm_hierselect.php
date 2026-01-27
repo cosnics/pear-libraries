@@ -76,10 +76,10 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
     /**
      * @param mixed $attributes (optional)Either a typical HTML attribute string
      *                                      or an associative array. Date format is passed along the attributes.
-     * @param mixed $separator (optional)Use a string for one separator,
+     * @param mixed|null $separator (optional)Use a string for one separator,
      *                                      use an array to alternate the separators.
      */
-    public function __construct($elementName = null, $elementLabel = null, $attributes = null, $separator = null)
+    public function __construct($elementName = null, $elementLabel = null, $attributes = null, mixed $separator = null)
     {
         parent::__construct($elementName, $elementLabel, null, $separator, true, $attributes);
 

@@ -26,10 +26,12 @@ class HTML_QuickForm_xbutton extends HTML_QuickForm_element
     protected ?string $_content;
 
     /**
-     * @param ?string $elementContent    Button content (HTML to add between <button></button> tags)
+     * @param ?string $elementContent Button content (HTML to add between <button></button> tags)
      * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
      */
-    public function __construct(?string $elementName = null, ?string $elementContent = null, $attributes = null)
+    public function __construct(
+        ?string $elementName = null, ?string $elementContent = null, array|string|null $attributes = null
+    )
     {
         parent::__construct($elementName, null, $attributes);
         $this->setContent($elementContent);
@@ -42,7 +44,7 @@ class HTML_QuickForm_xbutton extends HTML_QuickForm_element
      * The value is only returned if the button's type is "submit" and if this
      * particlular button was clicked
      */
-    public function exportValue(array &$submitValues, bool $assoc = false)
+    public function exportValue(array &$submitValues, bool $assoc = false): mixed
     {
         if ('submit' == $this->getAttribute('type'))
         {
@@ -54,9 +56,8 @@ class HTML_QuickForm_xbutton extends HTML_QuickForm_element
         }
     }
 
-    public function freeze()
+    public function freeze(): void
     {
-        return false;
     }
 
     public function getFrozenHtml(): string
@@ -69,7 +70,7 @@ class HTML_QuickForm_xbutton extends HTML_QuickForm_element
         return $this->getAttribute('name');
     }
 
-    public function getValue()
+    public function getValue(): ?string
     {
         return $this->getAttribute('value');
     }
@@ -77,8 +78,8 @@ class HTML_QuickForm_xbutton extends HTML_QuickForm_element
     /**
      * Called by HTML_QuickForm whenever form event is made on this element
      *
-     * @param string $event          Name of event
-     * @param mixed $arg             event arguments
+     * @param string $event Name of event
+     * @param mixed $arg event arguments
      * @param ?HTML_QuickForm $caller calling object
      */
     public function onQuickFormEvent(string $event, mixed $arg, ?HTML_QuickForm $caller = null): bool
@@ -105,19 +106,19 @@ class HTML_QuickForm_xbutton extends HTML_QuickForm_element
         return true;
     }
 
-    public function setContent(?string $content)
+    public function setContent(?string $content): void
     {
         $this->_content = $content;
     }
 
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->updateAttributes([
             'name' => $name
         ]);
     }
 
-    public function setValue($value)
+    public function setValue($value): void
     {
         $this->updateAttributes([
             'value' => $value

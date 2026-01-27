@@ -51,9 +51,9 @@ class HTML_QuickForm_advcheckbox extends HTML_QuickForm_checkbox
 
     /**
      * This element has a value even if it is not checked, thus we override
-     * checkbox's behaviour here
+     * checkbox's behavior here
      */
-    public function exportValue(array &$submitValues, bool $assoc = false)
+    public function exportValue(array &$submitValues, bool $assoc = false): mixed
     {
         $value = $this->_findValue($submitValues);
 

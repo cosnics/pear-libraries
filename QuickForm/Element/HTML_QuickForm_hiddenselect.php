@@ -34,7 +34,8 @@ class HTML_QuickForm_hiddenselect extends HTML_QuickForm_select
      * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value" pairs
      */
     public function __construct(
-        ?string $elementName = null, ?string $elementLabel = null, ?array $options = null, $attributes = null
+        ?string $elementName = null, ?string $elementLabel = null, ?array $options = null,
+        array|string|null $attributes = null
     )
     {
         parent::__construct($elementName, $elementLabel, $options, $attributes);

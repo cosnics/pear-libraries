@@ -48,23 +48,23 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
     /**
      * @var ?string|?array String to separate elements
      */
-    protected $_separator = null;
+    protected mixed $_separator = null;
 
     /**
-     * @param ?string $elementName                (optional)Group name
-     * @param ?string $elementLabel               (optional)Group label
+     * @param ?string $elementName (optional)Group name
+     * @param ?string $elementLabel (optional)Group label
      * @param \HTML_QuickForm_element[] $elements (optional)Group elements
-     * @param mixed $separator                    (optional)Use a string for one separator,
+     * @param mixed|null $separator (optional)Use a string for one separator,
      *                                            use an array to alternate the separators.
-     * @param bool $appendName                    (optional)whether to change elements' names to
+     * @param bool $appendName (optional)whether to change elements' names to
      *                                            the form $groupName[$elementName] or leave
      *                                            them as is.
-     * @param ?array|?string $attributes          Associative array of tag attributes or HTML attributes name="value"
+     * @param ?array|?string $attributes Associative array of tag attributes or HTML attributes name="value"
      *                                            pairs
      */
     public function __construct(
-        ?string $elementName = null, ?string $elementLabel = null, ?array $elements = null, $separator = null,
-        bool $appendName = true, $attributes = null
+        ?string $elementName = null, ?string $elementLabel = null, ?array $elements = null, mixed $separator = null,
+        bool $appendName = true, array|string|null $attributes = null
     )
     {
         parent::__construct($elementName, $elementLabel, $attributes);
@@ -107,7 +107,7 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
      * is empty. It also performs some updates, e.g. freezes the created
      * elements if the group is already frozen.
      */
-    protected function _createElementsIfNotExist()
+    protected function _createElementsIfNotExist(): void
     {
         if (empty($this->_elements))
         {
@@ -124,10 +124,10 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
      * Accepts a renderer
      *
      * @param HTML_QuickForm_Renderer $renderer An HTML_QuickForm_Renderer object
-     * @param bool $required                    Whether a group is required
-     * @param ?string $error                    An error message associated with a group
+     * @param bool $required Whether a group is required
+     * @param ?string $error An error message associated with a group
      */
-    public function accept(HTML_QuickForm_Renderer $renderer, bool $required = false, ?string $error = null)
+    public function accept(HTML_QuickForm_Renderer $renderer, bool $required = false, ?string $error = null): void
     {
         $this->_createElementsIfNotExist();
         $renderer->startGroup($this, $required, $error);
@@ -164,7 +164,7 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
         $renderer->finishGroup($this);
     }
 
-    public function addRequired(string $elementName)
+    public function addRequired(string $elementName): void
     {
         $this->_required[] = $elementName;
     }
@@ -173,7 +173,7 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
      * As usual, to get the group's value we access its elements and call
      * their exportValue() methods
      */
-    public function exportValue(array &$submitValues, bool $assoc = false)
+    public function exportValue(array &$submitValues, bool $assoc = false): mixed
     {
         $value = null;
 
@@ -237,7 +237,7 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
         return $value;
     }
 
-    public function freeze()
+    public function freeze(): void
     {
         parent::freeze();
 
@@ -250,11 +250,11 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
     /**
      * Returns the element name inside the group such as found in the html form
      *
-     * @param string|int $index Element name or element index in the group
+     * @param int|string $index Element name or element index in the group
      *
-     * @return string|bool string with element name, false if not found
+     * @return bool|int|string|null string with element name, false if not found
      */
-    public function getElementName($index)
+    public function getElementName(int|string $index): bool|int|string|null
     {
         $this->_createElementsIfNotExist();
         $elementName = false;
@@ -317,7 +317,7 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
     /**
      * @param \HTML_QuickForm_element[] $elements Array of elements
      */
-    public function setElements(array $elements)
+    public function setElements(array $elements): void
     {
         $this->_elements = array_values($elements);
 
@@ -381,7 +381,7 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
         return $this->_name;
     }
 
-    public function setName(?string $name)
+    public function setName(?string $name): void
     {
         $this->_name = $name;
     }
@@ -389,12 +389,12 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
     /**
      * @return ?string|?array
      */
-    public function getSeparator()
+    public function getSeparator(): array|string|null
     {
         return $this->_separator;
     }
 
-    public function getValue()
+    public function getValue(): mixed
     {
         $value = null;
 
@@ -448,8 +448,8 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
     /**
      * Called by HTML_QuickForm whenever form event is made on this element
      *
-     * @param string $event          Name of event
-     * @param mixed $arg             event arguments
+     * @param string $event Name of event
+     * @param mixed $arg event arguments
      * @param ?HTML_QuickForm $caller calling object
      */
     public function onQuickFormEvent(string $event, mixed $arg, ?HTML_QuickForm $caller = null): bool
@@ -494,7 +494,7 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
         return true;
     }
 
-    public function setPersistantFreeze(bool $persistant = false)
+    public function setPersistantFreeze(bool $persistant = false): void
     {
         parent::setPersistantFreeze($persistant);
 
@@ -504,7 +504,7 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
         }
     }
 
-    public function setValue($value)
+    public function setValue($value): void
     {
         $this->_createElementsIfNotExist();
 
@@ -548,7 +548,7 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
         return $renderer->toHtml();
     }
 
-    public function unfreeze()
+    public function unfreeze(): void
     {
         parent::unfreeze();
 

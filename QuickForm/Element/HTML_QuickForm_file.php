@@ -171,7 +171,7 @@ class HTML_QuickForm_file extends HTML_QuickForm_input
     /**
      * Sets value for file element.
      * Actually this does nothing. The function is defined here to override
-     * HTML_Quickform_input's behaviour of setting the 'value' attribute. As
+     * HTML_Quickform_input's behavior of setting the 'value' attribute. As
      * no sane user-agent uses <input type="file">'s value for anything
      * (because of security implications) we implement file's value as a
      * read-only property with a special meaning.
