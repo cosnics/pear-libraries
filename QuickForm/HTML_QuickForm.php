@@ -538,7 +538,7 @@ class HTML_QuickForm extends HTML_Common
      * @param string $message Message to display for invalid data
      * @param string $type Rule type, use getRegisteredRules() to get types
      * @param ?string $format (optional)Required for extra rule data
-     * @param string $validation (optional)Where to perform validation: "server", "client"
+     * @param string|array $validation (optional)Where to perform validation: "server", "client"
      * @param bool $reset Client-side validation: reset the form element to its original value if there is an
      *                              error?
      * @param bool $force Force the rule to be applied, even if the target form element does not exist
@@ -546,7 +546,7 @@ class HTML_QuickForm extends HTML_Common
      * @throws   QuickformException
      */
     public function addRule(
-        $element, string $message, string $type, ?string $format = null, string $validation = 'server',
+        $element, string $message, string $type, ?string $format = null, string|array $validation = 'server',
         bool $reset = false, bool $force = false
     )
     {
