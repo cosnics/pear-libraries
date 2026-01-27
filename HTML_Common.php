@@ -128,7 +128,7 @@ abstract class HTML_Common
     /**
      * Returns a valid atrributes array from either a string or array
      */
-    protected function _parseAttributes(array|string $attributes): array
+    protected function _parseAttributes(null|array|string $attributes): array
     {
         if (is_array($attributes))
         {
